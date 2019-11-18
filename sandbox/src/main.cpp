@@ -2,9 +2,9 @@
 
 void testLogging()
 {
-	error("No arguments!\n");
-	error("One int: %d!\n", 10);
-	error("One string and one int: %s and %d!\n", "Hello", 15);
+	error("No arguments!");
+	error("One int: %d!", 10);
+	error("One string and one int: %s and %d!", "Hello", 15);
 }
 
 int main()
