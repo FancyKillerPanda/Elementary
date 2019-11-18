@@ -7,18 +7,19 @@ set commonCompilerFlags=/nologo /MT /GR- /EHsc /Od /Oi /FC /Zi /WX /W4 /IP:\Elem
 set commonLinkerFlags=/LIBPATH:P:\Elementary\deps\sdl2\lib
 
 set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
-set elementaryFiles=..\elementary\src\elementary.cpp
+set elementaryFiles=..\elementary\src\elementary.cpp ..\elementary\src\utils\log.cpp
+set elementaryObjectFiles=elementary.obj log.obj
 
 IF NOT EXIST build\ mkdir build
 pushd build
 
 echo ----- Building Elementary -----
-cl /c /Fo:elementary.obj %commonCompilerFlags% %elementaryFiles%
+cl /c %commonCompilerFlags% %elementaryFiles%
 IF %ERRORLEVEL% NEQ 0 (
 	popd
 	goto :eof
 )
-lib /nologo /WX elementary.obj
+lib /nologo /WX %elementaryObjectFiles%
 
 echo.
 echo ----- Building Sandbox -----
