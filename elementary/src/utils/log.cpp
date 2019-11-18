@@ -9,6 +9,38 @@
 
 #include "utils/log.h"
 
+void warn(const char* msg, ...)
+{
+#if defined(ELEMENTARY_DEBUG)
+	std::va_list args;
+	va_start(args, msg);
+	
+#if defined(ELEMENTARY_WIN32)
+	// TODO(fkp): Extract into a function
+	// Gets colour info
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(hConsole, &info);
+	WORD normalColour = info.wAttributes;
+
+	// Colours "Warn" in yellow
+	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+#endif
+
+	std::printf("Warning: ");
+	
+#if defined(ELEMENTARY_WIN32)
+	// Returns back to original colour
+	SetConsoleTextAttribute(hConsole, normalColour);
+#endif
+
+	std::vprintf(msg, args);
+	std::printf("\n");
+
+	va_end(args);
+#endif
+}
+
 void error(const char* msg, ...)
 {
 #if defined(ELEMENTARY_DEBUG)

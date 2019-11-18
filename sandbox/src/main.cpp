@@ -10,6 +10,8 @@ void testLogging()
 
 	SDL_SetError("Example SDL2 error.");
 	sdlError("Window creation failed.");
+
+	warn("This is a warning.");
 }
 
 int main(int argc, char* argv[])
