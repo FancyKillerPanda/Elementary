@@ -3,8 +3,8 @@
 WHERE cl.exe >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
-set commonCompilerFlags=/nologo /MT /GR- /EHsc /Od /Oi /FC /Zi /WX /W4 /IP:\Elementary\elementary\include /IP:\Elementary\deps\sdl2\include
-set commonLinkerFlags=/LIBPATH:P:\Elementary\deps\sdl2\lib
+set commonCompilerFlags=/nologo /MT /GR- /EHsc /Od /Oi /FC /Zi /WX /W4 /wd4100 /IP:\Elementary\elementary\include /IP:\Elementary\deps\sdl2\include
+set commonLinkerFlags=/subsystem:console /LIBPATH:P:\Elementary\deps\sdl2\lib
 
 set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
 set elementaryFiles=..\elementary\src\elementary.cpp ..\elementary\src\utils\log.cpp
