@@ -1,8 +1,10 @@
 #include <stdio.h>
 
+#include <SDL/SDL.h>
+
 #include "elementary.h"
 
 void test()
 {
-	printf("Test worked!\n");
+	SDL_Init(SDL_INIT_VIDEO);
 }
