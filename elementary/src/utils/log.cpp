@@ -9,6 +9,9 @@
 
 #include "utils/log.h"
 
+namespace el
+{
+
 void warn(const char* msg, ...)
 {
 #if defined(ELEMENTARY_DEBUG)
@@ -103,4 +106,6 @@ void sdlError(const char* msg, ...)
 
 	va_end(args);
 #endif
+}
+
 }

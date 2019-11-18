@@ -4,14 +4,14 @@
 
 void testLogging()
 {
-	error("No arguments!");
-	error("One int: %d!", 10);
-	error("One string and one int: %s and %d!", "Hello", 15);
+	el::error("No arguments!");
+	el::error("One int: %d!", 10);
+	el::error("One string and one int: %s and %d!", "Hello", 15);
 
 	SDL_SetError("Example SDL2 error.");
-	sdlError("Window creation failed.");
+	el::sdlError("Window creation failed.");
 
-	warn("This is a warning.");
+	el::warn("This is a warning.");
 }
 
 int main(int argc, char* argv[])
