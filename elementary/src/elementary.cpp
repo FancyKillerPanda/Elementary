@@ -4,5 +4,5 @@
 
 void test()
 {
-	printf("Test worked!");
+	printf("Test worked!\n");
 }

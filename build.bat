@@ -9,10 +9,16 @@ set files=..\elementary\src\elementary.cpp
 IF NOT EXIST build\ mkdir build
 pushd build
 
+echo ----- Building Elementary -----
 cl /c /Fo:elementary.obj %commonCompilerFlags% %files%
 IF %ERRORLEVEL% EQU 0 lib /nologo /WX elementary.obj
+
+echo.
+echo ----- Building Sandbox -----
 IF %ERRORLEVEL% EQU 0 cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link elementary.lib
 
+echo.
+echo ----- Output -----
 IF %ERRORLEVEL% EQU 0 sandbox.exe
 
 popd
