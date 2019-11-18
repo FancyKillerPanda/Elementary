@@ -14,14 +14,26 @@ pushd build
 
 echo ----- Building Elementary -----
 cl /c /Fo:elementary.obj %commonCompilerFlags% %elementaryFiles%
-IF %ERRORLEVEL% EQU 0 lib /nologo /WX elementary.obj
+IF %ERRORLEVEL% NEQ 0 (
+	popd
+	goto :eof
+)
+lib /nologo /WX elementary.obj
 
 echo.
 echo ----- Building Sandbox -----
-IF %ERRORLEVEL% EQU 0 cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link %commonLinkerFlags% elementary.lib %sdlLibs%
+IF %ERRORLEVEL% NEQ 0 (
+	popd
+	goto :eof
+)
+cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link %commonLinkerFlags% elementary.lib %sdlLibs%
 
 echo.
 echo ----- Output -----
-IF %ERRORLEVEL% EQU 0 sandbox.exe
+IF %ERRORLEVEL% NEQ 0 (
+	popd
+	goto :eof
+)
+sandbox.exe
 
 popd
