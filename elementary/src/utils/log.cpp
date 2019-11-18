@@ -7,6 +7,7 @@
 
 void error(const char* msg, ...)
 {
+#if defined(ELEMENTARY_DEBUG)
 	std::va_list args;
 	va_start(args, msg);
 	
@@ -15,10 +16,12 @@ void error(const char* msg, ...)
 	std::fprintf(stderr, "\n");
 
 	va_end(args);
+#endif
 }
 
 void sdlError(const char* msg, ...)
 {
+#if defined(ELEMENTARY_DEBUG)
 	std::va_list args;
 	va_start(args, msg);
 	
@@ -27,4 +30,5 @@ void sdlError(const char* msg, ...)
 	std::fprintf(stderr, "\nSDL_Error: %s\n", SDL_GetError());
 
 	va_end(args);
+#endif
 }
