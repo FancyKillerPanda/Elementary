@@ -16,7 +16,7 @@ void Text::update()
 	
 	// Destroys the last texture if it exists
 	SDL_DestroyTexture(texture.texture);
-	texture = nullptr;
+	texture.texture = nullptr;
 
 	if (!font)
 	{
@@ -33,23 +33,8 @@ void Text::update()
 		return;
 	}
 
-	// Converts the surface to a texture
-	// TODO(fkp): Make this a static method in texture
-	texture.texture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-	if (!texture.texture)
-	{
-		sdlError("Failed to create texture from surface (font path: %s).", fontPath.c_str());
-		return;
-	}
-
-	// TODO(fkp): Move to texture method
-	texture.renderer = renderer;
-	if (SDL_QueryTexture(texture.texture, nullptr, nullptr, &texture.rect.w, &texture.rect.h) != 0)
-	{
-		sdlError("Texture is invalid.");
-		return;
-	}
+	// Converts the surface to a texture for rendering
+	texture.convertFromSurface(textSurface);
 
 	// Frees the temporary surface
 	SDL_FreeSurface(textSurface);

@@ -23,6 +23,7 @@ public:
 	Texture(SDL_Renderer* renderer, std::string filepath);
 	~Texture();
 
+	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
 	void draw();
 
 	void setPosition(int x, int y);

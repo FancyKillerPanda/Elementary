@@ -34,6 +34,24 @@ Texture::~Texture()
 	SDL_DestroyTexture(texture);
 }
 
+void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
+{
+	// TODO(fkp): Destroy old texture if it's there
+	texture = SDL_CreateTextureFromSurface(renderer, surfaceToConvertFrom);
+
+	if (!texture)
+	{
+		sdlError("Failed to create texture from surface.");
+		return;
+	}
+
+	if (SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h) != 0)
+	{
+		sdlError("Texture is invalid.");
+		return;
+	}
+}
+
 void Texture::draw()
 {
 	SDL_RenderCopy(renderer, texture, nullptr, &rect);
