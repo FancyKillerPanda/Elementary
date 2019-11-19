@@ -4,6 +4,11 @@
 namespace el
 {
 
+Texture::Texture(SDL_Renderer* renderer)
+	: renderer(renderer)
+{
+}
+
 Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 	: renderer(renderer), filepath(filepath)
 {

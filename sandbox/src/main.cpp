@@ -13,6 +13,14 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture basketballTexture = { window.renderer, "res/basketball.png" };
+	el::Text helloText = { window.renderer, "res/arial.ttf", "Hello, there!", 48, SDL_Color { 255, 255, 255, 255 } };
+	helloText.setPosition(100, 100);
+
+	printf("X: %d\n", helloText.texture.rect.x);
+	printf("Y: %d\n", helloText.texture.rect.y);
+	printf("W: %d\n", helloText.texture.rect.w);
+	printf("H: %d\n", helloText.texture.rect.h);
+
 
 	while (running)
 	{
@@ -29,6 +37,7 @@ int main(int argc, char* argv[])
 
 		SDL_RenderClear(window.renderer);
 		basketballTexture.draw();
+		helloText.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	

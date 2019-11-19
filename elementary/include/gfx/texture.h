@@ -19,6 +19,7 @@ public:
 	SDL_Rect rect = {};
 
 public:
+	Texture(SDL_Renderer* renderer);
 	Texture(SDL_Renderer* renderer, std::string filepath);
 	~Texture();
 
