@@ -20,6 +20,7 @@ public:
 
 public:
 	Texture(SDL_Renderer* renderer, std::string filepath);
+	~Texture();
 
 	void draw();
 

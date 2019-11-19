@@ -24,6 +24,11 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 	isInitialised = true;
 }
 
+Texture::~Texture()
+{
+	SDL_DestroyTexture(texture);
+}
+
 void Texture::draw()
 {
 	SDL_RenderCopy(renderer, texture, nullptr, &rect);
