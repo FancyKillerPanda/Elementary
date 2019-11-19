@@ -7,8 +7,8 @@ set commonCompilerFlags=/nologo /MT /GR- /EHsc /Od /Oi /FC /Zi /WX /W4 /wd4100 /
 set commonLinkerFlags=/subsystem:console /LIBPATH:P:\Elementary\deps\sdl2\lib
 
 set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
-set elementaryFiles=..\elementary\src\elementary.cpp ..\elementary\src\utils\log.cpp
-set elementaryObjectFiles=elementary.obj log.obj
+set elementaryFiles=..\elementary\src\elementary.cpp ..\elementary\src\utils\log.cpp ..\elementary\src\utils\init.cpp
+set elementaryObjectFiles=elementary.obj log.obj init.obj
 
 IF NOT EXIST build\ mkdir build
 pushd build
