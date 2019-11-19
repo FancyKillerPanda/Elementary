@@ -14,7 +14,19 @@ int main(int argc, char* argv[])
 	
 	while (running)
 	{
-		// TODO(fkp): Game loop
+		while (SDL_PollEvent(&window.event))
+		{
+			switch (window.event.type)
+			{
+				case SDL_QUIT:
+				{
+					running = false;
+				} break;
+			}
+		}
+
+		SDL_RenderClear(window.renderer);
+		SDL_RenderPresent(window.renderer);
 	}
 	
 	return 0;
