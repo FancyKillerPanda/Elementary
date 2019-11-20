@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 #include <SDL/SDL.h>
@@ -36,7 +38,8 @@ public:
 	// NOTE(fkp): Returns true if text was clicked, false otherwise
 	bool handleEvent(const SDL_Event& event);
 
-	void setPosition(int x, int y);
+	void setTopLeft(int x, int y);
+	void setCenter(int x, int y);
 	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
 	void setIsClickable(bool value);
 

@@ -116,9 +116,14 @@ bool Text::handleEvent(const SDL_Event& event)
 	return false;
 }
 
-void Text::setPosition(int x, int y)
+void Text::setTopLeft(int x, int y)
 {
-	texture.setPosition(x, y);
+	texture.setTopLeft(x, y);
+}
+
+void Text::setCenter(int x, int y)
+{
+	texture.setCenter(x, y);
 }
 
 void Text::setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour)

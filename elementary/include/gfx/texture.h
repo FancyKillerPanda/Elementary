@@ -43,7 +43,8 @@ public:
 	// NOTE(fkp): Returns true if texture click state has changed
 	bool handleEvent(const SDL_Event& event);
 
-	void setPosition(int x, int y);
+	void setTopLeft(int x, int y);
+	void setCenter(int x, int y);
 	void setRect(int x, int y, int width, int height);
 };
 

@@ -122,10 +122,16 @@ bool Texture::handleEvent(const SDL_Event& event)
 	return lastClickState != currentClickState;
 }
 
-void Texture::setPosition(int x, int y)
+void Texture::setTopLeft(int x, int y)
 {
 	rect.x = x;
 	rect.y = y;
+}
+
+void Texture::setCenter(int x, int y)
+{
+	rect.x = x - (rect.w / 2);
+	rect.y = y - (rect.h / 2);
 }
 
 void Texture::setRect(int x, int y, int width, int height)
