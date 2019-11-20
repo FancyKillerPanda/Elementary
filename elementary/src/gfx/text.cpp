@@ -5,7 +5,9 @@ namespace el
 {
 
 Text::Text(SDL_Renderer* renderer, std::string fontPath, std::string text, unsigned int size, SDL_Color colour)
-	: renderer(renderer), fontPath(fontPath), text(text), size(size), colour(colour), texture(renderer)
+	: renderer(renderer), fontPath(fontPath), text(text), size(size),
+	  currentColour(colour), baseColour(colour), hoverColour(colour), pressedColour(colour),
+	  texture(renderer)
 {
 	update(fontPath);
 }
@@ -25,7 +27,7 @@ void Text::update()
 	}
 
 	// Creates a surface for the text
-	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(font, text.c_str(), colour);
+	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(font, text.c_str(), currentColour);
 
 	if (!textSurface)
 	{
@@ -70,9 +72,65 @@ void Text::draw()
 	texture.draw();
 }
 
+bool Text::handleEvent(const SDL_Event& event)
+{
+	if (texture.handleEvent(event))
+	{
+		switch (texture.currentClickState)
+		{
+			case el::TextureClickState::None:
+			{
+				currentColour = baseColour;
+				update();
+			} break;
+
+			case el::TextureClickState::Hover:
+			{
+				currentColour = hoverColour;
+				update();
+			} break;
+
+			case el::TextureClickState::Pressed:
+			{
+				currentColour = pressedColour;
+				update();
+			} break;
+
+			case el::TextureClickState::Clicked:
+			{
+				// Mouse will still be over the text, so hover colour
+				// is used instead of base colour
+				currentColour = hoverColour;
+				update();
+				
+				return true;
+			} break;
+
+			default:
+			{
+				warn("Unknown TextureClickState in Text::handleEvent().");
+			} break;
+		}
+	}
+
+	return false;
+}
+
 void Text::setPosition(int x, int y)
 {
 	texture.setPosition(x, y);
+}
+
+void Text::setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour)
+{
+	baseColour = p_BaseColour;
+	hoverColour = p_HoverColour;
+	pressedColour = p_PressedColour;
+}
+
+void Text::setIsClickable(bool value)
+{
+	texture.isClickable = value;
 }
 
 }
