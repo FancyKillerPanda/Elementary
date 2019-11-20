@@ -10,7 +10,7 @@ set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
 
 set elemSrcDir=..\elementary\src
 set elementaryFiles=%elemSrcDir%\*.cpp %elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp
-set elementaryObjectFiles=elementary.obj log.obj init.obj window.obj texture.obj text.obj menu.obj
+set elementaryObjectFiles=elementary.obj log.obj init.obj window.obj texture.obj text.obj menu.obj console_colour.obj
 
 IF NOT EXIST build\ mkdir build
 pushd build

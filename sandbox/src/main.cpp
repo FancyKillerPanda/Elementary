@@ -4,6 +4,25 @@
 
 int main(int argc, char* argv[])
 {
+	el::ConsoleColour::init();
+
+	el::ConsoleColour::red();
+	printf("Red\n");
+	el::ConsoleColour::green();
+	printf("Green\n");
+	el::ConsoleColour::blue();
+	printf("Blue\n");
+	el::ConsoleColour::yellow();
+	printf("Yellow\n");
+	el::ConsoleColour::purple();
+	printf("Purple\n");
+	el::ConsoleColour::cyan();
+	printf("Cyan\n");
+	el::ConsoleColour::white();
+	printf("White\n");
+	el::ConsoleColour::reset();
+	printf("Normal\n");
+	
 	if (!el::initSDL())
 	{
 		return -1;
