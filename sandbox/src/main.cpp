@@ -15,10 +15,10 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Menu menu = { {
-		new el::Text(window.renderer, "res/arial.ttf", "One", 32, SDL_Color { 255, 255, 255, 255 }),
-		new el::Text(window.renderer, "res/arial.ttf", "Two", 32, SDL_Color { 255, 255, 255, 255 }),
-		new el::Text(window.renderer, "res/arial.ttf", "Three", 32, SDL_Color { 255, 255, 255, 255 }),
-		new el::Text(window.renderer, "res/arial.ttf", "Four", 32, SDL_Color { 255, 255, 255, 255 })
+		new el::Text(window.renderer, "res/arial.ttf", "One", 32),
+		new el::Text(window.renderer, "res/arial.ttf", "Two", 32),
+		new el::Text(window.renderer, "res/arial.ttf", "Three", 32),
+		new el::Text(window.renderer, "res/arial.ttf", "Four", 32)
 	}, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 255, 255, 0, 255 }, SDL_Color { 160, 160, 0, 255 } };
 
 	menu.setPositionsHorizontal(window.width / 2, window.height / 2, window.width / 6);

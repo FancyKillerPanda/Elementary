@@ -29,7 +29,7 @@ public:
 	SDL_Color pressedColour;
 
 public:
-	Text(SDL_Renderer* renderer, std::string fontPath, std::string text, unsigned int size, SDL_Color colour);
+	Text(SDL_Renderer* renderer, std::string fontPath, std::string text, unsigned int size, SDL_Color colour = { 255, 255, 255, 255 });
 
 	void update();
 	void update(std::string fontPath);
