@@ -67,6 +67,31 @@ void Texture::draw()
 	SDL_RenderCopy(renderer, texture, nullptr, &rect);
 }
 
+bool Texture::handleEvent(const SDL_Event& event)
+{
+	if (!isClickable)
+	{
+		return false;
+	}
+	
+	switch (event.type)
+	{
+		// TODO(fkp): Distinguish left and right button?
+		case SDL_MOUSEBUTTONUP:
+		{
+			SDL_Point mousePos = { event.button.x, event.button.y };
+
+			if (SDL_PointInRect(&mousePos, &rect))
+			{
+				// Button clicked
+				return true;
+			}
+		} break;
+	}
+
+	return false;
+}
+
 void Texture::setPosition(int x, int y)
 {
 	rect.x = x;

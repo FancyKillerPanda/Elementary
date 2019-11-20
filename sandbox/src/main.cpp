@@ -12,10 +12,8 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::info("Created window.");
-
-	el::Text helloText = { window.renderer, "res/arial.ttf", "Hello, there!", 48, SDL_Color { 255, 255, 255, 255 } };
-	helloText.setPosition(100, 100);
+	el::Texture basketballTexture = { window.renderer, "res/basketball.png" };
+	basketballTexture.isClickable = true;
 
 	while (running)
 	{
@@ -28,10 +26,15 @@ int main(int argc, char* argv[])
 					running = false;
 				} break;
 			}
+
+			if (basketballTexture.handleEvent(window.event))
+			{
+				el::info("Button clicked.");
+			}
 		}
 
 		SDL_RenderClear(window.renderer);
-		helloText.draw();
+		basketballTexture.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	
