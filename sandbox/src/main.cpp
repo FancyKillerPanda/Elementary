@@ -4,15 +4,12 @@
 
 int main(int argc, char* argv[])
 {
-	el::Random::init();
-	el::ConsoleColour::init();
-
-	el::info("%d | %f", el::Random::randint(0, 10), el::Random::randdouble(0.0, 10.0));
-	
-	if (!el::initSDL())
+	if (!el::init())
 	{
 		return -1;
 	}
+	
+	el::info("%d | %f", el::Random::randint(0, 10), el::Random::randdouble(0.0, 10.0));
 
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;

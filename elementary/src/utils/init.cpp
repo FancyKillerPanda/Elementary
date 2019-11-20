@@ -5,9 +5,19 @@
 
 #include "utils/init.h"
 #include "utils/log.h"
+#include "utils/random.h"
+#include "utils/console_colour.h"
 
 namespace el
 {
+
+bool init()
+{
+	Random::init();
+	ConsoleColour::init();
+	
+	return initSDL();
+}
 
 bool initSDL()
 {
