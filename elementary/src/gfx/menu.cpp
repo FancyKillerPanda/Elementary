@@ -65,16 +65,16 @@ void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters)
 	
 	if (items.size() % 2 == 0)
 	{
-		int centerLeftItemIndex = (int) items.size() / 2;
+		int centerLeftItemIndex = ((int) items.size() / 2) - 1;
 
 		// Sets items left of center
 		for (int i = centerLeftItemIndex; i >= 0; i--)
 		{
-			int xOffsetFromCenter = ((centerLeftItemIndex - i) * distanceBetweenItemCenters) - (distanceBetweenItemCenters / 2);
+			int xOffsetFromCenter = ((centerLeftItemIndex - i) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
 			items[i]->setCenter(x - xOffsetFromCenter, y);
 		}
 
-		int centerRightItemIndex = ((int) items.size() / 2) + 1;
+		int centerRightItemIndex = (int) items.size() / 2;
 		
 		// Sets items right of center
 		for (int i = centerRightItemIndex; i < items.size(); i++)
@@ -114,16 +114,16 @@ void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters)
 	
 	if (items.size() % 2 == 0)
 	{
-		int centerUpItemIndex = (int) items.size() / 2;
+		int centerUpItemIndex = (int) (items.size() / 2) - 1;
 
 		// Sets items above center
 		for (int i = centerUpItemIndex; i >= 0; i--)
 		{
-			int yOffsetFromCenter = ((centerUpItemIndex - i) * distanceBetweenItemCenters) - (distanceBetweenItemCenters / 2);
+			int yOffsetFromCenter = ((centerUpItemIndex - i) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
 			items[i]->setCenter(x, y - yOffsetFromCenter);
 		}
 
-		int centerDownItemIndex = ((int) items.size() / 2) + 1;
+		int centerDownItemIndex = (int) items.size() / 2;
 		
 		// Sets items below center
 		for (int i = centerDownItemIndex; i < items.size(); i++)
