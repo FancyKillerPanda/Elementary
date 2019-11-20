@@ -22,21 +22,21 @@ IF %ERRORLEVEL% NEQ 0 (
 	goto :eof
 )
 lib /nologo /WX %elementaryObjectFiles%
+IF %ERRORLEVEL% NEQ 0 (
+	popd
+	goto :eof
+)
 
 echo.
 echo ----- Building Sandbox -----
+cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link %commonLinkerFlags% elementary.lib %sdlLibs%
 IF %ERRORLEVEL% NEQ 0 (
 	popd
 	goto :eof
 )
-cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link %commonLinkerFlags% elementary.lib %sdlLibs%
 
 echo.
 echo ----- Output -----
-IF %ERRORLEVEL% NEQ 0 (
-	popd
-	goto :eof
-)
 sandbox.exe
 
 popd
