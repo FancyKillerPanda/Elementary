@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 			if (basketballTexture.handleEvent(window.event))
 			{
-				el::info("Button clicked.");
+				el::info("Texture state changed.");
 			}
 		}
 

@@ -8,6 +8,14 @@
 namespace el
 {
 
+enum class TextureClickState
+{
+	None,		// Mouse not over the texture
+	Hover,		// On mouse over
+	Pressed,	// On mouse down
+	Clicked		// On mouse up
+};
+
 class Texture
 {
 public:
@@ -19,6 +27,10 @@ public:
 	SDL_Rect rect = {};
 
 	bool isClickable = false;
+	TextureClickState currentClickState = TextureClickState::None;
+
+private:
+	TextureClickState lastClickState = TextureClickState::None;
 
 public:
 	Texture(SDL_Renderer* renderer);
@@ -28,8 +40,7 @@ public:
 	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
 	void draw();
 
-	// TODO(fkp): Make this return some sort of mouse state
-	// NOTE(fkp): Returns true if button clicked
+	// NOTE(fkp): Returns true if texture click state has changed
 	bool handleEvent(const SDL_Event& event);
 
 	void setPosition(int x, int y);

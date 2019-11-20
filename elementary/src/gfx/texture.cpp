@@ -73,23 +73,53 @@ bool Texture::handleEvent(const SDL_Event& event)
 	{
 		return false;
 	}
+
+	lastClickState = currentClickState;
 	
 	switch (event.type)
 	{
-		// TODO(fkp): Distinguish left and right button?
-		case SDL_MOUSEBUTTONUP:
+		case SDL_MOUSEMOTION:
 		{
 			SDL_Point mousePos = { event.button.x, event.button.y };
 
 			if (SDL_PointInRect(&mousePos, &rect))
 			{
+				currentClickState = TextureClickState::Hover;
+			}
+			else
+			{
+				currentClickState = TextureClickState::None;
+			}
+		} break;
+		
+		// TODO(fkp): Distinguish left and right button?
+		case SDL_MOUSEBUTTONDOWN:
+		{
+			SDL_Point mousePos = { event.button.x, event.button.y };
+
+			// TODO(fkp): Maybe check if last state was hover instead?
+			if (SDL_PointInRect(&mousePos, &rect))
+			{
+				// Button pressed
+				currentClickState = TextureClickState::Pressed;
+			}
+		} break;
+		
+		// TODO(fkp): Distinguish left and right button?
+		case SDL_MOUSEBUTTONUP:
+		{
+			SDL_Point mousePos = { event.button.x, event.button.y };
+
+			// TODO(fkp): Maybe check if last state was "pressed" instead?
+			if (SDL_PointInRect(&mousePos, &rect))
+			{
 				// Button clicked
-				return true;
+				currentClickState = TextureClickState::Clicked;
 			}
 		} break;
 	}
 
-	return false;
+	return lastClickState != currentClickState;
 }
 
 void Texture::setPosition(int x, int y)
