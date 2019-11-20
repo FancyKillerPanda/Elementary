@@ -4,6 +4,7 @@
 #include "utils/init.h"
 #include "utils/console_colour.h"
 #include "utils/random.h"
+#include "utils/timer.h"
 
 #include "gfx/window.h"
 #include "gfx/texture.h"
