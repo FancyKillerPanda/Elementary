@@ -36,7 +36,15 @@ Texture::~Texture()
 
 void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 {
-	// TODO(fkp): Destroy old texture if it's there
+	if (texture)
+	{
+		SDL_DestroyTexture(texture);
+
+		texture = nullptr;
+		filepath = "";
+	}
+
+	isInitialised = false;
 	texture = SDL_CreateTextureFromSurface(renderer, surfaceToConvertFrom);
 
 	if (!texture)
@@ -50,6 +58,8 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 		sdlError("Texture is invalid.");
 		return;
 	}
+
+	isInitialised = true;
 }
 
 void Texture::draw()
