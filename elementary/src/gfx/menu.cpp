@@ -55,7 +55,7 @@ int Menu::handleEvent(const SDL_Event& event)
 	return -1;
 }
 
-void Menu::setCenter(int x, int y, int distanceBetweenItemCenters)
+void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters)
 {
 	if (items.size() == 0)
 	{
@@ -100,6 +100,55 @@ void Menu::setCenter(int x, int y, int distanceBetweenItemCenters)
 		{
 			int xOffsetFromCenter = (i - centerItemIndex) * distanceBetweenItemCenters;
 			items[i]->setCenter(x + xOffsetFromCenter, y);
+		}
+	}
+}
+
+void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters)
+{
+	if (items.size() == 0)
+	{
+		warn("Menu items vector size is 0.");
+		return;
+	}
+	
+	if (items.size() % 2 == 0)
+	{
+		int centerUpItemIndex = (int) items.size() / 2;
+
+		// Sets items above center
+		for (int i = centerUpItemIndex; i >= 0; i--)
+		{
+			int yOffsetFromCenter = ((centerUpItemIndex - i) * distanceBetweenItemCenters) - (distanceBetweenItemCenters / 2);
+			items[i]->setCenter(x, y - yOffsetFromCenter);
+		}
+
+		int centerDownItemIndex = ((int) items.size() / 2) + 1;
+		
+		// Sets items below center
+		for (int i = centerDownItemIndex; i < items.size(); i++)
+		{
+			int yOffsetFromCenter = ((i - centerDownItemIndex) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
+			items[i]->setCenter(x, y + yOffsetFromCenter);
+		}
+	}
+	else
+	{
+		// Floors because of integer division
+		int centerItemIndex = (int) items.size() / 2;
+
+		// Sets items above center and center
+		for (int i = centerItemIndex; i >= 0; i--)
+		{
+			int yOffsetFromCenter = (centerItemIndex - i) * distanceBetweenItemCenters;
+			items[i]->setCenter(x, y - yOffsetFromCenter);
+		}
+
+		// Sets items below center
+		for (int i = centerItemIndex + 1; i < items.size(); i++)
+		{
+			int yOffsetFromCenter = (i - centerItemIndex) * distanceBetweenItemCenters;
+			items[i]->setCenter(x, y + yOffsetFromCenter);
 		}
 	}
 }

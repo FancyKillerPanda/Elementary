@@ -25,7 +25,8 @@ public:
 	// NOTE(fkp): Returns the index of the item that was clicked, -1 if nothing was
 	int handleEvent(const SDL_Event& event);
 
-	void setCenter(int x, int y, int distanceBetweenItemCenters); // TODO(fkp): Allow changing between horizontal and vertical menus
+	void setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters);
+	void setPositionsVertical(int x, int y, int distanceBetweenItemCenters);
 	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
 };
 	

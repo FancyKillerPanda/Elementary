@@ -12,13 +12,14 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::Menu oddMenu = { {
+	el::Menu menu = { {
 		new el::Text(window.renderer, "res/arial.ttf", "One", 32, SDL_Color { 255, 255, 255, 255 }),
 		new el::Text(window.renderer, "res/arial.ttf", "Two", 32, SDL_Color { 255, 255, 255, 255 }),
 		new el::Text(window.renderer, "res/arial.ttf", "Three", 32, SDL_Color { 255, 255, 255, 255 })
 	}, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 255, 255, 0, 255 }, SDL_Color { 160, 160, 0, 255 } };
-	
-	oddMenu.setCenter(window.width / 2, window.height / 2, window.width / 6);
+
+	// menu.setPositionsHorizontal(window.width / 2, window.height / 2, window.width / 6);
+	menu.setPositionsVertical(window.width / 2, window.height / 2, window.height / 6);
 
 	while (running)
 	{
@@ -32,7 +33,7 @@ int main(int argc, char* argv[])
 				} break;
 			}
 
-			int oddMenuClickResult = oddMenu.handleEvent(window.event);
+			int oddMenuClickResult = menu.handleEvent(window.event);
 
 			if (oddMenuClickResult != -1)
 			{
@@ -41,7 +42,7 @@ int main(int argc, char* argv[])
 		}
 
 		SDL_RenderClear(window.renderer);
-		oddMenu.draw();
+		menu.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	
