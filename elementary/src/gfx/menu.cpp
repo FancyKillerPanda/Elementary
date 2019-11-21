@@ -90,11 +90,14 @@ int Menu::handleEvent(const SDL_Event& event)
 				{
 					if (itemIndexSelected != -1)
 					{
-						// Returns to hover
-						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->hoverColour;
+						// Returns to not selected
+						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->baseColour;
 						items[itemIndexSelected]->update();
 
-						return itemIndexSelected;
+						int oldIndex = itemIndexSelected;
+						itemIndexSelected = -1;
+
+						return oldIndex;
 					}
 				} break;
 			}
