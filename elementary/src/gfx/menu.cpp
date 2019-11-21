@@ -43,12 +43,57 @@ void Menu::draw()
 
 int Menu::handleEvent(const SDL_Event& event)
 {
+	switch (event.type)
+	{
+		case SDL_KEYDOWN:
+		{
+			switch (event.key.keysym.sym)
+			{
+				case SDLK_RIGHT:
+				{
+					itemIndexSelected += 1;
+					itemIndexSelected %= items.size();
+				} break;
+
+				case SDLK_LEFT:
+				{
+					itemIndexSelected -= 1;
+
+					if (itemIndexSelected < 0)
+					{
+						itemIndexSelected = (int) items.size() - 1;
+					}
+				} break;
+			}
+		} break;
+
+		case SDL_MOUSEMOTION:
+		{
+			itemIndexSelected = -1;
+		} break;
+	}
+
+	// Handles the mouse events
 	for (int i = 0; i < items.size(); i++)
 	{
 		if (items[i]->handleEvent(event))
 		{
 			// Item is clicked
 			return i;
+		}
+
+		if (i == itemIndexSelected && items[i]->currentColour != items[i]->hoverColour)
+		{
+			// Needs to be highlighted
+			items[i]->currentColour = items[i]->hoverColour;
+			items[i]->update();
+		}
+
+		if (i != itemIndexSelected && items[i]->currentColour != items[i]->baseColour)
+		{
+			// Needs to stop highlighting
+			items[i]->currentColour = items[i]->baseColour;
+			items[i]->update();
 		}
 	}
 

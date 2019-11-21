@@ -16,6 +16,8 @@ public:
 	SDL_Color hoverColour;
 	SDL_Color pressedColour;
 
+	int itemIndexSelected = -1;
+
 public:
 	Menu(std::vector<Text*> texts);
 	Menu(std::vector<Text*> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour);
@@ -29,5 +31,21 @@ public:
 	void setPositionsVertical(int x, int y, int distanceBetweenItemCenters);
 	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
 };
+	
+// TODO(fkp): Move this somewhere else
+inline bool operator==(const SDL_Color& first, const SDL_Color& second)
+{
+	bool sameR = first.r == second.r;
+	bool sameG = first.g == second.g;
+	bool sameB = first.b == second.b;
+	bool sameA = first.a == second.a;
+
+	return sameR && sameG && sameB && sameA;
+}
+
+inline bool operator!=(const SDL_Color& first, const SDL_Color& second)
+{
+	return !(first == second);
+}
 	
 }
