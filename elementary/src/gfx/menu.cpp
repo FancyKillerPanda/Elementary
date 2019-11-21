@@ -64,6 +64,33 @@ int Menu::handleEvent(const SDL_Event& event)
 						itemIndexSelected = (int) items.size() - 1;
 					}
 				} break;
+
+				case SDLK_RETURN:
+				{
+					if (itemIndexSelected != -1)
+					{
+						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->pressedColour;
+						items[itemIndexSelected]->update();
+					}
+				} break;
+			}
+		} break;
+
+		case SDL_KEYUP:
+		{
+			switch (event.key.keysym.sym)
+			{
+				case SDLK_RETURN:
+				{
+					if (itemIndexSelected != -1)
+					{
+						// Returns to hover
+						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->hoverColour;
+						items[itemIndexSelected]->update();
+
+						return itemIndexSelected;
+					}
+				} break;
 			}
 		} break;
 
@@ -82,7 +109,7 @@ int Menu::handleEvent(const SDL_Event& event)
 			return i;
 		}
 
-		if (i == itemIndexSelected && items[i]->currentColour != items[i]->hoverColour)
+		if (i == itemIndexSelected && items[i]->currentColour == items[i]->baseColour)
 		{
 			// Needs to be highlighted
 			items[i]->currentColour = items[i]->hoverColour;
