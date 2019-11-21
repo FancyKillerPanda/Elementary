@@ -49,12 +49,18 @@ int Menu::handleEvent(const SDL_Event& event)
 		{
 			switch (event.key.keysym.sym)
 			{
+				// TODO(fkp): Maybe allow choosing which key.
+				// Or use down for vertical and right for horizontal
+				case SDLK_DOWN:
 				case SDLK_RIGHT:
 				{
 					itemIndexSelected += 1;
 					itemIndexSelected %= items.size();
 				} break;
 
+				// TODO(fkp): Maybe allow choosing which key.
+				// Or use up for vertical and left for horizontal
+				case SDLK_UP:
 				case SDLK_LEFT:
 				{
 					itemIndexSelected -= 1;
