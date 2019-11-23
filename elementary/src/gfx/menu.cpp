@@ -105,19 +105,29 @@ int Menu::handleEvent(const SDL_Event& event)
 
 		case SDL_MOUSEMOTION:
 		{
-			itemIndexSelected = -1;
+			SDL_Point mousePos = { event.motion.x, event.motion.y };
+			bool hit = false;
+
+			for (Text* text : items)
+			{
+				if (SDL_PointInRect(&mousePos, &text->texture.rect))
+				{
+					hit = true;
+				}
+			}
+			
+			if (!hit)
+			{
+				// Mouse wasn't over any menu item
+				itemIndexSelected = -1;
+			}
+			
 		} break;
 	}
 
 	// Handles the mouse events
 	for (int i = 0; i < items.size(); i++)
 	{
-		if (items[i]->handleEvent(event))
-		{
-			// Item is clicked
-			return i;
-		}
-
 		if (i == itemIndexSelected && items[i]->currentColour == items[i]->baseColour)
 		{
 			// Needs to be highlighted
@@ -130,6 +140,17 @@ int Menu::handleEvent(const SDL_Event& event)
 			// Needs to stop highlighting
 			items[i]->currentColour = items[i]->baseColour;
 			items[i]->update();
+		}
+
+		if (items[i]->handleEvent(event))
+		{
+			// Item is clicked
+			return i;
+		}
+
+		if (i != itemIndexSelected && items[i]->currentColour != items[i]->baseColour)
+		{
+			itemIndexSelected = i;
 		}
 	}
 
