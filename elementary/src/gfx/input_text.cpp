@@ -38,14 +38,14 @@ void InputText::handleEvent(SDL_Event& event)
 
 					if (SDL_GetModState() & KMOD_CTRL)
 					{
-						// Removes characters until a space
-						while (currentText.text.length() > 0 && currentText.text.back() != ' ')
+						// Removes characters until a delimiting character
+						while (currentText.text.length() > 0 && !std::ispunct(currentText.text.back()) && !std::isspace(currentText.text.back()))
 						{
 							currentText.text.pop_back();
 						}
 
 						// Removes the last space
-						if (currentText.text.length() > 0)
+						if (currentText.text.length() > 0 && std::isspace(currentText.text.back()))
 						{
 							currentText.text.pop_back();
 						}
