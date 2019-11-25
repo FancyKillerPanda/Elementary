@@ -35,6 +35,10 @@ int main(int argc, char* argv[])
 					{
 						inputText.setIsSelected(!inputText.getIsSelected());
 					}
+					else if (window.event.key.keysym.sym == SDLK_RETURN)
+					{
+						el::info("%s", inputText.text.c_str());
+					}
 				} break;
 			}
 

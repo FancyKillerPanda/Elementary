@@ -13,8 +13,8 @@ public:
 	bool isInitialised = false;
 	SDL_Renderer* renderer = nullptr;
 
-	// Text that is being displayed
-	Text currentText;
+	// Text value
+	std::string text;
 
 	// Colours
 	SDL_Color baseColour;
@@ -23,7 +23,6 @@ public:
 	// Text that appears when there is no characters
 	std::string defaultText = {};
 
-
 	bool numbersOnly = false;
 	bool centerAlign = true;
 	bool isShowingDefaultText = true;
@@ -31,6 +30,9 @@ public:
 private:
 	bool isSelected = false;
 	SDL_Point centerPos = { 0, 0 };
+	
+	// Text that is being displayed
+	Text displayedText;
 
 public:
 	InputText(SDL_Renderer* renderer, std::string fontPath, std::string defaultText = "Text", unsigned int size = 32, SDL_Color colour = SDL_Color { 255, 255, 255, 255 });

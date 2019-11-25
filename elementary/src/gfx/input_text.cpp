@@ -5,9 +5,9 @@ namespace el
 {
 
 InputText::InputText(SDL_Renderer* renderer, std::string fontPath, std::string defaultText, unsigned int size, SDL_Color colour)
-	: renderer(renderer), currentText(renderer, fontPath, defaultText, size, colour), defaultText(defaultText), baseColour(colour), selectedColour(colour)
+	: renderer(renderer), displayedText(renderer, fontPath, defaultText, size, colour), defaultText(defaultText), text(defaultText), baseColour(colour), selectedColour(colour)
 {
-	isInitialised = currentText.isInitialised;
+	isInitialised = displayedText.isInitialised;
 }
 
 void InputText::handleEvent(SDL_Event& event)
@@ -31,7 +31,7 @@ void InputText::handleEvent(SDL_Event& event)
 			{
 				case SDLK_BACKSPACE:
 				{
-					int currentLength = (int) currentText.text.length();
+					int currentLength = (int) displayedText.text.length();
 
 					if (currentLength == 0)
 					{
@@ -40,8 +40,9 @@ void InputText::handleEvent(SDL_Event& event)
 
 					if (isShowingDefaultText)
 					{
-						currentText.text = " "; // TODO(fkp): Maybe this shouldn't be just a space?
-						currentText.update();
+						text = "";
+						displayedText.text = " ";
+						displayedText.update();
 
 						break;
 					}
@@ -49,34 +50,35 @@ void InputText::handleEvent(SDL_Event& event)
 					if (SDL_GetModState() & KMOD_CTRL)
 					{
 						// Removes characters until a delimiting character
-						while (currentText.text.length() > 0 && !std::ispunct(currentText.text.back()) && !std::isspace(currentText.text.back()))
+						while (displayedText.text.length() > 0 && !std::ispunct(displayedText.text.back()) && !std::isspace(displayedText.text.back()))
 						{
-							currentText.text.pop_back();
+							displayedText.text.pop_back();
 						}
 
 						// Removes the last space
-						if (currentText.text.length() > 0 && std::isspace(currentText.text.back()))
+						if (displayedText.text.length() > 0 && std::isspace(displayedText.text.back()))
 						{
-							currentText.text.pop_back();
+							displayedText.text.pop_back();
 						}
 					}
 					else
 					{
-						currentText.text.pop_back();
+						displayedText.text.pop_back();
 					}
 
 					// Sets to default text if now empty
-					if (currentText.text.length() == 0)
+					if (displayedText.text.length() == 0)
 					{
 						isShowingDefaultText = true;
-						currentText.text = defaultText;
+						displayedText.text = defaultText;
 					}
 
-					currentText.update();
+					text = displayedText.text;
+					displayedText.update();
 
 					if (centerAlign)
 					{
-						currentText.setCenter(centerPos.x, centerPos.y);
+						displayedText.setCenter(centerPos.x, centerPos.y);
 					}
 				} break;
 			}
@@ -93,15 +95,16 @@ void InputText::handleEvent(SDL_Event& event)
 			if (isShowingDefaultText)
 			{
 				isShowingDefaultText = false;
-				currentText.text = "";
+				displayedText.text = "";
 			}
 
-			currentText.text += event.text.text;
-			currentText.update();
+			displayedText.text += event.text.text;
+			text = displayedText.text;
+			displayedText.update();
 
 			if (centerAlign)
 			{
-				currentText.setCenter(centerPos.x, centerPos.y);
+				displayedText.setCenter(centerPos.x, centerPos.y);
 			}
 		} break;
 	}
@@ -109,13 +112,13 @@ void InputText::handleEvent(SDL_Event& event)
 
 void InputText::draw()
 {
-	currentText.draw();
+	displayedText.draw();
 }
 
 void InputText::setCenter(int x, int y)
 {
 	centerPos = { x, y };
-	currentText.setCenter(x, y);
+	displayedText.setCenter(x, y);
 }
 
 void InputText::setIsSelected(bool value)
@@ -124,14 +127,14 @@ void InputText::setIsSelected(bool value)
 
 	if (isSelected)
 	{
-		currentText.currentColour = selectedColour;
+		displayedText.currentColour = selectedColour;
 	}
 	else
 	{
-		currentText.currentColour = baseColour;
+		displayedText.currentColour = baseColour;
 	}
 
-	currentText.update();
+	displayedText.update();
 }
 
 }
