@@ -21,6 +21,7 @@ public:
 
 	bool numbersOnly = false;
 	bool isSelected = false;
+	bool centerAlign = true;
 
 public:
 	InputText(SDL_Renderer* renderer, std::string fontPath, std::string defaultText = "Text", unsigned int size = 32, SDL_Color colour = SDL_Color { 255, 255, 255, 255 });

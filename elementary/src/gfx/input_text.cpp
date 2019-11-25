@@ -26,6 +26,9 @@ void InputText::handleEvent(SDL_Event& event)
 			{
 				case SDLK_BACKSPACE:
 				{
+					// Gets current center position
+					const SDL_Point oldCenterPos = currentText.getCenter();
+					
 					int currentLength = (int) currentText.text.length();
 
 					if (currentLength == 0 || currentText.text == defaultText)
@@ -57,8 +60,13 @@ void InputText::handleEvent(SDL_Event& event)
 					{
 						currentText.text = defaultText;
 					}
-					
+
 					currentText.update();
+
+					if (centerAlign)
+					{
+						currentText.setCenter(oldCenterPos.x, oldCenterPos.y);
+					}
 				} break;
 			}
 		} break;
@@ -71,6 +79,9 @@ void InputText::handleEvent(SDL_Event& event)
 				break;
 			}
 
+			// Gets current center position
+			const SDL_Point oldCenterPos = currentText.getCenter();
+
 			if (currentText.text == defaultText)
 			{
 				currentText.text = "";
@@ -78,6 +89,11 @@ void InputText::handleEvent(SDL_Event& event)
 
 			currentText.text += event.text.text;
 			currentText.update();
+
+			if (centerAlign)
+			{
+				currentText.setCenter(oldCenterPos.x, oldCenterPos.y);
+			}
 		} break;
 	}
 }

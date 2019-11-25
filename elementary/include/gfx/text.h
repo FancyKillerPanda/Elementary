@@ -44,6 +44,7 @@ public:
 	void setIsClickable(bool value);
 
 	inline bool getIsClickable() { return texture.isClickable; }
+	SDL_Point getCenter() { return texture.getCenter(); }
 };
 	
 }

@@ -46,6 +46,8 @@ public:
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);
 	void setRect(int x, int y, int width, int height);
+
+	SDL_Point getCenter();
 };
 
 }
