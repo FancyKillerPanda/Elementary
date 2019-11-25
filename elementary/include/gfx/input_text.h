@@ -23,11 +23,14 @@ public:
 	// Text that appears when there is no characters
 	std::string defaultText = {};
 
+
 	bool numbersOnly = false;
 	bool centerAlign = true;
+	bool isShowingDefaultText = true;
 
 private:
 	bool isSelected = false;
+	SDL_Point centerPos = { 0, 0 };
 
 public:
 	InputText(SDL_Renderer* renderer, std::string fontPath, std::string defaultText = "Text", unsigned int size = 32, SDL_Color colour = SDL_Color { 255, 255, 255, 255 });
@@ -35,7 +38,9 @@ public:
 	void handleEvent(SDL_Event& event);
 	void draw();
 
+	void setCenter(int x, int y);
 	void setIsSelected(bool value);
+	
 	inline bool getIsSelected() { return isSelected; }
 };
 	

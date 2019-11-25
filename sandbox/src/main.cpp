@@ -12,8 +12,8 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::InputText inputText = { window.renderer, "res/arial.ttf", "Blair" };
-	inputText.currentText.setCenter(window.width / 2, window.height / 2);
+	el::InputText inputText = { window.renderer, "res/arial.ttf", "Hello" };
+	inputText.setCenter(window.width / 2, window.height / 2);
 	inputText.selectedColour = SDL_Colour { 255, 0, 0, 255 };
 	inputText.setIsSelected(true);
 
