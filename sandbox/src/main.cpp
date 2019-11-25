@@ -14,7 +14,8 @@ int main(int argc, char* argv[])
 
 	el::InputText inputText = { window.renderer, "res/arial.ttf", "Blair" };
 	inputText.currentText.setCenter(window.width / 2, window.height / 2);
-	inputText.isSelected = true;
+	inputText.selectedColour = SDL_Colour { 255, 0, 0, 255 };
+	inputText.setIsSelected(true);
 
 	while (running)
 	{
@@ -25,6 +26,15 @@ int main(int argc, char* argv[])
 				case SDL_QUIT:
 				{
 					running = false;
+				} break;
+
+				case SDL_KEYDOWN:
+				{
+					// Test: toggles text selection
+					if (window.event.key.keysym.sym == SDLK_ESCAPE)
+					{
+						inputText.setIsSelected(!inputText.getIsSelected());
+					}
 				} break;
 			}
 

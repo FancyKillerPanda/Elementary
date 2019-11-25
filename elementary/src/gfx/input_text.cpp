@@ -5,7 +5,7 @@ namespace el
 {
 
 InputText::InputText(SDL_Renderer* renderer, std::string fontPath, std::string defaultText, unsigned int size, SDL_Color colour)
-	: renderer(renderer), currentText(renderer, fontPath, defaultText, size, colour), defaultText(defaultText)
+	: renderer(renderer), currentText(renderer, fontPath, defaultText, size, colour), defaultText(defaultText), baseColour(colour), selectedColour(colour)
 {
 	isInitialised = currentText.isInitialised;
 }
@@ -15,6 +15,11 @@ void InputText::handleEvent(SDL_Event& event)
 	if (!isInitialised)
 	{
 		error("InputText not initialised before handling events.");
+		return;
+	}
+
+	if (!isSelected)
+	{
 		return;
 	}
 
@@ -101,6 +106,22 @@ void InputText::handleEvent(SDL_Event& event)
 void InputText::draw()
 {
 	currentText.draw();
+}
+
+void InputText::setIsSelected(bool value)
+{
+	isSelected = value;
+
+	if (isSelected)
+	{
+		currentText.currentColour = selectedColour;
+	}
+	else
+	{
+		currentText.currentColour = baseColour;
+	}
+
+	currentText.update();
 }
 
 }
