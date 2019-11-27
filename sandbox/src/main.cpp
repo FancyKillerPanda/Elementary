@@ -12,10 +12,13 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::InputText inputText = { window.renderer, "res/arial.ttf", "Hello" };
-	inputText.setCenter(window.width / 2, window.height / 2);
-	inputText.selectedColour = SDL_Colour { 255, 0, 0, 255 };
-	inputText.setIsSelected(true);
+	std::vector<el::Text*> menuItems = {
+		new el::Text(window.renderer, "res/arial.ttf", "One", 32),
+		new el::Text(window.renderer, "res/arial.ttf", "Two", 32),
+		new el::Text(window.renderer, "res/arial.ttf", "Three", 32),
+	};
+	el::Menu menu = { menuItems, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 255, 0, 0, 255 }, SDL_Color { 127, 0, 0, 255 } };
+	menu.setPositionsHorizontal(window.width / 2, window.height / 2, window.width / 6);
 
 	while (running)
 	{
@@ -27,26 +30,13 @@ int main(int argc, char* argv[])
 				{
 					running = false;
 				} break;
-
-				case SDL_KEYDOWN:
-				{
-					// Test: toggles text selection
-					if (window.event.key.keysym.sym == SDLK_ESCAPE)
-					{
-						inputText.setIsSelected(!inputText.getIsSelected());
-					}
-					else if (window.event.key.keysym.sym == SDLK_RETURN)
-					{
-						el::info("%s", inputText.text.c_str());
-					}
-				} break;
 			}
 
-			inputText.handleEvent(window.event);
+			menu.handleEvent(window.event);
 		}
 
 		SDL_RenderClear(window.renderer);
-		inputText.draw();
+		menu.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	

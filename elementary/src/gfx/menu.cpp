@@ -49,34 +49,34 @@ int Menu::handleEvent(const SDL_Event& event)
 		{
 			switch (event.key.keysym.sym)
 			{
-				// TODO(fkp): Maybe allow choosing which key.
-				// Or use down for vertical and right for horizontal
-				case SDLK_DOWN:
-				case SDLK_RIGHT:
-				{
-					itemIndexSelected += 1;
-					itemIndexSelected %= items.size();
-				} break;
-
-				// TODO(fkp): Maybe allow choosing which key.
-				// Or use up for vertical and left for horizontal
-				case SDLK_UP:
-				case SDLK_LEFT:
-				{
-					itemIndexSelected -= 1;
-
-					if (itemIndexSelected < 0)
-					{
-						itemIndexSelected = (int) items.size() - 1;
-					}
-				} break;
-
 				case SDLK_RETURN:
 				{
 					if (itemIndexSelected != -1)
 					{
 						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->pressedColour;
 						items[itemIndexSelected]->update();
+					}
+				} break;
+
+				default:
+				{
+					const SDL_Keycode& keySym = event.key.keysym.sym;
+
+					// Pressed down or right key and should handle those events
+					if ((canUseUpDownKeys && keySym == SDLK_UP) || (canUseLeftRightKeys && keySym == SDLK_LEFT))
+					{
+						itemIndexSelected -= 1;
+
+						if (itemIndexSelected < 0)
+						{
+							itemIndexSelected = (int) items.size() - 1;
+						}
+					}
+					// Pressed up or left key and should handle those events
+					else if ((canUseUpDownKeys && keySym == SDLK_DOWN) || (canUseLeftRightKeys && keySym == SDLK_RIGHT))
+					{
+						itemIndexSelected += 1;
+						itemIndexSelected %= items.size();
 					}
 				} break;
 			}
@@ -157,7 +157,7 @@ int Menu::handleEvent(const SDL_Event& event)
 	return -1;
 }
 
-void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters)
+void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, bool setUseLeftRightKeys)
 {
 	if (items.size() == 0)
 	{
@@ -204,9 +204,14 @@ void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters)
 			items[i]->setCenter(x + xOffsetFromCenter, y);
 		}
 	}
+
+	if (setUseLeftRightKeys)
+	{
+		canUseLeftRightKeys = true;
+	}
 }
 
-void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters)
+void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters, bool setUseUpDownKeys)
 {
 	if (items.size() == 0)
 	{
@@ -252,6 +257,11 @@ void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters)
 			int yOffsetFromCenter = (i - centerItemIndex) * distanceBetweenItemCenters;
 			items[i]->setCenter(x, y + yOffsetFromCenter);
 		}
+	}
+
+	if (setUseUpDownKeys)
+	{
+		canUseUpDownKeys = true;
 	}
 }
 
