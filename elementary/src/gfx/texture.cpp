@@ -145,12 +145,15 @@ bool Texture::handleEvent(const SDL_Event& event)
 
 void Texture::fadeIn(int durationMs)
 {
+	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha) == -1)
+	{
+		warn("Cannot fade in without valid texture.");
+		return;
+	}
+
 	currentlyFading = true;
 
-	SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha);
-
 	// Sets the starting alpha to 0 if it hasn't been set yet (i.e is at 255)
-	// TODO(fkp): Is it necessary to check -1?
 	if (startFadeAlpha == 255)
 	{
 		startFadeAlpha = 0;
@@ -166,15 +169,18 @@ void Texture::fadeIn(int durationMs)
 
 void Texture::fadeOut(int durationMs)
 {
+	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha) == -1)
+	{
+		warn("Cannot fade out without valid texture.");
+		return;
+	}
+
 	currentlyFading = true;
 
-	SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha);
-	
-	// Sets the starting alpha if it doesn't already exist
-	// TODO(fkp): Is this needed?
-	if (startFadeAlpha == -1)
+	if (startFadeAlpha == 0)
 	{
 		startFadeAlpha = 255;
+		SDL_SetTextureAlphaMod(texture, 255);
 	}
 	
 	targetFadeAlpha = 0;
