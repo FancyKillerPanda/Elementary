@@ -21,6 +21,8 @@ int main(int argc, char* argv[])
 	menu.setPositionsHorizontal(window.width / 2, window.height / 2, window.width / 6);
 
 	el::Sound shootSound = { "res/Shoot Sound.mp3", 64 };
+	el::Music backgroundMusic = { "res/Deep Space.mp3", 64 };
+	backgroundMusic.play();
 
 	while (running)
 	{
@@ -31,6 +33,14 @@ int main(int argc, char* argv[])
 				case SDL_QUIT:
 				{
 					running = false;
+				} break;
+
+				case SDL_KEYDOWN:
+				{
+					if (window.event.key.keysym.sym == SDLK_SPACE)
+					{
+						backgroundMusic.togglePaused();
+					}
 				} break;
 			}
 

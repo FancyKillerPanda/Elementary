@@ -14,3 +14,4 @@
 #include "gfx/input_text.h"
 
 #include "audio/sound.h"
+#include "audio/music.h"
