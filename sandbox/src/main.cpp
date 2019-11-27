@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
 	el::Menu menu = { menuItems, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 255, 0, 0, 255 }, SDL_Color { 127, 0, 0, 255 } };
 	menu.setPositionsHorizontal(window.width / 2, window.height / 2, window.width / 6);
 
+	el::Sound shootSound = { "res/Shoot Sound.mp3", 64 };
+
 	while (running)
 	{
 		while (SDL_PollEvent(&window.event))
@@ -32,7 +34,10 @@ int main(int argc, char* argv[])
 				} break;
 			}
 
-			menu.handleEvent(window.event);
+			if (menu.handleEvent(window.event) == 0)
+			{
+				shootSound.play();
+			}
 		}
 
 		SDL_RenderClear(window.renderer);

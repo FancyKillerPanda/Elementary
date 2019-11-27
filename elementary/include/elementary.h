@@ -12,3 +12,5 @@
 #include "gfx/text.h"
 #include "gfx/menu.h"
 #include "gfx/input_text.h"
+
+#include "audio/sound.h"
