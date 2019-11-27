@@ -147,9 +147,14 @@ void Texture::fadeOut(int durationMs)
 {
 	currentlyFading = true;
 
-	// TODO(fkp): Get start alpha
-	// SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha);
-	startFadeAlpha = 255;
+	SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha);
+	
+	// Sets the starting alpha if it doesn't already exist
+	if (startFadeAlpha == -1)
+	{
+		startFadeAlpha = 255;
+	}
+	
 	targetFadeAlpha = 0;
 	
 	currentFadeDuration = 0;

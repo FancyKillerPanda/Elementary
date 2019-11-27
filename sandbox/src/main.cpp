@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
+	SDL_SetTextureAlphaMod(texture.texture, 100);
 	texture.fadeOut(500);
 
 	while (running)
