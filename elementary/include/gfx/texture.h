@@ -5,6 +5,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+#include "utils/timer.h"
+
 namespace el
 {
 
@@ -29,6 +31,14 @@ public:
 	bool isClickable = false;
 	TextureClickState currentClickState = TextureClickState::None;
 
+	// Fade data
+	bool currentlyFading = false;
+	int startFadeAlpha = 0;
+	int targetFadeAlpha = 0;
+	int currentFadeDuration = 0;
+	int targetFadeDuration = 0;
+	Timer fadeTimer;
+
 private:
 	TextureClickState lastClickState = TextureClickState::None;
 
@@ -38,10 +48,16 @@ public:
 	~Texture();
 
 	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
+
+	void update();
 	void draw();
 
 	// NOTE(fkp): Returns true if texture click state has changed
 	bool handleEvent(const SDL_Event& event);
+
+	// TODO(fkp): Fade in
+	// Fades the texture out over a duration of time
+	void fadeOut(int durationMs);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);

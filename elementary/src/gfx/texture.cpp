@@ -62,6 +62,31 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 	isInitialised = true;
 }
 
+void Texture::update()
+{
+	// Fades
+	if (currentlyFading)
+	{
+		currentFadeDuration = (int) fadeTimer.getElapsed();
+
+		if (currentFadeDuration >= targetFadeDuration)
+		{
+			// Makes sure the alpha is exactly the target
+			SDL_SetTextureAlphaMod(texture, (unsigned char) targetFadeAlpha);
+			currentlyFading = false;
+
+			return;
+		}
+
+		double portionOfTimeCompleted = (double) currentFadeDuration / (double) targetFadeDuration;
+		int fadeAlphaDifference = targetFadeAlpha - startFadeAlpha;
+		unsigned char newAlpha = (unsigned char) (startFadeAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
+
+		// Sets the new alpha of the texture
+		SDL_SetTextureAlphaMod(texture, newAlpha);
+	}
+}
+
 void Texture::draw()
 {
 	SDL_RenderCopy(renderer, texture, nullptr, &rect);
@@ -116,6 +141,20 @@ bool Texture::handleEvent(const SDL_Event& event)
 	}
 
 	return lastClickState != currentClickState;
+}
+
+void Texture::fadeOut(int durationMs)
+{
+	currentlyFading = true;
+
+	// TODO(fkp): Get start alpha
+	// SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha);
+	startFadeAlpha = 255;
+	targetFadeAlpha = 0;
+	
+	currentFadeDuration = 0;
+	targetFadeDuration = durationMs;
+	fadeTimer.reset();
 }
 
 void Texture::setTopLeft(int x, int y)
