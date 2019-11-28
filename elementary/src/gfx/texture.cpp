@@ -111,6 +111,31 @@ void Texture::update()
 			rect.h = (int) (scaleStartHeight + (heightDifference * portionOfTimeCompleted));
 		}
 	}
+
+	// Translation
+	if (isTranslatingCurrently)
+	{
+		translateCurrentDuration = (int) translateTimer.getElapsed();
+
+		if (translateCurrentDuration >= translateTargetDuration)
+		{
+			// Makes sure the rect positions are exactly the target
+			rect.x = translateTargetX;
+			rect.y = translateTargetY;
+
+			isTranslatingCurrently = false;
+		}
+
+		if (isTranslatingCurrently)
+		{
+			double portionOfTimeCompleted = (double) translateCurrentDuration / (double) translateTargetDuration;
+		
+			int xDifference = translateTargetX - translateStartX;
+			int yDifference = translateTargetY - translateStartY;
+			rect.x = (int) (translateStartX + (xDifference * portionOfTimeCompleted));
+			rect.y = (int) (translateStartY + (yDifference * portionOfTimeCompleted));
+		}
+	}
 }
 
 void Texture::draw()
@@ -242,6 +267,26 @@ void Texture::smoothScale(double scaleFactor, int durationMs)
 	int newHeight = (int) (rect.h * scaleFactor);
 
 	smoothScale(newWidth, newHeight, durationMs);
+}
+
+void Texture::smoothTranslate(int newX, int newY, int durationMs)
+{
+	if (!texture)
+	{
+		warn("Cannot translate without valid texture.");
+		return;
+	}
+
+	isTranslatingCurrently = true;
+
+	translateStartX = rect.x;
+	translateTargetX = newX;
+	translateStartY = rect.y;
+	translateTargetY = newY;
+
+	translateCurrentDuration = 0;
+	translateTargetDuration = durationMs;
+	translateTimer.reset();
 }
 
 void Texture::setTopLeft(int x, int y)

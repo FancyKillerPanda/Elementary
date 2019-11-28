@@ -13,8 +13,8 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
-	texture.fadeOut(1000);
-	texture.smoothScale(2.0, 1000);
+	texture.fadeOut(3000);
+	texture.smoothTranslate(window.width - texture.rect.w, window.height - texture.rect.h, 3000);
 
 	while (running)
 	{

@@ -33,6 +33,7 @@ public:
 
 	bool isFadingCurrently = false;
 	bool isScalingCurrently = false;
+	bool isTranslatingCurrently = false;
 
 private:
 	TextureClickState lastClickState = TextureClickState::None;
@@ -52,6 +53,15 @@ private:
 	int scaleCurrentDuration = 0;
 	int scaleTargetDuration = 0;
 	Timer scaleTimer;
+
+	// Scale data
+	int translateStartX = 0;
+	int translateTargetX = 0;
+	int translateStartY = 0;
+	int translateTargetY = 0;
+	int translateCurrentDuration = 0;
+	int translateTargetDuration = 0;
+	Timer translateTimer;
 
 public:
 	Texture(SDL_Renderer* renderer);
@@ -75,6 +85,9 @@ public:
 	void smoothScale(int newWidth, int newHeight, int durationMs);
 	// Scales the texture smoothly by a scale factor
 	void smoothScale(double scaleFactor, int durationMs);
+
+	// Moves the texture to a new location over a duration of time
+	void smoothTranslate(int newX, int newY, int durationMs);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);
