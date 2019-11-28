@@ -65,22 +65,22 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 void Texture::update()
 {
 	// Fades
-	if (currentlyFading)
+	if (isFadingCurrently)
 	{
-		currentFadeDuration = (int) fadeTimer.getElapsed();
+		fadeCurrentDuration = (int) fadeTimer.getElapsed();
 
-		if (currentFadeDuration >= targetFadeDuration)
+		if (fadeCurrentDuration >= fadeTargetDuration)
 		{
 			// Makes sure the alpha is exactly the target
-			SDL_SetTextureAlphaMod(texture, (unsigned char) targetFadeAlpha);
-			currentlyFading = false;
+			SDL_SetTextureAlphaMod(texture, (unsigned char) fadeTargetAlpha);
+			isFadingCurrently = false;
 		}
 
-		if (currentlyFading)
+		if (isFadingCurrently)
 		{
-			double portionOfTimeCompleted = (double) currentFadeDuration / (double) targetFadeDuration;
-			int fadeAlphaDifference = targetFadeAlpha - startFadeAlpha;
-			unsigned char newAlpha = (unsigned char) (startFadeAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
+			double portionOfTimeCompleted = (double) fadeCurrentDuration / (double) fadeTargetDuration;
+			int fadeAlphaDifference = fadeTargetAlpha - fadeStartAlpha;
+			unsigned char newAlpha = (unsigned char) (fadeStartAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
 
 			// Sets the new alpha of the texture
 			SDL_SetTextureAlphaMod(texture, newAlpha);
@@ -88,27 +88,27 @@ void Texture::update()
 	}
 
 	// Scaling
-	if (currentlyScaling)
+	if (isScalingCurrently)
 	{
-		currentScaleDuration = (int) scaleTimer.getElapsed();
+		scaleCurrentDuration = (int) scaleTimer.getElapsed();
 
-		if (currentScaleDuration >= targetScaleDuration)
+		if (scaleCurrentDuration >= scaleTargetDuration)
 		{
 			// Makes sure the rect dimensions are exactly the target
-			rect.w = targetWidth;
-			rect.h = targetHeight;
+			rect.w = scaleTargetWidth;
+			rect.h = scaleTargetHeight;
 
-			currentlyScaling = false;
+			isScalingCurrently = false;
 		}
 
-		if (currentlyScaling)
+		if (isScalingCurrently)
 		{
-			double portionOfTimeCompleted = (double) currentScaleDuration / (double) targetScaleDuration;
+			double portionOfTimeCompleted = (double) scaleCurrentDuration / (double) scaleTargetDuration;
 		
-			int widthDifference = targetWidth - startWidth;
-			int heightDifference = targetHeight - startHeight;
-			rect.w = (int) (startWidth + (widthDifference * portionOfTimeCompleted));
-			rect.h = (int) (startHeight + (heightDifference * portionOfTimeCompleted));
+			int widthDifference = scaleTargetWidth - scaleStartWidth;
+			int heightDifference = scaleTargetHeight - scaleStartHeight;
+			rect.w = (int) (scaleStartWidth + (widthDifference * portionOfTimeCompleted));
+			rect.h = (int) (scaleStartHeight + (heightDifference * portionOfTimeCompleted));
 		}
 	}
 }
@@ -171,48 +171,48 @@ bool Texture::handleEvent(const SDL_Event& event)
 
 void Texture::fadeIn(int durationMs)
 {
-	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha) == -1)
+	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &fadeStartAlpha) == -1)
 	{
 		warn("Cannot fade in without valid texture.");
 		return;
 	}
 
-	currentlyFading = true;
+	isFadingCurrently = true;
 
 	// Sets the starting alpha to 0 if it hasn't been set yet (i.e is at 255)
-	if (startFadeAlpha == 255)
+	if (fadeStartAlpha == 255)
 	{
-		startFadeAlpha = 0;
+		fadeStartAlpha = 0;
 		SDL_SetTextureAlphaMod(texture, 0);
 	}
 
-	targetFadeAlpha = 255;
+	fadeTargetAlpha = 255;
 
-	currentFadeDuration = 0;
-	targetFadeDuration = durationMs;
+	fadeCurrentDuration = 0;
+	fadeTargetDuration = durationMs;
 	fadeTimer.reset();
 }
 
 void Texture::fadeOut(int durationMs)
 {
-	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &startFadeAlpha) == -1)
+	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &fadeStartAlpha) == -1)
 	{
 		warn("Cannot fade out without valid texture.");
 		return;
 	}
 
-	currentlyFading = true;
+	isFadingCurrently = true;
 
-	if (startFadeAlpha == 0)
+	if (fadeStartAlpha == 0)
 	{
-		startFadeAlpha = 255;
+		fadeStartAlpha = 255;
 		SDL_SetTextureAlphaMod(texture, 255);
 	}
 	
-	targetFadeAlpha = 0;
+	fadeTargetAlpha = 0;
 	
-	currentFadeDuration = 0;
-	targetFadeDuration = durationMs;
+	fadeCurrentDuration = 0;
+	fadeTargetDuration = durationMs;
 	fadeTimer.reset();
 }
 
@@ -224,15 +224,15 @@ void Texture::smoothScale(int newWidth, int newHeight, int durationMs)
 		return;
 	}
 
-	currentlyScaling = true;
+	isScalingCurrently = true;
 
-	startWidth = rect.w;
-	targetWidth = newWidth;
-	startHeight = rect.h;
-	targetHeight = newHeight;
+	scaleStartWidth = rect.w;
+	scaleTargetWidth = newWidth;
+	scaleStartHeight = rect.h;
+	scaleTargetHeight = newHeight;
 
-	currentScaleDuration = 0;
-	targetScaleDuration = durationMs;
+	scaleCurrentDuration = 0;
+	scaleTargetDuration = durationMs;
 	scaleTimer.reset();
 }
 

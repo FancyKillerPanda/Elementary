@@ -31,26 +31,27 @@ public:
 	bool isClickable = false;
 	TextureClickState currentClickState = TextureClickState::None;
 
-	// Fade data
-	bool currentlyFading = false;
-	int startFadeAlpha = 0;
-	int targetFadeAlpha = 0;
-	int currentFadeDuration = 0;
-	int targetFadeDuration = 0;
-	Timer fadeTimer;
-
-	// Size change data
-	bool currentlyScaling = false;
-	int startWidth = 0;
-	int targetWidth = 0;
-	int startHeight = 0;
-	int targetHeight = 0;
-	int currentScaleDuration = 0;
-	int targetScaleDuration = 0;
-	Timer scaleTimer;
+	bool isFadingCurrently = false;
+	bool isScalingCurrently = false;
 
 private:
 	TextureClickState lastClickState = TextureClickState::None;
+
+	// Fade data
+	int fadeStartAlpha = 0;
+	int fadeTargetAlpha = 0;
+	int fadeCurrentDuration = 0;
+	int fadeTargetDuration = 0;
+	Timer fadeTimer;
+
+	// Scale data
+	int scaleStartWidth = 0;
+	int scaleTargetWidth = 0;
+	int scaleStartHeight = 0;
+	int scaleTargetHeight = 0;
+	int scaleCurrentDuration = 0;
+	int scaleTargetDuration = 0;
+	Timer scaleTimer;
 
 public:
 	Texture(SDL_Renderer* renderer);
