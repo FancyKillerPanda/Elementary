@@ -62,10 +62,10 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 	isInitialised = true;
 }
 
-bool Texture::update()
+int Texture::update()
 {
-	// Whether an animation has finished this frame
-	bool animationFinished = false;
+	// The animations that have finished in this frame
+	int animationsFinished = Animation::None;
 	
 	// Fades
 	if (isFadingCurrently)
@@ -78,7 +78,7 @@ bool Texture::update()
 			SDL_SetTextureAlphaMod(texture, (unsigned char) fadeTargetAlpha);
 
 			isFadingCurrently = false;
-			animationFinished = true;
+			animationsFinished |= Animation::Fade;
 		}
 
 		if (isFadingCurrently)
@@ -104,7 +104,7 @@ bool Texture::update()
 			rect.h = scaleTargetHeight;
 
 			isScalingCurrently = false;
-			animationFinished = true;
+			animationsFinished |= Animation::Scale;
 		}
 
 		if (isScalingCurrently)
@@ -130,7 +130,7 @@ bool Texture::update()
 			rect.y = translateTargetY;
 
 			isTranslatingCurrently = false;
-			animationFinished = true;
+			animationsFinished |= Animation::Translate;
 		}
 
 		if (isTranslatingCurrently)
@@ -144,7 +144,7 @@ bool Texture::update()
 		}
 	}
 
-	return animationFinished;
+	return animationsFinished;
 }
 
 void Texture::draw()

@@ -10,6 +10,19 @@
 namespace el
 {
 
+namespace Animation
+{
+
+enum Value : char
+{
+	None		= 0,		// 0000 == 0
+	Fade		= 1 << 0,	// 0001 == 1
+	Scale		= 1 << 1,	// 0010 == 2
+	Translate	= 1 << 2,	// 0100 == 4
+};
+
+}
+
 enum class TextureClickState
 {
 	None,		// Mouse not over the texture
@@ -70,8 +83,8 @@ public:
 
 	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
 
-	// Returns whether an animation finished in that frame
-	bool update();
+	// Returns which animation(s) finished in that frame
+	int update();
 	void draw();
 
 	// NOTE(fkp): Returns true if texture click state has changed

@@ -29,7 +29,21 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		texture.update();
+		int animationsFinished = texture.update();
+
+		if (animationsFinished & el::Animation::Fade)
+		{
+			el::info("Fade finished.");
+		}
+		if (animationsFinished & el::Animation::Scale)
+		{
+			el::info("Scale finished.");
+		}
+
+		if (animationsFinished & el::Animation::Translate)
+		{
+			el::info("Tanslate finished.");
+		}
 
 		SDL_RenderClear(window.renderer);
 		texture.draw();
