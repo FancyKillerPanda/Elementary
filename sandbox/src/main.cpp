@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
 	texture.fadeOut(1000);
-	texture.smoothSizeChange(400, 400, 1000);
+	texture.smoothScale(400, 400, 1000);
 
 	while (running)
 	{

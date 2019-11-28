@@ -87,23 +87,23 @@ void Texture::update()
 		}
 	}
 
-	// Size changes
-	if (currentlyChangingSize)
+	// Scaling
+	if (currentlyScaling)
 	{
-		currentSizeChangeDuration = (int) sizeChangeTimer.getElapsed();
+		currentScaleDuration = (int) scaleTimer.getElapsed();
 
-		if (currentSizeChangeDuration >= targetSizeChangeDuration)
+		if (currentScaleDuration >= targetScaleDuration)
 		{
 			// Makes sure the rect dimensions are exactly the target
 			rect.w = targetWidth;
 			rect.h = targetHeight;
 
-			currentlyChangingSize = false;
+			currentlyScaling = false;
 		}
 
-		if (currentlyChangingSize)
+		if (currentlyScaling)
 		{
-			double portionOfTimeCompleted = (double) currentSizeChangeDuration / (double) targetSizeChangeDuration;
+			double portionOfTimeCompleted = (double) currentScaleDuration / (double) targetScaleDuration;
 		
 			int widthDifference = targetWidth - startWidth;
 			int heightDifference = targetHeight - startHeight;
@@ -216,7 +216,7 @@ void Texture::fadeOut(int durationMs)
 	fadeTimer.reset();
 }
 
-void Texture::smoothSizeChange(int newWidth, int newHeight, int durationMs)
+void Texture::smoothScale(int newWidth, int newHeight, int durationMs)
 {
 	if (!texture)
 	{
@@ -224,16 +224,16 @@ void Texture::smoothSizeChange(int newWidth, int newHeight, int durationMs)
 		return;
 	}
 
-	currentlyChangingSize = true;
+	currentlyScaling = true;
 
 	startWidth = rect.w;
 	targetWidth = newWidth;
 	startHeight = rect.h;
 	targetHeight = newHeight;
 
-	currentSizeChangeDuration = 0;
-	targetSizeChangeDuration = durationMs;
-	sizeChangeTimer.reset();
+	currentScaleDuration = 0;
+	targetScaleDuration = durationMs;
+	scaleTimer.reset();
 }
 
 void Texture::setTopLeft(int x, int y)
