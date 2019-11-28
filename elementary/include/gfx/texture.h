@@ -39,6 +39,16 @@ public:
 	int targetFadeDuration = 0;
 	Timer fadeTimer;
 
+	// Size change data
+	bool currentlyChangingSize = false;
+	int startWidth = 0;
+	int targetWidth = 0;
+	int startHeight = 0;
+	int targetHeight = 0;
+	int currentSizeChangeDuration = 0;
+	int targetSizeChangeDuration = 0;
+	Timer sizeChangeTimer;
+
 private:
 	TextureClickState lastClickState = TextureClickState::None;
 
@@ -59,6 +69,9 @@ public:
 	void fadeIn(int durationMs);
 	// Fades the texture out over a duration of time
 	void fadeOut(int durationMs);
+
+	// Changes the size of the texture smoothly
+	void smoothSizeChange(int newWidth, int newHeight, int durationMs);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);

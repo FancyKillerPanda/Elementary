@@ -74,16 +74,42 @@ void Texture::update()
 			// Makes sure the alpha is exactly the target
 			SDL_SetTextureAlphaMod(texture, (unsigned char) targetFadeAlpha);
 			currentlyFading = false;
-
-			return;
 		}
 
-		double portionOfTimeCompleted = (double) currentFadeDuration / (double) targetFadeDuration;
-		int fadeAlphaDifference = targetFadeAlpha - startFadeAlpha;
-		unsigned char newAlpha = (unsigned char) (startFadeAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
+		if (currentlyFading)
+		{
+			double portionOfTimeCompleted = (double) currentFadeDuration / (double) targetFadeDuration;
+			int fadeAlphaDifference = targetFadeAlpha - startFadeAlpha;
+			unsigned char newAlpha = (unsigned char) (startFadeAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
 
-		// Sets the new alpha of the texture
-		SDL_SetTextureAlphaMod(texture, newAlpha);
+			// Sets the new alpha of the texture
+			SDL_SetTextureAlphaMod(texture, newAlpha);
+		}
+	}
+
+	// Size changes
+	if (currentlyChangingSize)
+	{
+		currentSizeChangeDuration = (int) sizeChangeTimer.getElapsed();
+
+		if (currentSizeChangeDuration >= targetSizeChangeDuration)
+		{
+			// Makes sure the rect dimensions are exactly the target
+			rect.w = targetWidth;
+			rect.h = targetHeight;
+
+			currentlyChangingSize = false;
+		}
+
+		if (currentlyChangingSize)
+		{
+			double portionOfTimeCompleted = (double) currentSizeChangeDuration / (double) targetSizeChangeDuration;
+		
+			int widthDifference = targetWidth - startWidth;
+			int heightDifference = targetHeight - startHeight;
+			rect.w = (int) (startWidth + (widthDifference * portionOfTimeCompleted));
+			rect.h = (int) (startHeight + (heightDifference * portionOfTimeCompleted));
+		}
 	}
 }
 
@@ -188,6 +214,26 @@ void Texture::fadeOut(int durationMs)
 	currentFadeDuration = 0;
 	targetFadeDuration = durationMs;
 	fadeTimer.reset();
+}
+
+void Texture::smoothSizeChange(int newWidth, int newHeight, int durationMs)
+{
+	if (!texture)
+	{
+		warn("Cannot size change without valid texture.");
+		return;
+	}
+
+	currentlyChangingSize = true;
+
+	startWidth = rect.w;
+	targetWidth = newWidth;
+	startHeight = rect.h;
+	targetHeight = newHeight;
+
+	currentSizeChangeDuration = 0;
+	targetSizeChangeDuration = durationMs;
+	sizeChangeTimer.reset();
 }
 
 void Texture::setTopLeft(int x, int y)

@@ -12,11 +12,9 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::Texture texture0 = { window.renderer, "res/basketball.png" };
-	el::Texture texture1 = { window.renderer, "res/basketball.png" };
-	texture1.setTopLeft(texture0.rect.w, 0);
-	texture0.fadeOut(1000);
-	texture1.fadeIn(1000);
+	el::Texture texture = { window.renderer, "res/basketball.png" };
+	texture.fadeOut(1000);
+	texture.smoothSizeChange(400, 400, 1000);
 
 	while (running)
 	{
@@ -28,23 +26,13 @@ int main(int argc, char* argv[])
 				{
 					running = false;
 				} break;
-
-				case SDL_KEYDOWN:
-				{
-					if (window.event.key.keysym.sym == SDLK_SPACE)
-					{
-						texture0.fadeIn(1000);
-					}
-				} break;
 			}
 		}
 
-		texture0.update();
-		texture1.update();
+		texture.update();
 
 		SDL_RenderClear(window.renderer);
-		texture0.draw();
-		texture1.draw();
+		texture.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	
