@@ -236,6 +236,14 @@ void Texture::smoothScale(int newWidth, int newHeight, int durationMs)
 	scaleTimer.reset();
 }
 
+void Texture::smoothScale(double scaleFactor, int durationMs)
+{
+	int newWidth = (int) (rect.w * scaleFactor);
+	int newHeight = (int) (rect.h * scaleFactor);
+
+	smoothScale(newWidth, newHeight, durationMs);
+}
+
 void Texture::setTopLeft(int x, int y)
 {
 	rect.x = x;

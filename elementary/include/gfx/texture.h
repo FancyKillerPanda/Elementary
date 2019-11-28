@@ -70,8 +70,10 @@ public:
 	// Fades the texture out over a duration of time
 	void fadeOut(int durationMs);
 
-	// Scales the texture smoothly
+	// Scales the texture smoothly to a new width and height
 	void smoothScale(int newWidth, int newHeight, int durationMs);
+	// Scales the texture smoothly by a scale factor
+	void smoothScale(double scaleFactor, int durationMs);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);
