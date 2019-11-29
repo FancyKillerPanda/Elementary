@@ -13,10 +13,8 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
-	el::Texture texture1 = { window.renderer, "res/basketball.png" };
-	texture1.setTopLeft(texture.rect.w, 0);
-	texture.fadeOut(1000);
-	texture1.smoothScale(500, 400, 400);
+	texture.smoothTranslate(1000, 500, 500);
+	texture.smoothScale(500, 2.0f);
 
 	while (running)
 	{
@@ -32,11 +30,9 @@ int main(int argc, char* argv[])
 		}
 
 		texture.update();
-		texture1.update();
 
 		SDL_RenderClear(window.renderer);
 		texture.draw();
-		texture1.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	

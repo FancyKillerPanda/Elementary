@@ -39,18 +39,7 @@ public:
 
 private:
 	TextureClickState lastClickState = TextureClickState::None;
-
-	/*
-	// Translate data
-	int translateStartX = 0;
-	int translateTargetX = 0;
-	int translateStartY = 0;
-	int translateTargetY = 0;
-	int translateCurrentDuration = 0;
-	int translateTargetDuration = 0;
-	Timer translateTimer;
-	*/
-
+	
 	std::vector<Animation*> animationsQueue;
 
 public:
@@ -78,7 +67,7 @@ public:
 	void smoothScale(int durationMs, double scaleFactor);
 
 	// Moves the texture to a new location over a duration of time
-	void smoothTranslate(int newX, int newY, int durationMs);
+	void smoothTranslate(int durationMs, int newX, int newY);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);

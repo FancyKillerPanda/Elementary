@@ -2,6 +2,7 @@
 #include "gfx/texture.h"
 #include "animations/fade.h"
 #include "animations/scale.h"
+#include "animations/translate.h"
 
 namespace el
 {
@@ -90,34 +91,6 @@ bool Texture::update()
 	}
 
 	return animationFinished;
-
-	/*
-	// Translation
-	if (isTranslatingCurrently)
-	{
-		translateCurrentDuration = (int) translateTimer.getElapsed();
-
-		if (translateCurrentDuration >= translateTargetDuration)
-		{
-			// Makes sure the rect positions are exactly the target
-			rect.x = translateTargetX;
-			rect.y = translateTargetY;
-
-			isTranslatingCurrently = false;
-			animationsFinished |= Animation::Translate;
-		}
-
-		if (isTranslatingCurrently)
-		{
-			double portionOfTimeCompleted = (double) translateCurrentDuration / (double) translateTargetDuration;
-		
-			int xDifference = translateTargetX - translateStartX;
-			int yDifference = translateTargetY - translateStartY;
-			rect.x = (int) (translateStartX + (xDifference * portionOfTimeCompleted));
-			rect.y = (int) (translateStartY + (yDifference * portionOfTimeCompleted));
-		}
-	}
-	*/
 }
 
 void Texture::draw()
@@ -196,30 +169,13 @@ void Texture::smoothScale(int durationMs, double scaleFactor)
 	int newWidth = (int) (rect.w * scaleFactor);
 	int newHeight = (int) (rect.h * scaleFactor);
 
-	smoothScale(newWidth, newHeight, durationMs);
+	smoothScale(durationMs, newWidth, newHeight);
 }
 
-/*
-void Texture::smoothTranslate(int newX, int newY, int durationMs)
+void Texture::smoothTranslate(int durationMs, int newX, int newY)
 {
-	if (!texture)
-	{
-		warn("Cannot translate without valid texture.");
-		return;
-	}
-
-	isTranslatingCurrently = true;
-
-	translateStartX = rect.x;
-	translateTargetX = newX;
-	translateStartY = rect.y;
-	translateTargetY = newY;
-
-	translateCurrentDuration = 0;
-	translateTargetDuration = durationMs;
-	translateTimer.reset();
+	animationsQueue.push_back(new Translate(this, durationMs, newX, newY));
 }
-*/
 
 void Texture::setTopLeft(int x, int y)
 {
