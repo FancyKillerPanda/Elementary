@@ -163,17 +163,17 @@ void Texture::animate(Animation* animationToDo, Animation* executeAfter)
 
 void Texture::fadeIn(int durationMs, int waitDurationMs)
 {
-	animationsRunning.push_back(new Fade(this, durationMs, 255, waitDurationMs));
+	animationsRunning.push_back(new Fade(this, durationMs, 255, true, waitDurationMs));
 }
 
 void Texture::fadeOut(int durationMs, int waitDurationMs)
 {
-	animationsRunning.push_back(new Fade(this, durationMs, 0, waitDurationMs));
+	animationsRunning.push_back(new Fade(this, durationMs, 0, true, waitDurationMs));
 }
 
 void Texture::smoothScale(int durationMs, int newWidth, int newHeight, int waitDurationMs)
 {
-	animationsRunning.push_back(new Scale(this, durationMs, newWidth, newHeight, waitDurationMs));
+	animationsRunning.push_back(new Scale(this, durationMs, newWidth, newHeight, true, waitDurationMs));
 }
 
 void Texture::smoothScale(int durationMs, double scaleFactor, int waitDurationMs)
@@ -186,7 +186,7 @@ void Texture::smoothScale(int durationMs, double scaleFactor, int waitDurationMs
 
 void Texture::smoothTranslate(int durationMs, int newX, int newY, int waitDurationMs)
 {
-	animationsRunning.push_back(new Translate(this, durationMs, newX, newY, waitDurationMs));
+	animationsRunning.push_back(new Translate(this, durationMs, newX, newY, true, waitDurationMs));
 }
 
 void Texture::setTopLeft(int x, int y)
