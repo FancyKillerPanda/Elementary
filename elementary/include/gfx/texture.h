@@ -1,27 +1,16 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 #include "utils/timer.h"
+#include "animations/fade.h"
 
 namespace el
 {
-
-namespace Animation
-{
-
-enum Value : char
-{
-	None		= 0,		// 0000 == 0
-	Fade		= 1 << 0,	// 0001 == 1
-	Scale		= 1 << 1,	// 0010 == 2
-	Translate	= 1 << 2,	// 0100 == 4
-};
-
-}
 
 enum class TextureClickState
 {
@@ -51,13 +40,7 @@ public:
 private:
 	TextureClickState lastClickState = TextureClickState::None;
 
-	// Fade data
-	int fadeStartAlpha = 0;
-	int fadeTargetAlpha = 0;
-	int fadeCurrentDuration = 0;
-	int fadeTargetDuration = 0;
-	Timer fadeTimer;
-
+	/*
 	// Scale data
 	int scaleStartWidth = 0;
 	int scaleTargetWidth = 0;
@@ -75,6 +58,9 @@ private:
 	int translateCurrentDuration = 0;
 	int translateTargetDuration = 0;
 	Timer translateTimer;
+	*/
+
+	std::vector<Animation*> animationsQueue;
 
 public:
 	Texture(SDL_Renderer* renderer);

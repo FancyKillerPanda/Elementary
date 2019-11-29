@@ -13,8 +13,10 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
-	texture.fadeOut(3000);
-	texture.smoothTranslate(window.width - texture.rect.w, window.height - texture.rect.h, 3000);
+	el::Texture texture1 = { window.renderer, "res/basketball.png" };
+	texture1.setTopLeft(texture.rect.w, 0);
+	texture.fadeOut(1000);
+	texture1.fadeIn(500);
 
 	while (running)
 	{
@@ -30,23 +32,25 @@ int main(int argc, char* argv[])
 		}
 
 		int animationsFinished = texture.update();
+		texture1.update();
 
-		if (animationsFinished & el::Animation::Fade)
+		if (animationsFinished & (int) el::Animation::Type::Fade)
 		{
 			el::info("Fade finished.");
 		}
-		if (animationsFinished & el::Animation::Scale)
+		if (animationsFinished & (int) el::Animation::Type::Scale)
 		{
 			el::info("Scale finished.");
 		}
 
-		if (animationsFinished & el::Animation::Translate)
+		if (animationsFinished & (int) el::Animation::Type::Translate)
 		{
 			el::info("Tanslate finished.");
 		}
 
 		SDL_RenderClear(window.renderer);
 		texture.draw();
+		texture1.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 	

@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "utils/log.h"
 #include "gfx/texture.h"
 
@@ -31,6 +33,12 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 
 Texture::~Texture()
 {
+	for (Animation* animation : animationsQueue)
+	{
+		delete animation;
+		animation = nullptr;
+	}
+	
 	SDL_DestroyTexture(texture);
 }
 
@@ -65,33 +73,24 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 int Texture::update()
 {
 	// The animations that have finished in this frame
-	int animationsFinished = Animation::None;
-	
-	// Fades
-	if (isFadingCurrently)
+	int animationsFinished = (int) Animation::Type::None;
+
+	std::vector<int> indicesToRemove;
+
+	for (int i = 0; i < animationsQueue.size(); i++)
 	{
-		fadeCurrentDuration = (int) fadeTimer.getElapsed();
-
-		if (fadeCurrentDuration >= fadeTargetDuration)
+		if (!animationsQueue[i]->update())
 		{
-			// Makes sure the alpha is exactly the target
-			SDL_SetTextureAlphaMod(texture, (unsigned char) fadeTargetAlpha);
-
-			isFadingCurrently = false;
-			animationsFinished |= Animation::Fade;
-		}
-
-		if (isFadingCurrently)
-		{
-			double portionOfTimeCompleted = (double) fadeCurrentDuration / (double) fadeTargetDuration;
-			int fadeAlphaDifference = fadeTargetAlpha - fadeStartAlpha;
-			unsigned char newAlpha = (unsigned char) (fadeStartAlpha + (fadeAlphaDifference * portionOfTimeCompleted));
-
-			// Sets the new alpha of the texture
-			SDL_SetTextureAlphaMod(texture, newAlpha);
+			indicesToRemove.push_back(i);
 		}
 	}
 
+	for (int i : indicesToRemove)
+	{
+		animationsQueue.erase(animationsQueue.begin() + i);
+	}
+
+	/*
 	// Scaling
 	if (isScalingCurrently)
 	{
@@ -143,6 +142,7 @@ int Texture::update()
 			rect.y = (int) (translateStartY + (yDifference * portionOfTimeCompleted));
 		}
 	}
+	*/
 
 	return animationsFinished;
 }
@@ -203,6 +203,17 @@ bool Texture::handleEvent(const SDL_Event& event)
 	return lastClickState != currentClickState;
 }
 
+void Texture::fadeIn(int durationMs)
+{
+	animationsQueue.push_back(new Fade(this, durationMs, 255));
+}
+
+void Texture::fadeOut(int durationMs)
+{
+	animationsQueue.push_back(new Fade(this, durationMs, 0));
+}
+
+/*
 void Texture::fadeIn(int durationMs)
 {
 	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &fadeStartAlpha) == -1)
@@ -297,6 +308,7 @@ void Texture::smoothTranslate(int newX, int newY, int durationMs)
 	translateTargetDuration = durationMs;
 	translateTimer.reset();
 }
+*/
 
 void Texture::setTopLeft(int x, int y)
 {
