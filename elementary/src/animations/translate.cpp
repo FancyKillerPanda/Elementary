@@ -7,8 +7,18 @@
 namespace el
 {
 
-Translate::Translate(Texture* texture, int durationMs, int newX, int newY, int waitDurationMs)
-	: Animation(texture)
+Translate::Translate(int durationMs, int newX, int newY, bool shouldStartImmediately, int waitDurationMs)
+{
+	init(durationMs, newX, newY, shouldStartImmediately, waitDurationMs);
+}
+
+Translate::Translate(Texture* p_Texture, int durationMs, int newX, int newY, bool shouldStartImmediately, int waitDurationMs)
+{
+	texture = p_Texture;
+	init(durationMs, newX, newY, shouldStartImmediately, waitDurationMs);
+}
+
+void Translate::init(int durationMs, int newX, int newY, bool shouldStartImmediately, int waitDurationMs)
 {
 	type = Animation::Type::Translate;
 	waitingDurationMs = waitDurationMs;
@@ -20,7 +30,7 @@ Translate::Translate(Texture* texture, int durationMs, int newX, int newY, int w
 
 	targetDurationMs = durationMs;
 
-	if (waitingDurationMs == 0)
+	if (waitingDurationMs == 0 && shouldStartImmediately)
 	{
 		start();
 	}
@@ -34,10 +44,11 @@ void Translate::start()
 		return;
 	}
 
-	texture->isTranslatingCurrently = true;
-	
 	currentDurationMs = 0;
 	timer.reset();
+
+	texture->isTranslatingCurrently = true;
+	hasStarted = true;
 }
 
 bool Translate::update()
@@ -54,6 +65,8 @@ bool Translate::update()
 		// Makes sure the rect positions are exactly the target
 		texture->rect.x = targetX;
 		texture->rect.y = targetY;
+
+		executeAfterAnimations();
 
 		return false;
 	}

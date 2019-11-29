@@ -7,8 +7,18 @@
 namespace el
 {
 
-Scale::Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int waitDurationMs)
-	: Animation(texture)
+Scale::Scale(int durationMs, int newWidth, int newHeight, bool shouldStartImmediately, int waitDurationMs)
+{
+	init(durationMs, newWidth, newHeight, shouldStartImmediately, waitDurationMs);
+}
+
+Scale::Scale(Texture* p_Texture, int durationMs, int newWidth, int newHeight, bool shouldStartImmediately, int waitDurationMs)
+{
+	texture = p_Texture;
+	init(durationMs, newWidth, newHeight, shouldStartImmediately, waitDurationMs);
+}
+
+void Scale::init(int durationMs, int newWidth, int newHeight, bool shouldStartImmediately, int waitDurationMs)
 {
 	type = Animation::Type::Scale;
 	waitingDurationMs = waitDurationMs;
@@ -20,7 +30,7 @@ Scale::Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int 
 
 	targetDurationMs = durationMs;
 
-	if (waitingDurationMs == 0)
+	if (waitingDurationMs == 0 && shouldStartImmediately)
 	{
 		start();
 	}
@@ -38,6 +48,7 @@ void Scale::start()
 	timer.reset();
 
 	texture->isScalingCurrently = true;
+	hasStarted = true;
 }
 
 bool Scale::update()
@@ -54,6 +65,8 @@ bool Scale::update()
 		// Makes sure the rect dimensions are exactly the target
 		texture->rect.w = targetWidth;
 		texture->rect.h = targetHeight;
+
+		executeAfterAnimations();
 
 		return false;
 	}

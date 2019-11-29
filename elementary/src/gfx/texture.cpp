@@ -154,6 +154,13 @@ void Texture::animate(Animation* animation)
 	animationsRunning.push_back(animation);
 }
 
+void Texture::animate(Animation* animationToDo, Animation* executeAfter)
+{
+	animate(animationToDo);
+	executeAfter->animationsToExecuteAfter.push_back(animationToDo);
+}
+
+
 void Texture::fadeIn(int durationMs, int waitDurationMs)
 {
 	animationsRunning.push_back(new Fade(this, durationMs, 255, waitDurationMs));

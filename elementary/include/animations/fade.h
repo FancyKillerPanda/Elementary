@@ -12,10 +12,14 @@ public:
 	int targetAlpha = 0;
 
 public:
-	Fade(Texture* texture, int durationMs, unsigned char targetAlpha, int waitDurationMs = 0);
+	Fade(int durationMs, unsigned char targetAlphaValue, bool shouldStartImmediately = true, int waitDurationMs = 0);
+	Fade(Texture* p_Texture, int durationMs, unsigned char targetAlphaValue, bool shouldStartImmediately = true, int waitDurationMs = 0);
 
 	void start() override;
 	bool update() override;
+
+private:
+	void init(int durationMs, unsigned char targetAlpha, bool shouldStartImmediately, int waitDurationMs);
 };
 	
 }

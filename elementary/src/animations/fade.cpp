@@ -7,8 +7,18 @@
 namespace el
 {
 
-Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue, int waitDurationMs)
-	: Animation(texture)
+Fade::Fade(int durationMs, unsigned char targetAlphaValue, bool shouldStartImmediately, int waitDurationMs)
+{
+	init(durationMs, targetAlphaValue, shouldStartImmediately, waitDurationMs);
+}
+
+Fade::Fade(Texture* p_Texture, int durationMs, unsigned char targetAlphaValue, bool shouldStartImmediately, int waitDurationMs)
+{
+	texture = p_Texture;
+	init(durationMs, targetAlphaValue, shouldStartImmediately, waitDurationMs);
+}
+
+void Fade::init(int durationMs, unsigned char targetAlphaValue, bool shouldStartImmediately, int waitDurationMs)
 {
 	type = Type::Fade;
 	waitingDurationMs = waitDurationMs;
@@ -26,7 +36,7 @@ Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue, int
 	targetAlpha = (int) targetAlphaValue;
 	targetDurationMs = durationMs;
 
-	if (waitingDurationMs == 0)
+	if (waitingDurationMs == 0 && shouldStartImmediately)
 	{
 		start();
 	}
@@ -46,6 +56,7 @@ void Fade::start()
 	timer.reset();
 
 	texture->isFadingCurrently = true;
+	hasStarted = true;
 }
 
 bool Fade::update()
@@ -61,6 +72,9 @@ bool Fade::update()
 	{
 		// Makes sure the alpha is exactly the target
 		SDL_SetTextureAlphaMod(texture->texture, (unsigned char) targetAlpha);
+
+		executeAfterAnimations();
+		
 		return false;
 	}
 

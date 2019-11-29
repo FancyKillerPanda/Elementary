@@ -14,10 +14,14 @@ public:
 	int targetY = 0;
 
 public:
-	Translate(Texture* texture, int durationMs, int newX, int newY, int waitDurationMs = 0);
+	Translate(int durationMs, int newX, int newY, bool shouldStartImmediately = true, int waitDurationMs = 0);
+	Translate(Texture* p_Texture, int durationMs, int newX, int newY, bool shouldStartImmediately = true, int waitDurationMs = 0);
 
 	void start() override;
 	bool update() override;
+
+private:
+	void init(int durationMs, int newX, int newY, bool shouldStartImmediately, int waitDurationMs);
 };
 	
 }

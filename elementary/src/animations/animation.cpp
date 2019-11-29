@@ -5,6 +5,11 @@ namespace el
 
 bool Animation::waitIfNecessary()
 {
+	if (!hasStarted)
+	{
+		return false;
+	}
+	
 	if (waitingDurationMs != 0)
 	{
 		if (currentDurationMs >= waitingDurationMs)
@@ -24,6 +29,16 @@ bool Animation::waitIfNecessary()
 	{
 		return true;
 	}
+}
+
+void Animation::executeAfterAnimations()
+{
+	for (Animation* animation : animationsToExecuteAfter)
+	{
+		animation->start();
+	}
+
+	animationsToExecuteAfter.clear();
 }
 	
 }

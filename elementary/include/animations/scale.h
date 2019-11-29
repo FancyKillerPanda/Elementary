@@ -14,10 +14,14 @@ public:
 	int targetHeight = 0;
 
 public:
-	Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int waitDurationMs = 0);
+	Scale(int durationMs, int newWidth, int newHeight, bool shouldStartImmediately = true, int waitDurationMs = 0);
+	Scale(Texture* texture, int durationMs, int newWidth, int newHeight, bool shouldStartImmediately = true, int waitDurationMs = 0);
 
 	void start() override;
 	bool update() override;
+
+private:
+	void init(int durationMs, int newWidth, int newHeight, bool shouldStartImmediately, int waitDurationMs);
 };
 	
 }

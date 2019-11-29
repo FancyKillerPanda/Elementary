@@ -13,9 +13,11 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	el::Texture texture = { window.renderer, "res/basketball.png" };
-	texture.fadeIn(1500, 1000);
-	texture.smoothTranslate(1000, 500, 500, 2000);
-	texture.smoothScale(1000, 2.0f, 3500);
+	el::Animation* fadeInAnimation = new el::Fade(&texture, 1000, 255);
+	el::Animation* fadeOutAnimation = new el::Fade(&texture, 1000, 0, false);
+
+	texture.animate(fadeInAnimation);
+	texture.animate(fadeOutAnimation, fadeInAnimation);
 
 	while (running)
 	{
