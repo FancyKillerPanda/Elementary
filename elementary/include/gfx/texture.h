@@ -56,6 +56,9 @@ public:
 	// NOTE(fkp): Returns true if texture click state has changed
 	bool handleEvent(const SDL_Event& event);
 
+	// Fades the texture in
+	void animate(Animation* animation);
+
 	// Fades the texture in over a duration of time
 	void fadeIn(int durationMs, int waitDurationMs = 0);
 	// Fades the texture out over a duration of time

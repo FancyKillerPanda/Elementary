@@ -149,6 +149,11 @@ bool Texture::handleEvent(const SDL_Event& event)
 	return lastClickState != currentClickState;
 }
 
+void Texture::animate(Animation* animation)
+{
+	animationsRunning.push_back(animation);
+}
+
 void Texture::fadeIn(int durationMs, int waitDurationMs)
 {
 	animationsRunning.push_back(new Fade(this, durationMs, 255, waitDurationMs));

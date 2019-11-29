@@ -15,3 +15,8 @@
 
 #include "audio/sound.h"
 #include "audio/music.h"
+
+#include "animations/animation.h"
+#include "animations/fade.h"
+#include "animations/scale.h"
+#include "animations/translate.h"
