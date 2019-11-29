@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
 	el::Animation* fadeInAnimation = new el::Fade(&texture, 1000, 255, true);
 	el::Animation* fadeOutAnimation = new el::Fade(&texture, 1000, 0);
 
+	
+
 	texture.animate(fadeInAnimation);
 	texture.animate(fadeOutAnimation, fadeInAnimation);
 
