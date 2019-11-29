@@ -1,7 +1,7 @@
-#include <algorithm>
-
 #include "utils/log.h"
 #include "gfx/texture.h"
+#include "animations/fade.h"
+#include "animations/scale.h"
 
 namespace el
 {
@@ -92,32 +92,6 @@ bool Texture::update()
 	return animationFinished;
 
 	/*
-	// Scaling
-	if (isScalingCurrently)
-	{
-		scaleCurrentDuration = (int) scaleTimer.getElapsed();
-
-		if (scaleCurrentDuration >= scaleTargetDuration)
-		{
-			// Makes sure the rect dimensions are exactly the target
-			rect.w = scaleTargetWidth;
-			rect.h = scaleTargetHeight;
-
-			isScalingCurrently = false;
-			animationsFinished |= Animation::Scale;
-		}
-
-		if (isScalingCurrently)
-		{
-			double portionOfTimeCompleted = (double) scaleCurrentDuration / (double) scaleTargetDuration;
-		
-			int widthDifference = scaleTargetWidth - scaleStartWidth;
-			int heightDifference = scaleTargetHeight - scaleStartHeight;
-			rect.w = (int) (scaleStartWidth + (widthDifference * portionOfTimeCompleted));
-			rect.h = (int) (scaleStartHeight + (heightDifference * portionOfTimeCompleted));
-		}
-	}
-
 	// Translation
 	if (isTranslatingCurrently)
 	{
@@ -212,75 +186,12 @@ void Texture::fadeOut(int durationMs)
 	animationsQueue.push_back(new Fade(this, durationMs, 0));
 }
 
-/*
-void Texture::fadeIn(int durationMs)
+void Texture::smoothScale(int durationMs, int newWidth, int newHeight)
 {
-	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &fadeStartAlpha) == -1)
-	{
-		warn("Cannot fade in without valid texture.");
-		return;
-	}
-
-	isFadingCurrently = true;
-
-	// Sets the starting alpha to 0 if it hasn't been set yet (i.e is at 255)
-	if (fadeStartAlpha == 255)
-	{
-		fadeStartAlpha = 0;
-		SDL_SetTextureAlphaMod(texture, 0);
-	}
-
-	fadeTargetAlpha = 255;
-
-	fadeCurrentDuration = 0;
-	fadeTargetDuration = durationMs;
-	fadeTimer.reset();
+	animationsQueue.push_back(new Scale(this, durationMs, newWidth, newHeight));
 }
 
-void Texture::fadeOut(int durationMs)
-{
-	if (SDL_GetTextureAlphaMod(texture, (Uint8*) &fadeStartAlpha) == -1)
-	{
-		warn("Cannot fade out without valid texture.");
-		return;
-	}
-
-	isFadingCurrently = true;
-
-	if (fadeStartAlpha == 0)
-	{
-		fadeStartAlpha = 255;
-		SDL_SetTextureAlphaMod(texture, 255);
-	}
-	
-	fadeTargetAlpha = 0;
-	
-	fadeCurrentDuration = 0;
-	fadeTargetDuration = durationMs;
-	fadeTimer.reset();
-}
-
-void Texture::smoothScale(int newWidth, int newHeight, int durationMs)
-{
-	if (!texture)
-	{
-		warn("Cannot size change without valid texture.");
-		return;
-	}
-
-	isScalingCurrently = true;
-
-	scaleStartWidth = rect.w;
-	scaleTargetWidth = newWidth;
-	scaleStartHeight = rect.h;
-	scaleTargetHeight = newHeight;
-
-	scaleCurrentDuration = 0;
-	scaleTargetDuration = durationMs;
-	scaleTimer.reset();
-}
-
-void Texture::smoothScale(double scaleFactor, int durationMs)
+void Texture::smoothScale(int durationMs, double scaleFactor)
 {
 	int newWidth = (int) (rect.w * scaleFactor);
 	int newHeight = (int) (rect.h * scaleFactor);
@@ -288,6 +199,7 @@ void Texture::smoothScale(double scaleFactor, int durationMs)
 	smoothScale(newWidth, newHeight, durationMs);
 }
 
+/*
 void Texture::smoothTranslate(int newX, int newY, int durationMs)
 {
 	if (!texture)

@@ -7,7 +7,7 @@
 #include <SDL/SDL_image.h>
 
 #include "utils/timer.h"
-#include "animations/fade.h"
+#include "animations/animation.h"
 
 namespace el
 {
@@ -41,16 +41,7 @@ private:
 	TextureClickState lastClickState = TextureClickState::None;
 
 	/*
-	// Scale data
-	int scaleStartWidth = 0;
-	int scaleTargetWidth = 0;
-	int scaleStartHeight = 0;
-	int scaleTargetHeight = 0;
-	int scaleCurrentDuration = 0;
-	int scaleTargetDuration = 0;
-	Timer scaleTimer;
-
-	// Scale data
+	// Translate data
 	int translateStartX = 0;
 	int translateTargetX = 0;
 	int translateStartY = 0;
@@ -82,9 +73,9 @@ public:
 	void fadeOut(int durationMs);
 
 	// Scales the texture smoothly to a new width and height
-	void smoothScale(int newWidth, int newHeight, int durationMs);
+	void smoothScale(int durationMs, int newWidth, int newHeight);
 	// Scales the texture smoothly by a scale factor
-	void smoothScale(double scaleFactor, int durationMs);
+	void smoothScale(int durationMs, double scaleFactor);
 
 	// Moves the texture to a new location over a duration of time
 	void smoothTranslate(int newX, int newY, int durationMs);
