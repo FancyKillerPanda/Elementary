@@ -39,6 +39,8 @@ protected:
 	{
 	}
 
+	virtual void start() = 0;
+
 	// Returns true if finished waiting
 	bool waitIfNecessary();
 };

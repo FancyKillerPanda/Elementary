@@ -13,6 +13,21 @@ Translate::Translate(Texture* texture, int durationMs, int newX, int newY, int w
 	type = Animation::Type::Translate;
 	waitingDurationMs = waitDurationMs;
 
+	startX = texture->rect.x;
+	targetX = newX;
+	startY = texture->rect.y;
+	targetY = newY;
+
+	targetDurationMs = durationMs;
+
+	if (waitingDurationMs == 0)
+	{
+		start();
+	}
+}
+
+void Translate::start()
+{
 	if (!texture->texture)
 	{
 		warn("Cannot translate without valid texture.");
@@ -20,14 +35,8 @@ Translate::Translate(Texture* texture, int durationMs, int newX, int newY, int w
 	}
 
 	texture->isTranslatingCurrently = true;
-
-	startX = texture->rect.x;
-	targetX = newX;
-	startY = texture->rect.y;
-	targetY = newY;
-
+	
 	currentDurationMs = 0;
-	targetDurationMs = durationMs;
 	timer.reset();
 }
 

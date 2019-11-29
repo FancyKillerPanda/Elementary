@@ -16,6 +16,7 @@ public:
 public:
 	Translate(Texture* texture, int durationMs, int newX, int newY, int waitDurationMs = 0);
 
+	void start() override;
 	bool update() override;
 };
 	

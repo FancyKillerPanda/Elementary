@@ -16,6 +16,7 @@ public:
 public:
 	Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int waitDurationMs = 0);
 
+	void start() override;
 	bool update() override;
 };
 	

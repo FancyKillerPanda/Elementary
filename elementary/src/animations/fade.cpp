@@ -13,31 +13,39 @@ Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue, int
 	type = Type::Fade;
 	waitingDurationMs = waitDurationMs;
 
-	if (SDL_GetTextureAlphaMod(texture->texture, (Uint8*) &startAlpha) == -1)
+	// Makes sure to start at at the opposite alpha value
+	if (targetAlphaValue == 255 && startAlpha == 255)
+	{
+		startAlpha = 0;
+	}
+	else if (targetAlphaValue == 0 && startAlpha == 0)
+	{
+		startAlpha = 255;
+	}
+
+	targetAlpha = (int) targetAlphaValue;
+	targetDurationMs = durationMs;
+
+	if (waitingDurationMs == 0)
+	{
+		start();
+	}
+}
+
+void Fade::start()
+{
+	if (!texture->texture)
 	{
 		warn("Cannot fade in without valid texture (filepath: %s).", texture->filepath.c_str());
 		return;
 	}
 
-	texture->isFadingCurrently = true;
-
-	// Makes sure to start at at the opposite alpha value
-	if (targetAlphaValue == 255 && startAlpha == 255)
-	{
-		startAlpha = 0;
-		SDL_SetTextureAlphaMod(texture->texture, (unsigned char) startAlpha);
-	}
-	else if (targetAlphaValue == 0 && startAlpha == 0)
-	{
-		startAlpha = 255;
-		SDL_SetTextureAlphaMod(texture->texture, (unsigned char) startAlpha);
-	}
-
-	targetAlpha = (int) targetAlphaValue;
+	SDL_SetTextureAlphaMod(texture->texture, (unsigned char) startAlpha);
 
 	currentDurationMs = 0;
-	targetDurationMs = durationMs;
 	timer.reset();
+
+	texture->isFadingCurrently = true;
 }
 
 bool Fade::update()

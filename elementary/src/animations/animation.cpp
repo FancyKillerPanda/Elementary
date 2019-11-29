@@ -9,10 +9,8 @@ bool Animation::waitIfNecessary()
 	{
 		if (currentDurationMs >= waitingDurationMs)
 		{
-			// Has finished waiting
-			timer.reset();
-			currentDurationMs = (int) timer.getElapsed();
-
+			// Has just finished waiting
+			start();
 			waitingDurationMs = 0;
 
 			return true;

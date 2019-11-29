@@ -14,6 +14,7 @@ public:
 public:
 	Fade(Texture* texture, int durationMs, unsigned char targetAlpha, int waitDurationMs = 0);
 
+	void start() override;
 	bool update() override;
 };
 	
