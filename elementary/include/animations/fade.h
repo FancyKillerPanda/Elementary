@@ -12,7 +12,7 @@ public:
 	int targetAlpha = 0;
 
 public:
-	Fade(Texture* texture, int durationMs, unsigned char targetAlpha);
+	Fade(Texture* texture, int durationMs, unsigned char targetAlpha, int waitDurationMs = 0);
 
 	bool update() override;
 };

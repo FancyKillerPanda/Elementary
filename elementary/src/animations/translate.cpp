@@ -7,10 +7,11 @@
 namespace el
 {
 
-Translate::Translate(Texture* texture, int durationMs, int newX, int newY)
+Translate::Translate(Texture* texture, int durationMs, int newX, int newY, int waitDurationMs)
 	: Animation(texture)
 {
 	type = Animation::Type::Translate;
+	waitingDurationMs = waitDurationMs;
 
 	if (!texture->texture)
 	{
@@ -33,6 +34,11 @@ Translate::Translate(Texture* texture, int durationMs, int newX, int newY)
 bool Translate::update()
 {
 	currentDurationMs = (int) timer.getElapsed();
+
+	if (!waitIfNecessary())
+	{
+		return true;
+	}
 
 	if (currentDurationMs >= targetDurationMs)
 	{

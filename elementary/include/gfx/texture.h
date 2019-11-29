@@ -40,7 +40,7 @@ public:
 private:
 	TextureClickState lastClickState = TextureClickState::None;
 	
-	std::vector<Animation*> animationsQueue;
+	std::vector<Animation*> animationsRunning;
 
 public:
 	Texture(SDL_Renderer* renderer);
@@ -57,17 +57,17 @@ public:
 	bool handleEvent(const SDL_Event& event);
 
 	// Fades the texture in over a duration of time
-	void fadeIn(int durationMs);
+	void fadeIn(int durationMs, int waitDurationMs = 0);
 	// Fades the texture out over a duration of time
-	void fadeOut(int durationMs);
+	void fadeOut(int durationMs, int waitDurationMs = 0);
 
 	// Scales the texture smoothly to a new width and height
-	void smoothScale(int durationMs, int newWidth, int newHeight);
+	void smoothScale(int durationMs, int newWidth, int newHeight, int waitDurationMs = 0);
 	// Scales the texture smoothly by a scale factor
-	void smoothScale(int durationMs, double scaleFactor);
+	void smoothScale(int durationMs, double scaleFactor, int waitDurationMs = 0);
 
 	// Moves the texture to a new location over a duration of time
-	void smoothTranslate(int durationMs, int newX, int newY);
+	void smoothTranslate(int durationMs, int newX, int newY, int waitDurationMs = 0);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);

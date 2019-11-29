@@ -7,10 +7,11 @@
 namespace el
 {
 
-Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue)
+Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue, int waitDurationMs)
 	: Animation(texture)
 {
 	type = Type::Fade;
+	waitingDurationMs = waitDurationMs;
 
 	if (SDL_GetTextureAlphaMod(texture->texture, (Uint8*) &startAlpha) == -1)
 	{
@@ -42,6 +43,11 @@ Fade::Fade(Texture* texture, int durationMs, unsigned char targetAlphaValue)
 bool Fade::update()
 {
 	currentDurationMs = (int) timer.getElapsed();
+
+	if (!waitIfNecessary())
+	{
+		return true;
+	}
 
 	if (currentDurationMs >= targetDurationMs)
 	{

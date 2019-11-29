@@ -14,7 +14,7 @@ public:
 	int targetHeight = 0;
 
 public:
-	Scale(Texture* texture, int durationMs, int newWidth, int newHeight);
+	Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int waitDurationMs = 0);
 
 	bool update() override;
 };

@@ -34,7 +34,7 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 
 Texture::~Texture()
 {
-	for (Animation* animation : animationsQueue)
+	for (Animation* animation : animationsRunning)
 	{
 		delete animation;
 		animation = nullptr;
@@ -75,9 +75,9 @@ bool Texture::update()
 {
 	std::vector<int> indicesToRemove;
 
-	for (int i = 0; i < animationsQueue.size(); i++)
+	for (int i = 0; i < animationsRunning.size(); i++)
 	{
-		if (!animationsQueue[i]->update())
+		if (!animationsRunning[i]->update())
 		{
 			indicesToRemove.push_back(i);
 		}
@@ -87,7 +87,7 @@ bool Texture::update()
 
 	for (int i : indicesToRemove)
 	{
-		animationsQueue.erase(animationsQueue.begin() + i);
+		animationsRunning.erase(animationsRunning.begin() + i);
 	}
 
 	return animationFinished;
@@ -149,32 +149,32 @@ bool Texture::handleEvent(const SDL_Event& event)
 	return lastClickState != currentClickState;
 }
 
-void Texture::fadeIn(int durationMs)
+void Texture::fadeIn(int durationMs, int waitDurationMs)
 {
-	animationsQueue.push_back(new Fade(this, durationMs, 255));
+	animationsRunning.push_back(new Fade(this, durationMs, 255, waitDurationMs));
 }
 
-void Texture::fadeOut(int durationMs)
+void Texture::fadeOut(int durationMs, int waitDurationMs)
 {
-	animationsQueue.push_back(new Fade(this, durationMs, 0));
+	animationsRunning.push_back(new Fade(this, durationMs, 0, waitDurationMs));
 }
 
-void Texture::smoothScale(int durationMs, int newWidth, int newHeight)
+void Texture::smoothScale(int durationMs, int newWidth, int newHeight, int waitDurationMs)
 {
-	animationsQueue.push_back(new Scale(this, durationMs, newWidth, newHeight));
+	animationsRunning.push_back(new Scale(this, durationMs, newWidth, newHeight, waitDurationMs));
 }
 
-void Texture::smoothScale(int durationMs, double scaleFactor)
+void Texture::smoothScale(int durationMs, double scaleFactor, int waitDurationMs)
 {
 	int newWidth = (int) (rect.w * scaleFactor);
 	int newHeight = (int) (rect.h * scaleFactor);
 
-	smoothScale(durationMs, newWidth, newHeight);
+	smoothScale(durationMs, newWidth, newHeight, waitDurationMs);
 }
 
-void Texture::smoothTranslate(int durationMs, int newX, int newY)
+void Texture::smoothTranslate(int durationMs, int newX, int newY, int waitDurationMs)
 {
-	animationsQueue.push_back(new Translate(this, durationMs, newX, newY));
+	animationsRunning.push_back(new Translate(this, durationMs, newX, newY, waitDurationMs));
 }
 
 void Texture::setTopLeft(int x, int y)

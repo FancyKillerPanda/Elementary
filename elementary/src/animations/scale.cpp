@@ -7,9 +7,12 @@
 namespace el
 {
 
-Scale::Scale(Texture* texture, int durationMs, int newWidth, int newHeight)
+Scale::Scale(Texture* texture, int durationMs, int newWidth, int newHeight, int waitDurationMs)
 	: Animation(texture)
 {
+	type = Animation::Type::Scale;
+	waitingDurationMs = waitDurationMs;
+	
 	if (!texture->texture)
 	{
 		warn("Cannot size change without valid texture.");
@@ -31,6 +34,11 @@ Scale::Scale(Texture* texture, int durationMs, int newWidth, int newHeight)
 bool Scale::update()
 {
 	currentDurationMs = (int) timer.getElapsed();
+	
+	if (!waitIfNecessary())
+	{
+		return true;
+	}
 
 	if (currentDurationMs >= targetDurationMs)
 	{

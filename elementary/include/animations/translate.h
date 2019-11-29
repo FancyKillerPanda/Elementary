@@ -14,7 +14,7 @@ public:
 	int targetY = 0;
 
 public:
-	Translate(Texture* texture, int durationMs, int newX, int newY);
+	Translate(Texture* texture, int durationMs, int newX, int newY, int waitDurationMs = 0);
 
 	bool update() override;
 };

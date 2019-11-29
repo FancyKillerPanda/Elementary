@@ -27,6 +27,7 @@ public:
 
 protected:
 	Type type;
+	int waitingDurationMs = 0;
 
 public:
 	// Returns false when the animation has finished
@@ -37,6 +38,9 @@ protected:
 		: texture(texture)
 	{
 	}
+
+	// Returns true if finished waiting
+	bool waitIfNecessary();
 };
 
 }
