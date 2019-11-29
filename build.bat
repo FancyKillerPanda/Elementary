@@ -10,7 +10,6 @@ set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
 
 set elemSrcDir=..\..\elementary\src
 set elementaryFiles=%elemSrcDir%\*.cpp %elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
-set elementaryObjectFiles=elementary.obj log.obj init.obj window.obj texture.obj text.obj menu.obj console_colour.obj random.obj input_text.obj sound.obj music.obj animation.obj fade.obj scale.obj translate.obj
 
 IF NOT EXIST build\ mkdir build
 pushd build
@@ -32,9 +31,19 @@ IF %ERRORLEVEL% NEQ 0 (
 	goto :eof
 )
 
+IF NOT EXIST sandbox-int\ mkdir sandbox-int
+pushd sandbox-int
 echo.
 echo ----- Building Sandbox -----
-cl /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\sandbox\src\main.cpp /link %commonLinkerFlags% elementary.lib %sdlLibs%
+cl /c /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\..\sandbox\src\main.cpp
+IF %ERRORLEVEL% NEQ 0 (
+	popd
+	popd
+	goto :eof
+)
+popd
+
+link /nologo /WX %commonLinkerFlags% sandbox-int\*.obj elementary.lib %sdlLibs%
 IF %ERRORLEVEL% NEQ 0 (
 	popd
 	goto :eof
