@@ -70,11 +70,8 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 	isInitialised = true;
 }
 
-int Texture::update()
+bool Texture::update()
 {
-	// The animations that have finished in this frame
-	int animationsFinished = (int) Animation::Type::None;
-
 	std::vector<int> indicesToRemove;
 
 	for (int i = 0; i < animationsQueue.size(); i++)
@@ -85,10 +82,14 @@ int Texture::update()
 		}
 	}
 
+	bool animationFinished = indicesToRemove.size() != 0 ? true : false;
+
 	for (int i : indicesToRemove)
 	{
 		animationsQueue.erase(animationsQueue.begin() + i);
 	}
+
+	return animationFinished;
 
 	/*
 	// Scaling
@@ -143,8 +144,6 @@ int Texture::update()
 		}
 	}
 	*/
-
-	return animationsFinished;
 }
 
 void Texture::draw()

@@ -69,8 +69,8 @@ public:
 
 	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
 
-	// Returns which animation(s) finished in that frame
-	int update();
+	// Returns whether an animation has finished
+	bool update();
 	void draw();
 
 	// NOTE(fkp): Returns true if texture click state has changed

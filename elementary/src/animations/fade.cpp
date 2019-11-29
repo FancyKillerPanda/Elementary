@@ -48,10 +48,6 @@ bool Fade::update()
 		// Makes sure the alpha is exactly the target
 		SDL_SetTextureAlphaMod(texture->texture, (unsigned char) targetAlpha);
 		return false;
-
-		// texture->isFadingCurrently = false;
-		// TODO(fkp): Fix this
-		// animationsFinished |= Animation::Fade;
 	}
 
 	double portionOfTimeCompleted = (double) currentDurationMs / (double) targetDurationMs;
