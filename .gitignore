@@ -4,6 +4,9 @@
 build/res/
 build/*.dll
 
+build/elementary-int/
+build/sandbox-int/
+
 *.exe
 *.pdb
 *.obj
