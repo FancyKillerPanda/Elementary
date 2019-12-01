@@ -1,6 +1,9 @@
 .vscode/
 .git/
 
+build/res/
+build/*.dll
+
 *.exe
 *.pdb
 *.obj
