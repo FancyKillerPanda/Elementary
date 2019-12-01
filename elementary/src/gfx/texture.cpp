@@ -95,7 +95,7 @@ bool Texture::update()
 
 void Texture::draw()
 {
-	SDL_RenderCopy(renderer, texture, nullptr, &rect);
+	SDL_RenderCopyEx(renderer, texture, nullptr, &rect, rotation, nullptr, SDL_FLIP_NONE);
 }
 
 bool Texture::handleEvent(const SDL_Event& event)

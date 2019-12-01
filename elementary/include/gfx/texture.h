@@ -30,6 +30,8 @@ public:
 	SDL_Texture* texture = nullptr;
 	SDL_Rect rect = {};
 
+	double rotation = 0; // Measured from the positive x-axis; see unit circle
+
 	bool isClickable = false;
 	TextureClickState currentClickState = TextureClickState::None;
 
