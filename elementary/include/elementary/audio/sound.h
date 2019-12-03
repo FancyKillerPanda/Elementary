@@ -9,14 +9,14 @@ namespace el
 
 class Sound
 {
+public:
+	// The sound that is being played
+	Mix_Chunk* chunk = nullptr;
+
 private:
 	bool isPlaying = false;
 
-	// TODO(fkp): Are getters needed for this?
-	// The sound that is being played
-	Mix_Chunk* chunk = nullptr;
 	int channel = -1;
-
 	std::string filePath;
 
 public:
@@ -31,6 +31,7 @@ public:
 
 	unsigned char getVolume();
 	bool getIsPlaying() { return isPlaying; }
+	int getChannel() { return channel; }
 };
 	
 }

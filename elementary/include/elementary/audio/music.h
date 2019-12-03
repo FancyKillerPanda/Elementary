@@ -9,12 +9,13 @@ namespace el
 
 class Music
 {
+public:
+	// The music that is being played
+	Mix_Music* music = nullptr;
+
 private:
 	bool isPlaying = false;
 
-	// TODO(fkp): Are getters needed for this?
-	// The music that is being played
-	Mix_Music* music = nullptr;
 	std::string filePath;
 
 public:
