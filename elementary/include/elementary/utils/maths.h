@@ -1,19 +1,18 @@
 #pragma once
 
-#define _USE_MATH_DEFINES
-#include <cmath>
+#define ELEMENTARY_PI 3.14159265358979323846
 
 namespace el
 {
 
 inline double toRadians(double value)
 {
-	return value * (M_PI / 180);
+	return value * (ELEMENTARY_PI / 180);
 }
 
 inline double toDegrees(double value)
 {
-	return value * (180 / M_PI);
+	return value * (180 / ELEMENTARY_PI);
 }
 
 }
