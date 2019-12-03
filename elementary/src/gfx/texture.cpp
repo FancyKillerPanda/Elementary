@@ -29,6 +29,9 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 		return;
 	}
 
+	// TODO(fkp): Should there be a check for this already being set
+	textureSubRect = { 0, 0, rect.w, rect.h };
+
 	isInitialised = true;
 }
 
@@ -68,6 +71,9 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 		return;
 	}
 
+	// TODO(fkp): Should there be a check for this already being set
+	textureSubRect = { 0, 0, rect.w, rect.h };
+
 	isInitialised = true;
 }
 
@@ -95,7 +101,7 @@ bool Texture::update()
 
 void Texture::draw()
 {
-	SDL_RenderCopyEx(renderer, texture, nullptr, &rect, rotation, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, texture, &textureSubRect, &rect, rotation, nullptr, SDL_FLIP_NONE);
 }
 
 bool Texture::handleEvent(const SDL_Event& event)
@@ -187,6 +193,19 @@ void Texture::smoothScale(int durationMs, double scaleFactor, int waitDurationMs
 void Texture::smoothTranslate(int durationMs, int newX, int newY, int waitDurationMs)
 {
 	animationsRunning.push_back(new Translate(this, durationMs, newX, newY, true, waitDurationMs));
+}
+
+void Texture::setSubRect(int x, int y, int width, int height)
+{
+	textureSubRect.x = x;
+	textureSubRect.y = y;
+	textureSubRect.w = width;
+	textureSubRect.h = height;
+}
+
+void Texture::setSubRect(SDL_Rect subRect)
+{
+	textureSubRect = rect;
 }
 
 void Texture::setTopLeft(int x, int y)

@@ -41,8 +41,9 @@ public:
 
 private:
 	TextureClickState lastClickState = TextureClickState::None;
-	
+
 	std::vector<Animation*> animationsRunning;
+	SDL_Rect textureSubRect = {};
 
 public:
 	Texture(SDL_Renderer* renderer);
@@ -75,6 +76,10 @@ public:
 
 	// Moves the texture to a new location over a duration of time
 	void smoothTranslate(int durationMs, int newX, int newY, int waitDurationMs = 0);
+
+	// Sets the texture to use a different portion
+	void setSubRect(int x, int y, int width, int height);
+	void setSubRect(SDL_Rect rect);
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);

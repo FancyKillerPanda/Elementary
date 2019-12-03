@@ -19,6 +19,9 @@ int main(int argc, char* argv[])
 	texture.animate(fadeInAnimation);
 	texture.animate(fadeOutAnimation, fadeInAnimation);
 
+	// Should set it to only bottom right quarter
+	texture.setSubRect(texture.rect.w / 2, texture.rect.h / 2, texture.rect.w / 2, texture.rect.h / 2);
+
 	while (running)
 	{
 		while (SDL_PollEvent(&window.event))
