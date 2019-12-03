@@ -1,6 +1,7 @@
-#include <SDL/SDL.h>
-
+// TODO(fkp): Fix M_PI redefinition issue
 #include <elementary.h>
+
+#include <SDL/SDL.h>
 
 int main(int argc, char* argv[])
 {

@@ -1,5 +1,6 @@
 #include "utils/log.h"
 #include "gfx/menu.h"
+#include "utils/sdl_compare.h"
 
 namespace el
 {
