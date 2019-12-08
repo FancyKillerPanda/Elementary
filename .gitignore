@@ -1,15 +1,16 @@
 .vscode/
 .git/
 
-build/res/
-build/*.dll
+build*/res/
+build*/*.dll
 
-build/elementary-int/
-build/sandbox-int/
+build*/elementary-int/
+build*/sandbox-int/
 
 *.exe
 *.pdb
 *.obj
+*.o
 *.iobj
 *.ipdb
 *.ilk

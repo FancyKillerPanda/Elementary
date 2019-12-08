@@ -36,6 +36,8 @@ protected:
 	bool hasStarted = false;
 
 public:
+	virtual ~Animation() {}
+
 	// Returns false when the animation has finished
 	virtual bool update() = 0;
 
