@@ -1,8 +1,5 @@
 @echo off
 
-rem Cleans build directory
-call clean.bat --msvc
-
 set ORIGINAL_DIRECTORY=%CD%
 
 WHERE cl.exe >nul 2>nul
@@ -33,6 +30,9 @@ for %%A in (%*) do (
 
 set commonCompilerFlags=/nologo /MT /GR- /EHsc /Oi /FC /Zi /WX /W4 /wd4100 %debugReleaseFlags% /DELEMENTARY_DEBUG /DELEMENTARY_WIN32 /IP:\Elementary\elementary\include\elementary /IP:\Elementary\deps\sdl2\include
 set commonLinkerFlags=/subsystem:console /LIBPATH:P:\Elementary\deps\sdl2\lib
+
+rem Cleans build directory
+call clean.bat --msvc --%debugReleaseDir%
 
 IF NOT EXIST build\ mkdir build
 pushd build

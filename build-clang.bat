@@ -1,8 +1,5 @@
 @echo off
 
-rem Cleans build directory
-call clean.bat --clang
-
 set ORIGINAL_DIRECTORY=%CD%
 
 set linkSdlLibs=-lsdl2.lib -lsdl2main.lib -lsdl2_image.lib -lsdl2_ttf.lib -lsdl2_mixer.lib
@@ -30,6 +27,9 @@ for %%A in (%*) do (
 
 set commonCompilerFlags=-Wall -Werror -Wno-pragma-pack -Wno-reorder %debugReleaseFlags% -DELEMENTARY_DEBUG -DELEMENTARY_WIN32 -IP:\Elementary\elementary\include\elementary -IP:\Elementary\deps\sdl2\include
 set sandboxLinkerFlags=--for-linker=-subsystem:console -LP:\Elementary\deps\sdl2\lib %linkSdlLibs% -l%elementaryOutputName%
+
+rem Cleans build directory
+call clean.bat --clang --%debugReleaseDir%
 
 IF NOT EXIST build-clang\ mkdir build-clang
 pushd build-clang
