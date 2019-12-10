@@ -1,5 +1,8 @@
 @echo off
 
+rem Cleans build directories
+call clean.bat
+
 set ORIGINAL_DIRECTORY=%CD%
 
 set linkSdlLibs=-lsdl2.lib -lsdl2main.lib -lsdl2_image.lib -lsdl2_ttf.lib -lsdl2_mixer.lib
@@ -8,7 +11,7 @@ set commonCompilerFlags=-Wall -Werror -Wno-pragma-pack -Wno-reorder -DELEMENTARY
 set sandboxLinkerFlags=--for-linker=-subsystem:console -LP:\Elementary\deps\sdl2\lib %linkSdlLibs% -lelementary.lib
 
 set elemSrcDir=..\..\elementary\src
-set elementaryFiles=%elemSrcDir%\*.cpp %elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
 set elementaryObjFiles=elementary-int\*.o
 
 REM NOTE(fkp): Unity build only

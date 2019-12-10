@@ -1,5 +1,8 @@
 @echo off
 
+rem Cleans build directories
+call clean.bat
+
 set ORIGINAL_DIRECTORY=%CD%
 
 WHERE cl.exe >nul 2>nul
