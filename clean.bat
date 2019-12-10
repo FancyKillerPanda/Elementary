@@ -1,7 +1,7 @@
 @echo off
 
-call :Clean build
-call :Clean build-clang
+IF NOT [%1]==[--clang] call :Clean build
+IF NOT [%1]==[--msvc] call :Clean build-clang
 exit /B 0
 
 :Clean

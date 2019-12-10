@@ -1,7 +1,7 @@
 @echo off
 
-rem Cleans build directories
-call clean.bat
+rem Cleans build directory
+call clean.bat --clang
 
 set ORIGINAL_DIRECTORY=%CD%
 
