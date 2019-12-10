@@ -13,6 +13,7 @@ set elementaryObjFiles=elementary-int\*.o
 
 set debugReleaseDir=debug
 set debugReleaseFlags=-O0 -g
+set elementaryOutputName=elementary-d.lib
 
 for %%A in (%*) do (
 	if [%%A]==[--unity] (
@@ -23,11 +24,12 @@ for %%A in (%*) do (
 	if [%%A]==[--release] (
 		set debugReleaseDir=release
 		set debugReleaseFlags=-O3
+		set elementaryOutputName=elementary.lib
 	)
 )
 
 set commonCompilerFlags=-Wall -Werror -Wno-pragma-pack -Wno-reorder %debugReleaseFlags% -DELEMENTARY_DEBUG -DELEMENTARY_WIN32 -IP:\Elementary\elementary\include\elementary -IP:\Elementary\deps\sdl2\include
-set sandboxLinkerFlags=--for-linker=-subsystem:console -LP:\Elementary\deps\sdl2\lib %linkSdlLibs% -lelementary.lib
+set sandboxLinkerFlags=--for-linker=-subsystem:console -LP:\Elementary\deps\sdl2\lib %linkSdlLibs% -l%elementaryOutputName%
 
 IF NOT EXIST build-clang\ mkdir build-clang
 pushd build-clang
@@ -45,7 +47,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 popd
 
-llvm-ar rc elementary.lib %elementaryObjFiles%
+llvm-ar rc %elementaryOutputName% %elementaryObjFiles%
 IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Link^)

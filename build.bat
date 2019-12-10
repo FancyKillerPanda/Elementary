@@ -16,6 +16,7 @@ set elementaryObjFiles=elementary-int\*.obj
 
 set debugReleaseDir=debug
 set debugReleaseFlags=/Od
+set elementaryOutputName=elementary-d.lib
 
 for %%A in (%*) do (
 	if [%%A]==[--unity] (
@@ -26,6 +27,7 @@ for %%A in (%*) do (
 	if [%%A]==[--release] (
 		set debugReleaseDir=release
 		set debugReleaseFlags=/O2 /Ob3
+		set elementaryOutputName=elementary.lib
 	)
 )
 
@@ -48,7 +50,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 popd
 
-lib /nologo /WX /out:elementary.lib %elementaryObjFiles%
+lib /nologo /WX /out:%elementaryOutputName% %elementaryObjFiles%
 IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Link^)
@@ -70,7 +72,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 popd
 
-link /nologo /WX %commonLinkerFlags% sandbox-int\*.obj elementary.lib %sdlLibs%
+link /nologo /WX %commonLinkerFlags% sandbox-int\*.obj %elementaryOutputName% %sdlLibs%
 IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Sandbox ^(Link^)
