@@ -15,9 +15,10 @@ pushd build-clang
 
 IF NOT EXIST elementary-int\ mkdir elementary-int
 pushd elementary-int
-echo ----- Building Elementary -----
 clang++ -c %commonCompilerFlags% %elementaryFiles%
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Elementary ^(Compile^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
@@ -25,20 +26,25 @@ popd
 
 llvm-ar rc elementary.lib elementary-int\*.o
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Elementary ^(Link^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
-echo.
-echo ----- Building Sandbox -----
+echo Build [92mSuceeded[0m: Elementary
+
 clang++ -osandbox.exe %commonCompilerFlags% ..\sandbox\src\main.cpp %sandboxLinkerFlags%
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Sandbox
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
+echo Build [92mSuceeded[0m: Sandbox
+
 echo.
-echo ----- Output -----
 sandbox.exe
 
 popd

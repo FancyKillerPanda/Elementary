@@ -18,9 +18,10 @@ pushd build
 
 IF NOT EXIST elementary-int\ mkdir elementary-int
 pushd elementary-int
-echo ----- Building Elementary -----
 cl /c %commonCompilerFlags% %elementaryFiles%
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Elementary ^(Compile^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
@@ -28,16 +29,21 @@ popd
 
 lib /nologo /WX /out:elementary.lib elementary-int\*.obj
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Elementary ^(Link^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
+echo.
+echo Build [92mSuceeded[0m: Elementary
+
 IF NOT EXIST sandbox-int\ mkdir sandbox-int
 pushd sandbox-int
-echo.
-echo ----- Building Sandbox -----
 cl /c /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\..\sandbox\src\main.cpp
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Sandbox ^(Compile^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
@@ -45,12 +51,16 @@ popd
 
 link /nologo /WX %commonLinkerFlags% sandbox-int\*.obj elementary.lib %sdlLibs%
 IF %ERRORLEVEL% NEQ 0 (
+	echo.
+	echo Build [91mFailed[0m: Sandbox ^(Link^)
 	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
 echo.
-echo ----- Output -----
+echo Build [92mSuceeded[0m: Sandbox
+
+echo.
 sandbox.exe
 
 popd
