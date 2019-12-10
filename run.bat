@@ -1,5 +1,10 @@
 @echo off
 
-pushd build
+IF [%1]==[--clang] (
+	pushd build-clang
+) ELSE (
+	pushd build
+)
+
 sandbox.exe
 popd
