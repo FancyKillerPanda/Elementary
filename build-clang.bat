@@ -9,6 +9,13 @@ set sandboxLinkerFlags=--for-linker=-subsystem:console -LP:\Elementary\deps\sdl2
 
 set elemSrcDir=..\..\elementary\src
 set elementaryFiles=%elemSrcDir%\*.cpp %elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+set elementaryObjFiles=elementary-int\*.o
+
+REM NOTE(fkp): Unity build only
+IF [%1]==[--unity] (
+	set elementaryFiles=%elemSrcDir%\unity_build.cpp
+	set elementaryObjFiles=elementary-int\unity_build.o
+)
 
 IF NOT EXIST build-clang\ mkdir build-clang
 pushd build-clang
@@ -24,7 +31,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 popd
 
-llvm-ar rc elementary.lib elementary-int\*.o
+llvm-ar rc elementary.lib %elementaryObjFiles%
 IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Link^)
