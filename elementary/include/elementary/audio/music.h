@@ -28,8 +28,8 @@ public:
 
 	void setVolume(unsigned char volume);
 	
-	unsigned char getVolume();
-	bool getIsPlaying() { return isPlaying; }
+	unsigned char getVolume() const;
+	inline bool getIsPlaying() const { return isPlaying; }
 };
 	
 }

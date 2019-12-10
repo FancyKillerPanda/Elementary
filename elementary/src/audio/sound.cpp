@@ -43,7 +43,7 @@ void Sound::setVolume(unsigned char volume)
 	Mix_VolumeChunk(chunk, volume);
 }
 
-unsigned char Sound::getVolume()
+unsigned char Sound::getVolume() const
 {
 	return (unsigned char) Mix_VolumeChunk(chunk, -1);
 }

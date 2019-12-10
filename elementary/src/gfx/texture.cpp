@@ -228,7 +228,7 @@ void Texture::setRect(int x, int y, int width, int height)
 	rect.h = height;
 }
 
-SDL_Point Texture::getCenter()
+SDL_Point Texture::getCenter() const
 {
 	return SDL_Point { rect.x + (rect.w / 2), rect.y + (rect.h / 2) };
 }

@@ -45,7 +45,7 @@ void Music::setVolume(unsigned char volume)
 	Mix_VolumeMusic(volume);
 }
 
-unsigned char Music::getVolume()
+unsigned char Music::getVolume() const
 {
 	return (unsigned char) Mix_VolumeMusic(-1);
 }

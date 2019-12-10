@@ -43,7 +43,7 @@ public:
 	void setCenter(int x, int y);
 	void setIsSelected(bool value);
 	
-	inline bool getIsSelected() { return isSelected; }
+	inline bool getIsSelected() const { return isSelected; }
 };
 	
 }

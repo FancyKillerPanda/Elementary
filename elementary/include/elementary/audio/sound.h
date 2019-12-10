@@ -29,9 +29,9 @@ public:
 	static void setMasterVolume(unsigned char volume);
 	void setVolume(unsigned char volume);
 
-	unsigned char getVolume();
-	bool getIsPlaying() { return isPlaying; }
-	int getChannel() { return channel; }
+	unsigned char getVolume() const;
+	inline bool getIsPlaying() const { return isPlaying; }
+	inline int getChannel() const { return channel; }
 };
 	
 }

@@ -21,11 +21,11 @@ public:
 	void loadFromFile();
 	void loadFromFile(std::string newFilepath);
 
-	void writeToFile();
+	void writeToFile() const;
 	void writeToFile(std::string newFilepath);
 
 	void setValue(std::string key, std::string value);
-	const std::string& getValue(const std::string& key);
+	const std::string& getValue(const std::string& key) const;
 };
 	
 }

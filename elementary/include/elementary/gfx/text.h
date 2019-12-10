@@ -43,8 +43,8 @@ public:
 	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
 	void setIsClickable(bool value);
 
-	inline bool getIsClickable() { return texture.isClickable; }
-	SDL_Point getCenter() { return texture.getCenter(); }
+	inline bool getIsClickable() const { return texture.isClickable; }
+	inline SDL_Point getCenter() const { return texture.getCenter(); }
 };
 	
 }

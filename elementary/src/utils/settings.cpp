@@ -49,7 +49,7 @@ void Settings::loadFromFile(std::string newFilepath)
 	loadFromFile();
 }
 
-void Settings::writeToFile()
+void Settings::writeToFile() const
 {
 	// TODO(fkp): Make temp copy of settings file in case of error	
 	std::ofstream settingsFile;
@@ -75,7 +75,12 @@ void Settings::writeToFile(std::string newFilepath)
 	writeToFile();
 }
 
-const std::string& Settings::getValue(const std::string& key)
+void Settings::setValue(std::string key, std::string value)
+{
+	settings[key] = value;
+}
+
+const std::string& Settings::getValue(const std::string& key) const
 {
 	// TODO(fkp): Find better solution for this
 	static const std::string empty = "";
@@ -89,11 +94,6 @@ const std::string& Settings::getValue(const std::string& key)
 
 	warn("Key (%s) does not exist in settings.", key.c_str());
 	return empty;
-}
-
-void Settings::setValue(std::string key, std::string value)
-{
-	settings[key] = value;
 }
 	
 }
