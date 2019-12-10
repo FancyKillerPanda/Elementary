@@ -11,7 +11,14 @@ set commonLinkerFlags=/subsystem:console /LIBPATH:P:\Elementary\deps\sdl2\lib
 set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
 
 set elemSrcDir=..\..\elementary\src
-set elementaryFiles=%elemSrcDir%\*.cpp %elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+set elementaryObjFiles=elementary-int\*.obj
+
+REM NOTE(fkp): Unity build only
+IF [%1]==[--unity] (
+	set elementaryFiles=%elemSrcDir%\unity_build.cpp
+	set elementaryObjFiles=elementary-int\unity_build.obj
+)
 
 IF NOT EXIST build\ mkdir build
 pushd build
@@ -27,7 +34,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 popd
 
-lib /nologo /WX /out:elementary.lib elementary-int\*.obj
+lib /nologo /WX /out:elementary.lib %elementaryObjFiles%
 IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Link^)
