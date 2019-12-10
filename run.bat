@@ -6,5 +6,13 @@ IF [%1]==[--clang] (
 	pushd build
 )
 
+IF EXIST release\ (
+	pushd release
+) ELSE (
+	pushd debug
+)
+
 sandbox.exe
+
+popd
 popd
