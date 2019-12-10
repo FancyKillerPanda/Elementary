@@ -12,15 +12,10 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	el::Texture texture = { window.renderer, "res/basketball.png" };
-	el::Animation* fadeInAnimation = new el::Fade(&texture, 1000, 255, true);
-	el::Animation* fadeOutAnimation = new el::Fade(&texture, 1000, 0);
-
-	texture.animate(fadeInAnimation);
-	texture.animate(fadeOutAnimation, fadeInAnimation);
-
-	// Should set it to only bottom right quarter
-	texture.setSubRect(texture.rect.w / 2, texture.rect.h / 2, texture.rect.w / 2, texture.rect.h / 2);
+	std::unordered_map<std::string, std::string> defaultSettings = { { "TEXT", "Hello, World!" } };
+	el::Settings settings = { defaultSettings };
+	settings.setValue("TEXT", "Hello");
+	el::Text text = { window.renderer, "res/arial.ttf", settings.getValue("TEXT"), 64};
 
 	while (running)
 	{
@@ -35,12 +30,12 @@ int main(int argc, char* argv[])
 			}
 		}
 
-		texture.update();
-
 		SDL_RenderClear(window.renderer);
-		texture.draw();
+		text.draw();
 		SDL_RenderPresent(window.renderer);
 	}
+
+	settings.writeToFile();
 	
 	return 0;
 }

@@ -2,6 +2,7 @@
 #include "utils/init.cpp"
 #include "utils/console_colour.cpp"
 #include "utils/random.cpp"
+#include "utils/settings.cpp"
 
 #include "gfx/window.cpp"
 #include "gfx/texture.cpp"

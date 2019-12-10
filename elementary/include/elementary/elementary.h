@@ -7,6 +7,7 @@
 #include "utils/random.h"
 #include "utils/timer.h"
 #include "utils/sdl_compare.h"
+#include "utils/settings.h"
 
 #include "gfx/window.h"
 #include "gfx/texture.h"
