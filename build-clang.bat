@@ -14,10 +14,11 @@ set elemSrcDir=..\..\elementary\src
 set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
 set elementaryObjFiles=elementary-int\*.o
 
-REM NOTE(fkp): Unity build only
-IF [%1]==[--unity] (
-	set elementaryFiles=%elemSrcDir%\unity_build.cpp
-	set elementaryObjFiles=elementary-int\unity_build.o
+for %%A in (%*) do (
+	if [%%A]==[--unity] (
+		set elementaryFiles=%elemSrcDir%\unity_build.cpp
+		set elementaryObjFiles=elementary-int\unity_build.o
+	)
 )
 
 IF NOT EXIST build-clang\ mkdir build-clang
