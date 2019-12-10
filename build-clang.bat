@@ -1,5 +1,7 @@
 @echo off
 
+set ORIGINAL_DIRECTORY=%CD%
+
 set linkSdlLibs=-lsdl2.lib -lsdl2main.lib -lsdl2_image.lib -lsdl2_ttf.lib -lsdl2_mixer.lib
 
 set commonCompilerFlags=-Wall -Werror -Wno-pragma-pack -Wno-reorder -DELEMENTARY_DEBUG -DELEMENTARY_WIN32 -IP:\Elementary\elementary\include\elementary -IP:\Elementary\deps\sdl2\include
@@ -16,15 +18,14 @@ pushd elementary-int
 echo ----- Building Elementary -----
 clang++ -c %commonCompilerFlags% %elementaryFiles%
 IF %ERRORLEVEL% NEQ 0 (
-	popd
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 popd
 
 llvm-ar rc elementary.lib elementary-int\*.o
 IF %ERRORLEVEL% NEQ 0 (
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
@@ -32,7 +33,7 @@ echo.
 echo ----- Building Sandbox -----
 clang++ -osandbox.exe %commonCompilerFlags% ..\sandbox\src\main.cpp %sandboxLinkerFlags%
 IF %ERRORLEVEL% NEQ 0 (
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 

@@ -1,5 +1,7 @@
 @echo off
 
+set ORIGINAL_DIRECTORY=%CD%
+
 WHERE cl.exe >nul 2>nul
 IF %ERRORLEVEL% NEQ 0 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
@@ -19,15 +21,14 @@ pushd elementary-int
 echo ----- Building Elementary -----
 cl /c %commonCompilerFlags% %elementaryFiles%
 IF %ERRORLEVEL% NEQ 0 (
-	popd
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 popd
 
 lib /nologo /WX /out:elementary.lib elementary-int\*.obj
 IF %ERRORLEVEL% NEQ 0 (
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
@@ -37,15 +38,14 @@ echo.
 echo ----- Building Sandbox -----
 cl /c /Fe:sandbox.exe /Fo:sandbox.obj %commonCompilerFlags% ..\..\sandbox\src\main.cpp
 IF %ERRORLEVEL% NEQ 0 (
-	popd
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 popd
 
 link /nologo /WX %commonLinkerFlags% sandbox-int\*.obj elementary.lib %sdlLibs%
 IF %ERRORLEVEL% NEQ 0 (
-	popd
+	cd %ORIGINAL_DIRECTORY%
 	goto :eof
 )
 
