@@ -42,8 +42,8 @@ IF %ERRORLEVEL% NEQ 0 (
 	goto :eof
 )
 
-echo.
 echo Build [92mSuceeded[0m: Elementary
+echo.
 
 IF NOT EXIST sandbox-int\ mkdir sandbox-int
 pushd sandbox-int
@@ -64,10 +64,9 @@ IF %ERRORLEVEL% NEQ 0 (
 	goto :eof
 )
 
-echo.
 echo Build [92mSuceeded[0m: Sandbox
-
 echo.
+
 sandbox.exe
 
 popd
