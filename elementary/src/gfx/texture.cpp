@@ -1,4 +1,5 @@
 #include "utils/log.h"
+#include "utils/sdl_compare.h"
 #include "gfx/texture.h"
 #include "animations/fade.h"
 #include "animations/scale.h"
@@ -29,8 +30,10 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 		return;
 	}
 
-	// TODO(fkp): Should there be a check for this already being set
-	textureSubRect = { 0, 0, rect.w, rect.h };
+	if (textureSubRect == SDL_Rect { 0, 0, 0, 0 })
+	{
+		textureSubRect = { 0, 0, rect.w, rect.h };
+	}
 
 	isInitialised = true;
 }
@@ -71,8 +74,10 @@ void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
 		return;
 	}
 
-	// TODO(fkp): Should there be a check for this already being set
-	textureSubRect = { 0, 0, rect.w, rect.h };
+	if (textureSubRect == SDL_Rect { 0, 0, 0, 0 })
+	{
+		textureSubRect = { 0, 0, rect.w, rect.h };
+	}
 
 	isInitialised = true;
 }
