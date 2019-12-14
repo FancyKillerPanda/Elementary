@@ -8,17 +8,17 @@ IF %ERRORLEVEL% NEQ 0 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\
 set sdlLibs=sdl2.lib sdl2main.lib sdl2_image.lib sdl2_ttf.lib sdl2_mixer.lib
 
 set elemSrcDir=..\..\..\elementary\src
-set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
-set elementaryObjFiles=elementary-int\*.obj
+set elementaryFiles=%elemSrcDir%\unity_build.cpp
+set elementaryObjFiles=elementary-int\unity_build.obj
 
 set debugReleaseDir=debug
 set debugReleaseFlags=/Od
 set elementaryOutputName=elementary-d.lib
 
 for %%A in (%*) do (
-	if [%%A]==[--unity] (
-		set elementaryFiles=%elemSrcDir%\unity_build.cpp
-		set elementaryObjFiles=elementary-int\unity_build.obj
+	if [%%A]==[--no-unity] (
+		set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+		set elementaryObjFiles=elementary-int\*.obj
 	)
 
 	if [%%A]==[--release] (

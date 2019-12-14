@@ -5,17 +5,17 @@ set ORIGINAL_DIRECTORY=%CD%
 set linkSdlLibs=-lsdl2.lib -lsdl2main.lib -lsdl2_image.lib -lsdl2_ttf.lib -lsdl2_mixer.lib
 
 set elemSrcDir=..\..\..\elementary\src
-set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
-set elementaryObjFiles=elementary-int\*.o
+set elementaryFiles=%elemSrcDir%\unity_build.cpp
+set elementaryObjFiles=elementary-int\unity_build.o
 
 set debugReleaseDir=debug
 set debugReleaseFlags=-O0 -g
 set elementaryOutputName=elementary-d.lib
 
 for %%A in (%*) do (
-	if [%%A]==[--unity] (
-		set elementaryFiles=%elemSrcDir%\unity_build.cpp
-		set elementaryObjFiles=elementary-int\unity_build.o
+	if [%%A]==[--no-unity] (
+		set elementaryFiles=%elemSrcDir%\utils\*.cpp %elemSrcDir%\gfx\*.cpp %elemSrcDir%\audio\*.cpp %elemSrcDir%\animations\*.cpp
+		set elementaryObjFiles=elementary-int\*.o
 	)
 
 	if [%%A]==[--release] (
