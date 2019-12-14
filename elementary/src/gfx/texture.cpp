@@ -8,11 +8,6 @@
 namespace el
 {
 
-Texture::Texture(SDL_Renderer* renderer)
-	: renderer(renderer)
-{
-}
-
 Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 	: renderer(renderer), filepath(filepath)
 {
@@ -49,8 +44,10 @@ Texture::~Texture()
 	SDL_DestroyTexture(texture);
 }
 
-void Texture::convertFromSurface(SDL_Surface* surfaceToConvertFrom)
+void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom)
 {
+	renderer = p_Renderer;
+	
 	if (texture)
 	{
 		SDL_DestroyTexture(texture);

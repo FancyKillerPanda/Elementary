@@ -7,7 +7,7 @@ namespace el
 Text::Text(SDL_Renderer* renderer, std::string fontPath, std::string text, unsigned int size, SDL_Color colour)
 	: renderer(renderer), fontPath(fontPath), text(text), size(size),
 	  currentColour(colour), baseColour(colour), hoverColour(colour), pressedColour(colour),
-	  texture(renderer)
+	  texture()
 {
 	update(fontPath);
 }
@@ -36,7 +36,7 @@ void Text::update()
 	}
 
 	// Converts the surface to a texture for rendering
-	texture.convertFromSurface(textSurface);
+	texture.convertFromSurface(renderer, textSurface);
 
 	// Frees the temporary surface
 	SDL_FreeSurface(textSurface);

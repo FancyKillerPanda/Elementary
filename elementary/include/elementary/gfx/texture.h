@@ -24,7 +24,7 @@ class Texture
 {
 public:
 	bool isInitialised = false;
-	SDL_Renderer* renderer;
+	SDL_Renderer* renderer = nullptr;
 
 	std::string filepath;
 	SDL_Texture* texture = nullptr;
@@ -46,11 +46,11 @@ private:
 	SDL_Rect textureSubRect = {};
 
 public:
-	Texture(SDL_Renderer* renderer);
+	Texture() = default;
 	Texture(SDL_Renderer* renderer, std::string filepath);
 	~Texture();
 
-	void convertFromSurface(SDL_Surface* surfaceToConvertFrom);
+	void convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom);
 
 	// Returns whether an animation has finished
 	bool update();
