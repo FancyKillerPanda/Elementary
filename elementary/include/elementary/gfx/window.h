@@ -23,7 +23,7 @@ public:
 	SDL_Event event;
 
 public:
-	Window(int width = 960, int height = 540, std::string title = "Elementary");
+	Window(int width, int height, std::string title);
 };
 
 }
