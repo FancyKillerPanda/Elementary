@@ -81,6 +81,11 @@ void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceT
 
 bool Texture::update()
 {
+	if (!isInitialised)
+	{
+		return false;
+	}
+
 	std::vector<int> indicesToRemove;
 
 	for (int i = 0; i < animationsRunning.size(); i++)
@@ -103,11 +108,21 @@ bool Texture::update()
 
 void Texture::draw()
 {
+	if (!isInitialised)
+	{
+		return;
+	}
+
 	SDL_RenderCopyEx(renderer, texture, &textureSubRect, &rect, rotation, nullptr, SDL_FLIP_NONE);
 }
 
 bool Texture::handleEvent(const SDL_Event& event)
 {
+	if (!isInitialised)
+	{
+		return false;
+	}
+
 	if (!isClickable)
 	{
 		return false;

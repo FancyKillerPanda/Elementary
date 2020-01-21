@@ -69,11 +69,21 @@ void Text::update(std::string path)
 
 void Text::draw()
 {
+	if (!isInitialised)
+	{
+		return;
+	}
+
 	texture.draw();
 }
 
 bool Text::handleEvent(const SDL_Event& event)
 {
+	if (!isInitialised)
+	{
+		return false;
+	}
+
 	if (texture.handleEvent(event))
 	{
 		switch (texture.currentClickState)

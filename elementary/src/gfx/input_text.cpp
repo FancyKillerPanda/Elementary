@@ -112,6 +112,11 @@ void InputText::handleEvent(SDL_Event& event)
 
 void InputText::draw()
 {
+	if (!isInitialised)
+	{
+		return;
+	}
+
 	displayedText.draw();
 }
 
