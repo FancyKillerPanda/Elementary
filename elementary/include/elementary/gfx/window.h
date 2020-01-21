@@ -23,6 +23,7 @@ public:
 	SDL_Event event;
 
 public:
+	Window() = default;
 	Window(int width, int height, std::string title);
 };
 
