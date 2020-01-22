@@ -50,6 +50,18 @@ Texture::Texture(const Texture& from)
 	}
 }
 
+Texture& Texture::operator=(Texture from)
+{
+	swap(*this, from);	
+	return *this;
+}
+
+Texture::Texture(Texture&& from)
+	: Texture()
+{
+	swap(*this, from);
+}
+	
 Texture::~Texture()
 {
 	for (Animation* animation : animationsRunning)
@@ -104,6 +116,29 @@ void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceT
 
 	s_TextureCountMap[texture] += 1;
 	isInitialised = true;
+}
+
+void swap(Texture& first, Texture& second)
+{
+	std::swap(first.isInitialised, second.isInitialised);
+
+	std::swap(first.renderer, second.renderer);
+	std::swap(first.filepath, second.filepath);
+	std::swap(first.texture, second.texture);
+
+	std::swap(first.rect, second.rect);
+	std::swap(first.rotation, second.rotation);
+
+	std::swap(first.isClickable, second.isClickable);
+	std::swap(first.currentClickState, second.currentClickState);
+	std::swap(first.lastClickState, second.lastClickState);
+
+	std::swap(first.isFadingCurrently, second.isFadingCurrently);
+	std::swap(first.isScalingCurrently, second.isScalingCurrently);
+	std::swap(first.isTranslatingCurrently, second.isTranslatingCurrently);
+	std::swap(first.animationsRunning, second.animationsRunning);
+
+	std::swap(first.textureSubRect, second.textureSubRect);
 }
 
 bool Texture::update()

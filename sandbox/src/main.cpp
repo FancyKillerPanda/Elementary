@@ -15,6 +15,10 @@ int main(int argc, char* argv[])
 	std::vector<el::Text> texts;
 	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 64 });
 
+	el::Text myText;
+	myText = el::Text { window.renderer, "res/arial.ttf", "Test1", 64 };
+	myText.setTopLeft(100, 100);
+
 	while (running)
 	{
 		while (SDL_PollEvent(&window.event))
@@ -34,6 +38,8 @@ int main(int argc, char* argv[])
 		{
 			text.draw();
 		}
+
+		myText.draw();
 
 		SDL_RenderPresent(window.renderer);
 	}
