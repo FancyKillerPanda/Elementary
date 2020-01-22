@@ -21,9 +21,11 @@ int main(int argc, char* argv[])
 	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 64 });
 
 	TestStruct testStruct = {};
-	testStruct.text = el::Text { window.renderer, "res/arial.ttf", "Miss Scarlett", 32 };
+	testStruct.text = el::Text { window.renderer, "res/arial.ttf", "Miss Scarlett's Turn!", 32 };
 	testStruct.text.setTopLeft(100, 100);
 
+	printf("%d, %d\n", testStruct.text.texture.rect.w, testStruct.text.texture.rect.h);
+	
 	while (running)
 	{
 		while (SDL_PollEvent(&window.event))

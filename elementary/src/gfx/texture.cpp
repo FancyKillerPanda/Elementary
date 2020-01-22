@@ -15,25 +15,10 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 {
 	texture = IMG_LoadTexture(renderer, filepath.c_str());
 
-	if (!texture)
+	if (handleTextureCreationChecks())
 	{
-		sdlError("Failed to create texture (filepath: %s).", filepath.c_str());
-		return;
+		isInitialised = true;
 	}
-
-	if (SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h) != 0)
-	{
-		sdlError("Texture is invalid (filepath: %s).", filepath.c_str());
-		return;
-	}
-
-	if (textureSubRect == SDL_Rect { 0, 0, 0, 0 })
-	{
-		textureSubRect = { 0, 0, rect.w, rect.h };
-	}
-
-	s_TextureCountMap[texture] += 1;
-	isInitialised = true;
 }
 
 Texture::Texture(const Texture& from)
@@ -45,8 +30,12 @@ Texture::Texture(const Texture& from)
 {
 	if (from.texture)
 	{
-		s_TextureCountMap[from.texture] += 1;
 		texture = from.texture;
+		
+		if (!handleTextureCreationChecks()) // This will increment s_TextureCountMap[texture]
+		{
+			error("Copied texture was invalidated.\n");
+		}
 	}
 }
 
@@ -55,15 +44,16 @@ Texture& Texture::operator=(Texture from)
 	swap(*this, from);	
 	return *this;
 }
-/*
+
 Texture::Texture(Texture&& from)
 	: Texture()
 {
 	swap(*this, from);
 }
-*/
+
 Texture::~Texture()
 {
+	// TODO(fkp): Handle better deletion (like SDL_Texture)
 	for (Animation* animation : animationsRunning)
 	{
 		delete animation;
@@ -97,25 +87,10 @@ void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceT
 	isInitialised = false;
 	texture = SDL_CreateTextureFromSurface(renderer, surfaceToConvertFrom);
 
-	if (!texture)
+	if (handleTextureCreationChecks())
 	{
-		sdlError("Failed to create texture from surface.");
-		return;
+		isInitialised = true;
 	}
-
-	if (SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h) != 0)
-	{
-		sdlError("Texture is invalid.");
-		return;
-	}
-
-	if (textureSubRect == SDL_Rect { 0, 0, 0, 0 })
-	{
-		textureSubRect = { 0, 0, rect.w, rect.h };
-	}
-
-	s_TextureCountMap[texture] += 1;
-	isInitialised = true;
 }
 
 void swap(Texture& first, Texture& second)
@@ -141,6 +116,32 @@ void swap(Texture& first, Texture& second)
 	std::swap(first.textureSubRect, second.textureSubRect);
 }
 
+bool Texture::handleTextureCreationChecks()
+{
+	if (!texture)
+	{
+		sdlError("Failed to create texture (filepath: %s).", filepath.c_str());
+		return false;
+	}
+
+	SDL_Rect oldRect = rect;
+
+	if (SDL_QueryTexture(texture, nullptr, nullptr, &rect.w, &rect.h) != 0)
+	{
+		sdlError("Texture is invalid (filepath: %s).", filepath.c_str());
+		return false;
+	}
+
+	if (textureSubRect == SDL_Rect { 0, 0, 0, 0 } ||
+		textureSubRect == SDL_Rect { 0, 0, oldRect.w, oldRect.h })
+	{
+		textureSubRect = { 0, 0, rect.w, rect.h };
+	}
+
+	s_TextureCountMap[texture] += 1;
+	return true;
+}
+	
 bool Texture::update()
 {
 	if (!isInitialised)

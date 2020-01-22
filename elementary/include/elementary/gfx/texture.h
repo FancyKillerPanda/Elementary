@@ -52,12 +52,12 @@ public:
 	Texture(SDL_Renderer* renderer, std::string filepath);
 	Texture(const Texture& from);
 	Texture& operator=(Texture from);
-	// Texture(Texture&& from);
+	Texture(Texture&& from);
 	~Texture();
 
 	void convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom);
 	friend void swap(Texture& first, Texture& second);
-	
+
 	// Returns whether an animation has finished
 	bool update();
 	void draw();
@@ -92,6 +92,9 @@ public:
 	void setRect(int x, int y, int width, int height);
 
 	SDL_Point getCenter() const;
+
+private:
+	bool handleTextureCreationChecks();
 };
 
 }
