@@ -2,6 +2,11 @@
 
 #include <elementary.h>
 
+struct TestStruct
+{
+	el::Text text;
+};
+
 int main(int argc, char* argv[])
 {
 	if (!el::init())
@@ -15,9 +20,9 @@ int main(int argc, char* argv[])
 	std::vector<el::Text> texts;
 	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 64 });
 
-	el::Text myText;
-	myText = el::Text { window.renderer, "res/arial.ttf", "Test1", 64 };
-	myText.setTopLeft(100, 100);
+	TestStruct testStruct = {};
+	testStruct.text = el::Text { window.renderer, "res/arial.ttf", "Miss Scarlett", 32 };
+	testStruct.text.setTopLeft(100, 100);
 
 	while (running)
 	{
@@ -39,7 +44,7 @@ int main(int argc, char* argv[])
 			text.draw();
 		}
 
-		myText.draw();
+		testStruct.text.draw();
 
 		SDL_RenderPresent(window.renderer);
 	}

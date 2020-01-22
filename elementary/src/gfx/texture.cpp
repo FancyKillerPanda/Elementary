@@ -55,13 +55,13 @@ Texture& Texture::operator=(Texture from)
 	swap(*this, from);	
 	return *this;
 }
-
+/*
 Texture::Texture(Texture&& from)
 	: Texture()
 {
 	swap(*this, from);
 }
-	
+*/
 Texture::~Texture()
 {
 	for (Animation* animation : animationsRunning)

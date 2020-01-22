@@ -13,6 +13,7 @@ set elementaryObjFiles=elementary-int\unity_build.obj
 
 set debugReleaseDir=debug
 set debugReleaseFlags=/Od
+set debugReleaseLinkFlags=/DEBUG:FULL
 set elementaryOutputName=elementary-d.lib
 
 for %%A in (%*) do (
@@ -24,12 +25,13 @@ for %%A in (%*) do (
 	if [%%A]==[--release] (
 		set debugReleaseDir=release
 		set debugReleaseFlags=/O2 /Ob3
+		set debugReleaseLinkFlags=
 		set elementaryOutputName=elementary.lib
 	)
 )
 
 set commonCompilerFlags=/nologo /MT /GR- /EHsc /Oi /FC /Zi /WX /W4 /wd4100 %debugReleaseFlags% /DELEMENTARY_DEBUG /DELEMENTARY_WIN32 /IP:\Elementary\elementary\include\elementary /IP:\Elementary\deps\sdl2\include
-set commonLinkerFlags=/subsystem:console /LIBPATH:P:\Elementary\deps\sdl2\lib
+set commonLinkerFlags=/subsystem:console %debugReleaseLinkFlags% /LIBPATH:P:\Elementary\deps\sdl2\lib
 
 rem Cleans build directory
 call clean.bat --msvc --%debugReleaseDir%
