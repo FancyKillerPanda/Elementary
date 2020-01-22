@@ -12,10 +12,8 @@ int main(int argc, char* argv[])
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
-	std::unordered_map<std::string, std::string> defaultSettings = { { "TEXT", "Hello, World!" } };
-	el::Settings settings = { defaultSettings };
-	settings.setValue("TEXT", "Hello");
-	el::Text text = { window.renderer, "res/arial.ttf", settings.getValue("TEXT"), 64};
+	std::vector<el::Text> texts;
+	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 64 });
 
 	while (running)
 	{
@@ -31,11 +29,14 @@ int main(int argc, char* argv[])
 		}
 
 		SDL_RenderClear(window.renderer);
-		text.draw();
+
+		for (el::Text& text : texts)
+		{
+			text.draw();
+		}
+
 		SDL_RenderPresent(window.renderer);
 	}
 
-	settings.writeToFile();
-	
 	return 0;
 }

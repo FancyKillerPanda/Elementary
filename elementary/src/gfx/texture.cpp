@@ -8,6 +8,8 @@
 namespace el
 {
 
+std::unordered_map<SDL_Texture*, unsigned int> Texture::s_TextureCountMap = {};
+
 Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 	: renderer(renderer), filepath(filepath)
 {
@@ -30,7 +32,22 @@ Texture::Texture(SDL_Renderer* renderer, std::string filepath)
 		textureSubRect = { 0, 0, rect.w, rect.h };
 	}
 
+	s_TextureCountMap[texture] += 1;
 	isInitialised = true;
+}
+
+Texture::Texture(const Texture& from)
+	: isInitialised(from.isInitialised), renderer(from.renderer),
+	  filepath(from.filepath), rect(from.rect),
+	  rotation(from.rotation),
+	  isClickable(from.isClickable), currentClickState(from.currentClickState), lastClickState(from.lastClickState),
+	  textureSubRect(from.textureSubRect)
+{
+	if (from.texture)
+	{
+		s_TextureCountMap[from.texture] += 1;
+		texture = from.texture;
+	}
 }
 
 Texture::~Texture()
@@ -40,8 +57,17 @@ Texture::~Texture()
 		delete animation;
 		animation = nullptr;
 	}
-	
-	SDL_DestroyTexture(texture);
+
+	if (texture)
+	{
+		s_TextureCountMap[texture] -= 1;
+
+		if (s_TextureCountMap[texture] == 0)
+		{
+			// There are no references to this left
+			SDL_DestroyTexture(texture);
+		}
+	}
 }
 
 void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom)
@@ -76,6 +102,7 @@ void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceT
 		textureSubRect = { 0, 0, rect.w, rect.h };
 	}
 
+	s_TextureCountMap[texture] += 1;
 	isInitialised = true;
 }
 

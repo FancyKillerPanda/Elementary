@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -40,6 +41,7 @@ public:
 	bool isTranslatingCurrently = false;
 
 private:
+	static std::unordered_map<SDL_Texture*, unsigned int> s_TextureCountMap;
 	TextureClickState lastClickState = TextureClickState::None;
 
 	std::vector<Animation*> animationsRunning;
@@ -48,6 +50,7 @@ private:
 public:
 	Texture() = default;
 	Texture(SDL_Renderer* renderer, std::string filepath);
+	Texture(const Texture& from);
 	~Texture();
 
 	void convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom);
