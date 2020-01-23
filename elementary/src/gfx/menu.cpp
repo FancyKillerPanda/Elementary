@@ -5,40 +5,31 @@
 namespace el
 {
 
-Menu::Menu(std::vector<Text*> texts)
+Menu::Menu(std::vector<Text> texts)
 	: items(texts)
 {
-	for (Text* item : items)
+	for (Text& item : items)
 	{
-		item->setIsClickable(true);
+		item.setIsClickable(true);
 	}
 }
 
-Menu::Menu(std::vector<Text*> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour)
+Menu::Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour)
 	: items(texts)
 {
 	setColourValues(baseColour, hoverColour, pressedColour);
 
-	for (Text* item : items)
+	for (Text& item : items)
 	{
-		item->setIsClickable(true);
-	}
-}
-
-Menu::~Menu()
-{
-	for (Text* item : items)
-	{
-		delete item;
-		item = nullptr;
+		item.setIsClickable(true);
 	}
 }
 
 void Menu::draw()
 {
-	for (Text* item : items)
+	for (Text& item : items)
 	{
-		item->draw();
+		item.draw();
 	}
 }
 
@@ -54,8 +45,8 @@ int Menu::handleEvent(const SDL_Event& event)
 				{
 					if (itemIndexSelected != -1)
 					{
-						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->pressedColour;
-						items[itemIndexSelected]->update();
+						items[itemIndexSelected].currentColour = items[itemIndexSelected].pressedColour;
+						items[itemIndexSelected].update();
 					}
 				} break;
 
@@ -92,8 +83,8 @@ int Menu::handleEvent(const SDL_Event& event)
 					if (itemIndexSelected != -1)
 					{
 						// Returns to not selected
-						items[itemIndexSelected]->currentColour = items[itemIndexSelected]->baseColour;
-						items[itemIndexSelected]->update();
+						items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
+						items[itemIndexSelected].update();
 
 						int oldIndex = itemIndexSelected;
 						itemIndexSelected = -1;
@@ -109,9 +100,9 @@ int Menu::handleEvent(const SDL_Event& event)
 			SDL_Point mousePos = { event.motion.x, event.motion.y };
 			bool hit = false;
 
-			for (Text* text : items)
+			for (Text& text : items)
 			{
-				if (SDL_PointInRect(&mousePos, &text->texture.rect))
+				if (SDL_PointInRect(&mousePos, &text.texture.rect))
 				{
 					hit = true;
 				}
@@ -129,27 +120,27 @@ int Menu::handleEvent(const SDL_Event& event)
 	// Handles the mouse events
 	for (int i = 0; i < items.size(); i++)
 	{
-		if (i == itemIndexSelected && items[i]->currentColour == items[i]->baseColour)
+		if (i == itemIndexSelected && items[i].currentColour == items[i].baseColour)
 		{
 			// Needs to be highlighted
-			items[i]->currentColour = items[i]->hoverColour;
-			items[i]->update();
+			items[i].currentColour = items[i].hoverColour;
+			items[i].update();
 		}
 
-		if (i != itemIndexSelected && items[i]->currentColour != items[i]->baseColour)
+		if (i != itemIndexSelected && items[i].currentColour != items[i].baseColour)
 		{
 			// Needs to stop highlighting
-			items[i]->currentColour = items[i]->baseColour;
-			items[i]->update();
+			items[i].currentColour = items[i].baseColour;
+			items[i].update();
 		}
 
-		if (items[i]->handleEvent(event))
+		if (items[i].handleEvent(event))
 		{
 			// Item is clicked
 			return i;
 		}
 
-		if (i != itemIndexSelected && items[i]->currentColour != items[i]->baseColour)
+		if (i != itemIndexSelected && items[i].currentColour != items[i].baseColour)
 		{
 			itemIndexSelected = i;
 		}
@@ -174,7 +165,7 @@ void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, 
 		for (int i = centerLeftItemIndex; i >= 0; i--)
 		{
 			int xOffsetFromCenter = ((centerLeftItemIndex - i) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
-			items[i]->setCenter(x - xOffsetFromCenter, y);
+			items[i].setCenter(x - xOffsetFromCenter, y);
 		}
 
 		int centerRightItemIndex = (int) items.size() / 2;
@@ -183,7 +174,7 @@ void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, 
 		for (int i = centerRightItemIndex; i < items.size(); i++)
 		{
 			int xOffsetFromCenter = ((i - centerRightItemIndex) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
-			items[i]->setCenter(x + xOffsetFromCenter, y);
+			items[i].setCenter(x + xOffsetFromCenter, y);
 		}
 	}
 	else
@@ -195,14 +186,14 @@ void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, 
 		for (int i = centerItemIndex; i >= 0; i--)
 		{
 			int xOffsetFromCenter = (centerItemIndex - i) * distanceBetweenItemCenters;
-			items[i]->setCenter(x - xOffsetFromCenter, y);
+			items[i].setCenter(x - xOffsetFromCenter, y);
 		}
 
 		// Sets items right of center
 		for (int i = centerItemIndex + 1; i < items.size(); i++)
 		{
 			int xOffsetFromCenter = (i - centerItemIndex) * distanceBetweenItemCenters;
-			items[i]->setCenter(x + xOffsetFromCenter, y);
+			items[i].setCenter(x + xOffsetFromCenter, y);
 		}
 	}
 
@@ -228,7 +219,7 @@ void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters, bo
 		for (int i = centerUpItemIndex; i >= 0; i--)
 		{
 			int yOffsetFromCenter = ((centerUpItemIndex - i) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
-			items[i]->setCenter(x, y - yOffsetFromCenter);
+			items[i].setCenter(x, y - yOffsetFromCenter);
 		}
 
 		int centerDownItemIndex = (int) items.size() / 2;
@@ -237,7 +228,7 @@ void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters, bo
 		for (int i = centerDownItemIndex; i < items.size(); i++)
 		{
 			int yOffsetFromCenter = ((i - centerDownItemIndex) * distanceBetweenItemCenters) + (distanceBetweenItemCenters / 2);
-			items[i]->setCenter(x, y + yOffsetFromCenter);
+			items[i].setCenter(x, y + yOffsetFromCenter);
 		}
 	}
 	else
@@ -249,14 +240,14 @@ void Menu::setPositionsVertical(int x, int y, int distanceBetweenItemCenters, bo
 		for (int i = centerItemIndex; i >= 0; i--)
 		{
 			int yOffsetFromCenter = (centerItemIndex - i) * distanceBetweenItemCenters;
-			items[i]->setCenter(x, y - yOffsetFromCenter);
+			items[i].setCenter(x, y - yOffsetFromCenter);
 		}
 
 		// Sets items below center
 		for (int i = centerItemIndex + 1; i < items.size(); i++)
 		{
 			int yOffsetFromCenter = (i - centerItemIndex) * distanceBetweenItemCenters;
-			items[i]->setCenter(x, y + yOffsetFromCenter);
+			items[i].setCenter(x, y + yOffsetFromCenter);
 		}
 	}
 
@@ -272,9 +263,9 @@ void Menu::setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_
 	hoverColour = p_HoverColour;
 	pressedColour = p_PressedColour;
 	
-	for (Text* item : items)
+	for (Text& item : items)
 	{
-		item->setColourValues(baseColour, hoverColour, pressedColour);
+		item.setColourValues(baseColour, hoverColour, pressedColour);
 	}
 }
 

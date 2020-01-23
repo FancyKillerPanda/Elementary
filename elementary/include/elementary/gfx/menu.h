@@ -12,7 +12,7 @@ namespace el
 class Menu
 {
 public:
-	std::vector<Text*> items;
+	std::vector<Text> items;
 
 	SDL_Color baseColour;
 	SDL_Color hoverColour;
@@ -25,9 +25,8 @@ public:
 	bool canUseUpDownKeys = false;
 
 public:
-	Menu(std::vector<Text*> texts);
-	Menu(std::vector<Text*> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour);
-	~Menu();
+	Menu(std::vector<Text> texts);
+	Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour);
 
 	void draw();
 	// NOTE(fkp): Returns the index of the item that was clicked, -1 if nothing was
