@@ -26,6 +26,9 @@ public:
 	bool canUseLeftRightKeys = false;
 	bool canUseUpDownKeys = false;
 
+	// If this is set, the selected item will remain coloured
+	bool hasRadioButtons = false;
+
 public:
 	Menu(std::vector<Text> texts);
 	Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour);

@@ -52,9 +52,11 @@ int Menu::handleEvent(const SDL_Event& event)
 				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
 			}				
 			
-			// Item was clicked
-			itemIndexSelected = i;
-			items[itemIndexSelected].setCurrentColour(selectedColour);
+			if (hasRadioButtons)
+			{
+				itemIndexSelected = i;
+				items[itemIndexSelected].setCurrentColour(selectedColour);
+			}
 			
 			return i;
 		}
@@ -141,9 +143,16 @@ int Menu::handleEvent(const SDL_Event& event)
 				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
 			}
 
-			itemIndexSelected = itemIndexHovering;
-			items[itemIndexSelected].setCurrentColour(selectedColour);
-
+			if (hasRadioButtons)
+			{
+				itemIndexSelected = itemIndexHovering;
+				items[itemIndexSelected].setCurrentColour(selectedColour);
+			}
+			else
+			{
+				items[itemIndexHovering].setCurrentColour(items[itemIndexHovering].baseColour);
+			}
+			
 			// Updates index
 			int oldIndex = itemIndexHovering;
 			itemIndexHovering = -1;

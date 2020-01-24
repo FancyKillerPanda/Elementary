@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
 
 	el::Menu menu = { texts, { 255, 255, 255, 255 }, { 0, 255, 0, 255 }, { 0, 64, 0, 255 }, { 0, 155, 0, 255 } };
 	menu.setPositionsVertical(960 / 2, 540 / 2, 50);
+	// menu.hasRadioButtons = true;
 	
 	while (running)
 	{
