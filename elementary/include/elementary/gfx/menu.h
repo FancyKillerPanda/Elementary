@@ -17,7 +17,9 @@ public:
 	SDL_Color baseColour;
 	SDL_Color hoverColour;
 	SDL_Color pressedColour;
+	SDL_Color selectedColour;
 
+	int itemIndexHovering = -1;
 	int itemIndexSelected = -1;
 
 	// Key usage for controlling the menu
@@ -27,6 +29,7 @@ public:
 public:
 	Menu(std::vector<Text> texts);
 	Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour);
+	Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour, SDL_Color selectedColour);
 
 	void draw();
 	// NOTE(fkp): Returns the index of the item that was clicked, -1 if nothing was

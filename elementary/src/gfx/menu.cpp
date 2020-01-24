@@ -25,6 +25,12 @@ Menu::Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour,
 	}
 }
 
+Menu::Menu(std::vector<Text> texts, SDL_Color baseColour, SDL_Color hoverColour, SDL_Color pressedColour, SDL_Color selectedColour)
+	: Menu(texts, baseColour, hoverColour, pressedColour)
+{
+	this->selectedColour = selectedColour;
+}
+
 void Menu::draw()
 {
 	for (Text& item : items)
@@ -40,19 +46,39 @@ int Menu::handleEvent(const SDL_Event& event)
 	{
 		if (items[i].handleEvent(event))
 		{
+			// Resets colour for previous item selected
+			if (itemIndexSelected != -1)
+			{
+				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
+			}				
+			
+			// Item was clicked
+			itemIndexSelected = i;
+			items[itemIndexSelected].setCurrentColour(selectedColour);
+			
 			return i;
 		}
 	}
 
+	if (itemIndexSelected != -1 &&
+		items[itemIndexSelected].currentColour == items[itemIndexSelected].baseColour)
+	{
+		items[itemIndexSelected].setCurrentColour(selectedColour);
+	}					
+
 	if (event.type == SDL_MOUSEMOTION &&
-		itemIndexSelected != -1)
+		itemIndexHovering != -1)
 	{
 		SDL_Point mousePos = { event.motion.x, event.motion.y };
 
-		if (!SDL_PointInRect(&mousePos, &items[itemIndexSelected].texture.rect))
+		if (!SDL_PointInRect(&mousePos, &items[itemIndexHovering].texture.rect))
 		{
-			items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
-			itemIndexSelected = -1;
+			if (itemIndexHovering != itemIndexSelected)
+			{
+				items[itemIndexHovering].setCurrentColour(items[itemIndexHovering].baseColour);
+			}
+			
+			itemIndexHovering = -1;
 		}
 	}
 	else if (event.type == SDL_KEYDOWN)
@@ -61,50 +87,66 @@ int Menu::handleEvent(const SDL_Event& event)
 		
 		if (keySym == SDLK_RETURN)
 		{
-			if (itemIndexSelected != -1)
+			if (itemIndexHovering != -1)
 			{
-				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].pressedColour);
+				items[itemIndexHovering].setCurrentColour(items[itemIndexHovering].pressedColour);
 			}
 		}
 		else
 		{
-			int oldIndex = itemIndexSelected;
+			int oldIndex = itemIndexHovering;
 			
 			if ((keySym == SDLK_UP   && canUseUpDownKeys) ||
 				(keySym == SDLK_LEFT && canUseLeftRightKeys))
 			{
-				itemIndexSelected -= 1;
-				if (itemIndexSelected < 0) itemIndexSelected = (int) items.size() - 1;
+				itemIndexHovering -= 1;
+				if (itemIndexHovering < 0) itemIndexHovering = (int) items.size() - 1;
 			}
 			else if ((keySym == SDLK_DOWN  && canUseUpDownKeys) ||
 					 (keySym == SDLK_RIGHT && canUseLeftRightKeys))
 			{
-				itemIndexSelected += 1;
-				itemIndexSelected %= items.size();
+				itemIndexHovering += 1;
+				itemIndexHovering %= items.size();
 			}
 			
 			// Updates colours
-			if (oldIndex != itemIndexSelected)
+			if (oldIndex != itemIndexHovering)
 			{
 				if (oldIndex != -1)
 				{
-					items[oldIndex].currentColour = items[oldIndex].baseColour;
+					if (oldIndex == itemIndexSelected)
+					{
+						items[oldIndex].currentColour = selectedColour;
+					}
+					else
+					{
+						items[oldIndex].currentColour = items[oldIndex].baseColour;
+					}
+
 					items[oldIndex].update();
 				}
-				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].hoverColour);
+				
+				items[itemIndexHovering].setCurrentColour(items[itemIndexHovering].hoverColour);
 			}
 		}
 	}
 	else if (event.type == SDL_KEYUP)
 	{
 		if (event.key.keysym.sym == SDLK_RETURN &&
-			itemIndexSelected != -1)
+			itemIndexHovering != -1)
 		{
-			items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
+			// Resets the colour of previous item selected
+			if (itemIndexSelected != -1)
+			{
+				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
+			}
+
+			itemIndexSelected = itemIndexHovering;
+			items[itemIndexSelected].setCurrentColour(selectedColour);
 
 			// Updates index
-			int oldIndex = itemIndexSelected;
-			itemIndexSelected = -1;
+			int oldIndex = itemIndexHovering;
+			itemIndexHovering = -1;
 
 			return oldIndex;
 		}
