@@ -33,6 +33,96 @@ void Menu::draw()
 	}
 }
 
+//*
+int Menu::handleEvent(const SDL_Event& event)
+{
+	// Handles mouse input
+	for (int i = 0; i < items.size(); i++)
+	{
+		if (items[i].handleEvent(event))
+		{
+			return i;
+		}
+	}
+
+	if (event.type == SDL_MOUSEMOTION &&
+		itemIndexSelected != -1)
+	{
+		SDL_Point mousePos = { event.motion.x, event.motion.y };
+
+		if (!SDL_PointInRect(&mousePos, &items[itemIndexSelected].texture.rect))
+		{
+			items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
+			items[itemIndexSelected].update();
+
+			itemIndexSelected = -1;
+		}
+	}
+	else if (event.type == SDL_KEYDOWN)
+	{
+		const SDL_Keycode& keySym = event.key.keysym.sym;
+		
+		if (keySym == SDLK_RETURN)
+		{
+			if (itemIndexSelected != -1)
+			{
+				items[itemIndexSelected].currentColour = items[itemIndexSelected].pressedColour;
+				items[itemIndexSelected].update();
+			}
+		}
+		else
+		{
+			int oldIndex = itemIndexSelected;
+			
+			if ((keySym == SDLK_UP   && canUseUpDownKeys) ||
+				(keySym == SDLK_LEFT && canUseLeftRightKeys))
+			{
+				itemIndexSelected -= 1;
+				if (itemIndexSelected < 0) itemIndexSelected = (int) items.size() - 1;
+			}
+			else if ((keySym == SDLK_DOWN  && canUseUpDownKeys) ||
+					 (keySym == SDLK_RIGHT && canUseLeftRightKeys))
+			{
+				itemIndexSelected += 1;
+				itemIndexSelected %= items.size();
+			}
+			
+			// Updates colours
+			if (oldIndex != itemIndexSelected)
+			{
+				if (oldIndex != -1)
+				{
+					items[oldIndex].currentColour = items[oldIndex].baseColour;
+					items[oldIndex].update();
+				}
+
+				items[itemIndexSelected].currentColour = items[itemIndexSelected].hoverColour;
+				items[itemIndexSelected].update();
+			}
+		}
+	}
+	else if (event.type == SDL_KEYUP)
+	{
+		if (event.key.keysym.sym == SDLK_RETURN &&
+			itemIndexSelected != -1)
+		{
+			// Updates colours
+			items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
+			items[itemIndexSelected].update();
+
+			// Updates index
+			int oldIndex = itemIndexSelected;
+			itemIndexSelected = -1;
+
+			return oldIndex;
+		}
+	}
+
+	return -1;
+}
+//*/
+
+/*
 int Menu::handleEvent(const SDL_Event& event)
 {
 	switch (event.type)
@@ -82,10 +172,6 @@ int Menu::handleEvent(const SDL_Event& event)
 				{
 					if (itemIndexSelected != -1)
 					{
-						// Returns to not selected
-						items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
-						items[itemIndexSelected].update();
-
 						int oldIndex = itemIndexSelected;
 						itemIndexSelected = -1;
 
@@ -120,6 +206,12 @@ int Menu::handleEvent(const SDL_Event& event)
 	// Handles the mouse events
 	for (int i = 0; i < items.size(); i++)
 	{
+		if (items[i].handleEvent(event))
+		{
+			// Item is clicked
+			return i;
+		}
+
 		if (i == itemIndexSelected && items[i].currentColour == items[i].baseColour)
 		{
 			// Needs to be highlighted
@@ -134,12 +226,6 @@ int Menu::handleEvent(const SDL_Event& event)
 			items[i].update();
 		}
 
-		if (items[i].handleEvent(event))
-		{
-			// Item is clicked
-			return i;
-		}
-
 		if (i != itemIndexSelected && items[i].currentColour != items[i].baseColour)
 		{
 			itemIndexSelected = i;
@@ -148,6 +234,7 @@ int Menu::handleEvent(const SDL_Event& event)
 
 	return -1;
 }
+//*/
 
 void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, bool setUseLeftRightKeys)
 {

@@ -96,8 +96,13 @@ bool Text::handleEvent(const SDL_Event& event)
 
 			case el::TextureClickState::Hover:
 			{
-				currentColour = hoverColour;
-				update();
+				// Can still move around on the texture while holding
+				// down the click button.
+				if (currentColour != pressedColour)
+				{
+					currentColour = hoverColour;
+					update();
+				}
 			} break;
 
 			case el::TextureClickState::Pressed:

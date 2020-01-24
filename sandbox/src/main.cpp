@@ -2,11 +2,6 @@
 
 #include <elementary.h>
 
-struct TestStruct
-{
-	el::Text text;
-};
-
 int main(int argc, char* argv[])
 {
 	if (!el::init())
@@ -18,13 +13,12 @@ int main(int argc, char* argv[])
 	bool running = window.isInitialised;
 
 	std::vector<el::Text> texts;
-	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 64 });
+	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test", 32 });
+	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test1", 32 });
+	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test2", 32 });
 
-	TestStruct testStruct = {};
-	testStruct.text = el::Text { window.renderer, "res/arial.ttf", "Miss Scarlett's Turn!", 32 };
-	testStruct.text.setTopLeft(100, 100);
-
-	printf("%d, %d\n", testStruct.text.texture.rect.w, testStruct.text.texture.rect.h);
+	el::Menu menu = { texts, { 255, 255, 255, 255 }, { 0, 255, 0, 255 }, { 0, 64, 0, 255 } };
+	menu.setPositionsVertical(960 / 2, 540 / 2, 50);
 	
 	while (running)
 	{
@@ -37,17 +31,12 @@ int main(int argc, char* argv[])
 					running = false;
 				} break;
 			}
+
+			menu.handleEvent(window.event);
 		}
 
 		SDL_RenderClear(window.renderer);
-
-		for (el::Text& text : texts)
-		{
-			text.draw();
-		}
-
-		testStruct.text.draw();
-
+		menu.draw();
 		SDL_RenderPresent(window.renderer);
 	}
 
