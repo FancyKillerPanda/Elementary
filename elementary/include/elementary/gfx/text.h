@@ -41,8 +41,9 @@ public:
 
 	void setTopLeft(int x, int y);
 	void setCenter(int x, int y);
-	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
 	void setIsClickable(bool value);
+	void setColourValues(SDL_Color p_BaseColour, SDL_Color p_HoverColour, SDL_Color p_PressedColour);
+	void setCurrentColour(SDL_Color colour);
 
 	inline bool getIsClickable() const { return texture.isClickable; }
 	inline SDL_Point getCenter() const { return texture.getCenter(); }

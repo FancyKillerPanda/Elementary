@@ -33,7 +33,6 @@ void Menu::draw()
 	}
 }
 
-//*
 int Menu::handleEvent(const SDL_Event& event)
 {
 	// Handles mouse input
@@ -52,9 +51,7 @@ int Menu::handleEvent(const SDL_Event& event)
 
 		if (!SDL_PointInRect(&mousePos, &items[itemIndexSelected].texture.rect))
 		{
-			items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
-			items[itemIndexSelected].update();
-
+			items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
 			itemIndexSelected = -1;
 		}
 	}
@@ -66,8 +63,7 @@ int Menu::handleEvent(const SDL_Event& event)
 		{
 			if (itemIndexSelected != -1)
 			{
-				items[itemIndexSelected].currentColour = items[itemIndexSelected].pressedColour;
-				items[itemIndexSelected].update();
+				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].pressedColour);
 			}
 		}
 		else
@@ -95,9 +91,7 @@ int Menu::handleEvent(const SDL_Event& event)
 					items[oldIndex].currentColour = items[oldIndex].baseColour;
 					items[oldIndex].update();
 				}
-
-				items[itemIndexSelected].currentColour = items[itemIndexSelected].hoverColour;
-				items[itemIndexSelected].update();
+				items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].hoverColour);
 			}
 		}
 	}
@@ -106,9 +100,7 @@ int Menu::handleEvent(const SDL_Event& event)
 		if (event.key.keysym.sym == SDLK_RETURN &&
 			itemIndexSelected != -1)
 		{
-			// Updates colours
-			items[itemIndexSelected].currentColour = items[itemIndexSelected].baseColour;
-			items[itemIndexSelected].update();
+			items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].baseColour);
 
 			// Updates index
 			int oldIndex = itemIndexSelected;
@@ -120,121 +112,6 @@ int Menu::handleEvent(const SDL_Event& event)
 
 	return -1;
 }
-//*/
-
-/*
-int Menu::handleEvent(const SDL_Event& event)
-{
-	switch (event.type)
-	{
-		case SDL_KEYDOWN:
-		{
-			switch (event.key.keysym.sym)
-			{
-				case SDLK_RETURN:
-				{
-					if (itemIndexSelected != -1)
-					{
-						items[itemIndexSelected].currentColour = items[itemIndexSelected].pressedColour;
-						items[itemIndexSelected].update();
-					}
-				} break;
-
-				default:
-				{
-					const SDL_Keycode& keySym = event.key.keysym.sym;
-
-					// Pressed down or right key and should handle those events
-					if ((canUseUpDownKeys && keySym == SDLK_UP) || (canUseLeftRightKeys && keySym == SDLK_LEFT))
-					{
-						itemIndexSelected -= 1;
-
-						if (itemIndexSelected < 0)
-						{
-							itemIndexSelected = (int) items.size() - 1;
-						}
-					}
-					// Pressed up or left key and should handle those events
-					else if ((canUseUpDownKeys && keySym == SDLK_DOWN) || (canUseLeftRightKeys && keySym == SDLK_RIGHT))
-					{
-						itemIndexSelected += 1;
-						itemIndexSelected %= items.size();
-					}
-				} break;
-			}
-		} break;
-
-		case SDL_KEYUP:
-		{
-			switch (event.key.keysym.sym)
-			{
-				case SDLK_RETURN:
-				{
-					if (itemIndexSelected != -1)
-					{
-						int oldIndex = itemIndexSelected;
-						itemIndexSelected = -1;
-
-						return oldIndex;
-					}
-				} break;
-			}
-		} break;
-
-		case SDL_MOUSEMOTION:
-		{
-			SDL_Point mousePos = { event.motion.x, event.motion.y };
-			bool hit = false;
-
-			for (Text& text : items)
-			{
-				if (SDL_PointInRect(&mousePos, &text.texture.rect))
-				{
-					hit = true;
-				}
-			}
-			
-			if (!hit)
-			{
-				// Mouse wasn't over any menu item
-				itemIndexSelected = -1;
-			}
-			
-		} break;
-	}
-
-	// Handles the mouse events
-	for (int i = 0; i < items.size(); i++)
-	{
-		if (items[i].handleEvent(event))
-		{
-			// Item is clicked
-			return i;
-		}
-
-		if (i == itemIndexSelected && items[i].currentColour == items[i].baseColour)
-		{
-			// Needs to be highlighted
-			items[i].currentColour = items[i].hoverColour;
-			items[i].update();
-		}
-
-		if (i != itemIndexSelected && items[i].currentColour != items[i].baseColour)
-		{
-			// Needs to stop highlighting
-			items[i].currentColour = items[i].baseColour;
-			items[i].update();
-		}
-
-		if (i != itemIndexSelected && items[i].currentColour != items[i].baseColour)
-		{
-			itemIndexSelected = i;
-		}
-	}
-
-	return -1;
-}
-//*/
 
 void Menu::setPositionsHorizontal(int x, int y, int distanceBetweenItemCenters, bool setUseLeftRightKeys)
 {

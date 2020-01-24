@@ -153,4 +153,10 @@ void Text::setIsClickable(bool value)
 	texture.isClickable = value;
 }
 
+void Text::setCurrentColour(SDL_Color colour)
+{
+	currentColour = colour;
+	update();
+}
+
 }
