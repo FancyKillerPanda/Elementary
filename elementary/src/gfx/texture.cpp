@@ -60,16 +60,7 @@ Texture::~Texture()
 		animation = nullptr;
 	}
 
-	if (texture)
-	{
-		s_TextureCountMap[texture] -= 1;
-
-		if (s_TextureCountMap[texture] == 0)
-		{
-			// There are no references to this left
-			SDL_DestroyTexture(texture);
-		}
-	}
+	destroyTexture();
 }
 
 void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom)
@@ -78,9 +69,7 @@ void Texture::convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceT
 	
 	if (texture)
 	{
-		SDL_DestroyTexture(texture);
-
-		texture = nullptr;
+		destroyTexture();
 		filepath = "";
 	}
 
@@ -114,6 +103,22 @@ void swap(Texture& first, Texture& second)
 	std::swap(first.animationsRunning, second.animationsRunning);
 
 	std::swap(first.textureSubRect, second.textureSubRect);
+}
+
+void Texture::destroyTexture()
+{
+	if (texture)
+	{
+		s_TextureCountMap[texture] -= 1;
+
+		if (s_TextureCountMap[texture] == 0)
+		{
+			// There are no references to this left
+			SDL_DestroyTexture(texture);
+		}
+
+		texture = nullptr;
+	}
 }
 
 bool Texture::handleTextureCreationChecks()

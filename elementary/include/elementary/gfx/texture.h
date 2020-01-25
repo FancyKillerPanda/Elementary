@@ -57,7 +57,8 @@ public:
 
 	void convertFromSurface(SDL_Renderer* p_Renderer, SDL_Surface* surfaceToConvertFrom);
 	friend void swap(Texture& first, Texture& second);
-
+	void destroyTexture();
+	
 	// Returns whether an animation has finished
 	bool update();
 	void draw();

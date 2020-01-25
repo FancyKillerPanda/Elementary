@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 	{
 		return -1;
 	}
-	
+
 	el::Window window = { 960, 540, "Test Window" };
 	bool running = window.isInitialised;
 
@@ -17,10 +17,16 @@ int main(int argc, char* argv[])
 	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test1", 32 });
 	texts.push_back(el::Text { window.renderer, "res/arial.ttf", "Test2", 32 });
 
-	el::Menu menu = { texts, { 255, 255, 255, 255 }, { 0, 255, 0, 255 }, { 0, 64, 0, 255 }, { 0, 155, 0, 255 } };
-	menu.setPositionsVertical(960 / 2, 540 / 2, 50);
-	// menu.hasRadioButtons = true;
-	
+	std::vector<el::Menu> menus;
+
+	menus.emplace_back(texts, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 0, 255, 0, 255 }, SDL_Color { 0, 64, 0, 255 }, SDL_Color { 0, 155, 0, 255 });
+	menus.back().setPositionsVertical(960 * 3 / 5, 540 / 2, 50);
+	menus.back().canUseUpDownKeys = false;
+
+	menus.emplace_back(texts, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 0, 255, 0, 255 }, SDL_Color { 0, 64, 0, 255 }, SDL_Color { 0, 155, 0, 255 });
+	menus.back().setPositionsVertical(960 * 2 / 5, 540 / 2, 50);
+	menus.back().canUseUpDownKeys = false;
+
 	while (running)
 	{
 		while (SDL_PollEvent(&window.event))
@@ -33,11 +39,19 @@ int main(int argc, char* argv[])
 				} break;
 			}
 
-			menu.handleEvent(window.event);
+			for (el::Menu& menu : menus)
+			{
+				menu.handleEvent(window.event);
+			}
 		}
 
 		SDL_RenderClear(window.renderer);
-		menu.draw();
+
+		for (el::Menu& menu : menus)
+		{
+			menu.draw();
+		}
+
 		SDL_RenderPresent(window.renderer);
 	}
 

@@ -17,8 +17,7 @@ void Text::update()
 	isInitialised = false;
 	
 	// Destroys the last texture if it exists
-	SDL_DestroyTexture(texture.texture);
-	texture.texture = nullptr;
+	texture.destroyTexture();
 
 	if (!font)
 	{
