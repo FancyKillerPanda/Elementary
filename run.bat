@@ -1,18 +1,18 @@
 @echo off
 
-IF [%1]==[--clang] (
-	pushd build-clang
-) ELSE (
-	pushd build
+set debugReleaseDir=debug
+set toolchainDir=build
+
+for %%A in (%*) do (
+	if [%%A]==[--clang] (
+		set toolchainDir=build-clang
+	)
+
+	if [%%A]==[--release] (
+		set debugReleaseDir=release
+	)
 )
 
-IF EXIST release\ (
-	pushd release
-) ELSE (
-	pushd debug
-)
-
+pushd %toolchainDir%\%debugReleaseDir%
 sandbox.exe
-
-popd
 popd
