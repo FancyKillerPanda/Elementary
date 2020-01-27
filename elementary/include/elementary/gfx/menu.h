@@ -28,6 +28,7 @@ public:
 
 	// If this is set, the selected item will remain coloured
 	bool hasRadioButtons = false;
+	bool canUncheckRadioButtons = false;
 
 public:
 	Menu(std::vector<Text> texts);

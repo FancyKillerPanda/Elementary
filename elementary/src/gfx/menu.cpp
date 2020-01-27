@@ -54,8 +54,17 @@ int Menu::handleEvent(const SDL_Event& event)
 			
 			if (hasRadioButtons)
 			{
-				itemIndexSelected = i;
-				items[itemIndexSelected].setCurrentColour(selectedColour);
+				if (canUncheckRadioButtons &&
+					itemIndexSelected == i)
+				{
+					items[itemIndexSelected].setCurrentColour(items[itemIndexSelected].hoverColour);
+					itemIndexSelected = -1;
+				}
+				else
+				{
+					itemIndexSelected = i;
+					items[itemIndexSelected].setCurrentColour(selectedColour);
+				}
 			}
 			
 			return i;

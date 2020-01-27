@@ -20,12 +20,16 @@ int main(int argc, char* argv[])
 	std::vector<el::Menu> menus;
 
 	menus.emplace_back(texts, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 0, 255, 0, 255 }, SDL_Color { 0, 64, 0, 255 }, SDL_Color { 0, 155, 0, 255 });
-	menus.back().setPositionsVertical(960 * 3 / 5, 540 / 2, 50);
-	menus.back().canUseUpDownKeys = false;
-
-	menus.emplace_back(texts, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 0, 255, 0, 255 }, SDL_Color { 0, 64, 0, 255 }, SDL_Color { 0, 155, 0, 255 });
 	menus.back().setPositionsVertical(960 * 2 / 5, 540 / 2, 50);
 	menus.back().canUseUpDownKeys = false;
+	menus.back().hasRadioButtons = true;
+	menus.back().canUncheckRadioButtons = true;
+
+	menus.emplace_back(texts, SDL_Color { 255, 255, 255, 255 }, SDL_Color { 0, 255, 0, 255 }, SDL_Color { 0, 64, 0, 255 }, SDL_Color { 0, 155, 0, 255 });
+	menus.back().setPositionsVertical(960 * 3 / 5, 540 / 2, 50);
+	menus.back().canUseUpDownKeys = false;
+	menus.back().hasRadioButtons = true;
+	menus.back().canUncheckRadioButtons = false;
 
 	while (running)
 	{
