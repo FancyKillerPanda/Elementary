@@ -48,7 +48,7 @@ IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Compile^)
 	cd %ORIGINAL_DIRECTORY%
-	goto :eof
+	EXIT /B %ERRORLEVEL%
 )
 popd
 
@@ -57,7 +57,7 @@ IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Elementary ^(Link^)
 	cd %ORIGINAL_DIRECTORY%
-	goto :eof
+	EXIT /B %ERRORLEVEL%
 )
 
 echo Build [92mSuceeded[0m: Elementary
@@ -70,7 +70,7 @@ IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Sandbox ^(Compile^)
 	cd %ORIGINAL_DIRECTORY%
-	goto :eof
+	EXIT /B %ERRORLEVEL%
 )
 popd
 
@@ -79,7 +79,7 @@ IF %ERRORLEVEL% NEQ 0 (
 	echo.
 	echo Build [91mFailed[0m: Sandbox ^(Link^)
 	cd %ORIGINAL_DIRECTORY%
-	goto :eof
+	EXIT /B %ERRORLEVEL%
 )
 
 echo Build [92mSuceeded[0m: Sandbox
