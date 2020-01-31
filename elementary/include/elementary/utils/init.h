@@ -4,7 +4,7 @@ namespace el
 {
 
 // Initialises all Elementary parts
-bool init();
+bool init(bool lockStdout = false);
 bool initSDL();
 
 }

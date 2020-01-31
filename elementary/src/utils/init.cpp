@@ -11,10 +11,11 @@
 namespace el
 {
 
-bool init()
+bool init(bool lockStdout)
 {
 	Random::init();
 	ConsoleColour::init();
+	initLog(lockStdout);
 	
 	return initSDL();
 }
